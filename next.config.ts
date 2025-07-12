@@ -1,8 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  webpack(config) {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ["api.edoctry.com", "plus.unsplash.com", "images.unsplash.com"],
+  },
+  webpack(config : any) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],

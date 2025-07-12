@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -8,6 +8,17 @@ import Label from "../form/Label";
 
 export default function UserInfoCard() {
   const { isOpen, openModal, closeModal } = useModal();
+  const [staff, setStaff] = useState<any>(null);
+
+  useEffect(() => {
+    const staffData = localStorage.getItem("staffData");
+    if (staffData) {
+      const parsedData = JSON.parse(staffData);
+      console.log("Staff data loaded:", parsedData);
+      setStaff(parsedData?.data?.[0]?.attributes);
+    }
+  }, []);
+
   const handleSave = () => {
     // Handle save logic here
     console.log("Saving changes...");
@@ -27,7 +38,7 @@ export default function UserInfoCard() {
                 First Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Musharof
+                {staff?.name || "User name"}
               </p>
             </div>
 
@@ -36,7 +47,7 @@ export default function UserInfoCard() {
                 Last Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Chowdhury
+                {staff?.lastname || "Last Name"}
               </p>
             </div>
 
@@ -45,7 +56,7 @@ export default function UserInfoCard() {
                 Email address
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                randomuser@pimjo.com
+                {staff?.email || "randomuser@pimjo.com"}
               </p>
             </div>
 
@@ -54,7 +65,7 @@ export default function UserInfoCard() {
                 Phone
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                +09 363 398 46
+                {staff?.phone || "+09 363 398 46"}
               </p>
             </div>
 
@@ -63,7 +74,7 @@ export default function UserInfoCard() {
                 Bio
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Team Manager
+                {staff?.biography || "Bio"}
               </p>
             </div>
           </div>

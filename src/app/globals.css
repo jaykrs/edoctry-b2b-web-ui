@@ -738,3 +738,11 @@ span.flatpickr-weekday,
   opacity: 0.8;
   cursor: grabbing; /* Changes the cursor to indicate dragging */
 }
+
+/* Hide global header/footer if modal is open */
+/* globals.css */
+body.hide-app-layout header,
+body.hide-app-layout footer {
+  display: none !important;
+}
+
