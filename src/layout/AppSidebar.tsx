@@ -108,15 +108,15 @@ const updateItems: NavItem[] = [
     name: "Recepient",
     path: "/admin/recepient",
   },
-  {
-    icon: <GroupIcon />,
-    name: "Vendor",
-    path: "/admin/vendor",
-  },
+  // {
+  //   icon: <GroupIcon />,
+  //   name: "Vendor",
+  //   path: "/admin/vendor",
+  // },
     {
     icon: <GroupIcon />,
     name: "Vendor Staff",
-    path: "/admin/vendorStaff",
+    path: "/admin/vendorstaff",
   },
   {
     icon: <ListIcon />,
@@ -321,7 +321,6 @@ const AppSidebar: React.FC = () => {
     const staffData = localStorage.getItem("staffData");
     if (staffData) {
       const parsedData = JSON.parse(staffData);
-      console.log("Staff data loaded:", parsedData);
       setStaff(parsedData?.data?.[0]?.attributes);
     }
   }, []);

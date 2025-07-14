@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Pencil, EyeIcon } from "@/icons/index";
+import { apiUrl } from "@/utils/config";
+
 
 function Recepient() {
   const [token, setToken] = useState("");
@@ -29,7 +31,7 @@ function Recepient() {
 
         try {
           const res = await fetch(
-            `https://api.edoctry.com/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
+            `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -84,9 +86,8 @@ function Recepient() {
 
     try {
       let res, data;
-
       if (isEditing && editId) {
-        res = await fetch(`https://api.edoctry.com/api/recepientlists/${editId}`, {
+        res = await fetch(`${apiUrl}/api/recepientlists/${editId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +96,7 @@ function Recepient() {
           body: JSON.stringify(payload),
         });
       } else {
-        res = await fetch("https://api.edoctry.com/api/recepientlists", {
+        res = await fetch(`${apiUrl}/api/recepientlists`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -110,7 +111,7 @@ function Recepient() {
       resetForm();
 
       const newRes = await fetch(
-        `https://api.edoctry.com/api/recepientlists?filters[vendoruuid][$eq]=${vendorId}`,
+        `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendorId}`,
         {
           headers: {
             "Content-Type": "application/json",

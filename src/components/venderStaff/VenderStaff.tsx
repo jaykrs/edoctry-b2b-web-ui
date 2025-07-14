@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect,  } from 'react';
+import React, { useEffect } from 'react';
+import { apiUrl } from "@/utils/config"; 
 
 function VendorStaff() {
   const vendorStaff = async () => {
@@ -11,7 +12,7 @@ function VendorStaff() {
 
       if (vendorid && jwt) {
         const res = await fetch(
-          `https://api.edoctry.com/api/vendostaffs?filters[vendoruuid][$eq]=${vendorid}`,
+          `${apiUrl}/api/vendostaffs?filters[vendoruuid][$eq]=${vendorid}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -31,6 +32,9 @@ function VendorStaff() {
   useEffect(() => {
     vendorStaff();
   }, []);
+
+
+
 
   return (
     <div>Vendor Staff</div>

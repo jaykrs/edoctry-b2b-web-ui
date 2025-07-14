@@ -1,7 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { DocsIcon, Pencil, EyeIcon } from "@/icons/index";
+import { apiUrl } from "@/utils/config";
 
 interface Invoice {
     id: number;
@@ -42,7 +42,7 @@ function Invoice() {
 
     const fetchInvoices = async () => {
         try {
-            const res = await fetch("https://api.edoctry.com/api/invoices", {
+            const res = await fetch(`${apiUrl}/api/invoices`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,8 +62,8 @@ function Invoice() {
 
     const handleSubmit = async () => {
         const url = editInvoiceId
-            ? `https://api.edoctry.com/api/invoices/${editInvoiceId}`
-            : "https://api.edoctry.com/api/invoices";
+            ? `${apiUrl}/api/invoices/${editInvoiceId}`
+            : `${apiUrl}/api/invoices`;
         const method = editInvoiceId ? "PUT" : "POST";
 
         try {

@@ -36,7 +36,7 @@ export default function UserMetaCard() {
               <Image
                 width={80}
                 height={80}
-                // src="https://api.edoctry.com/uploads/abc_training_677c0828ab.png"
+                // src="${apiUrl}/uploads/abc_training_677c0828ab.png"
                 src={staff?.avatar}
                 alt={staff?.name || "User Avatar"}
               />

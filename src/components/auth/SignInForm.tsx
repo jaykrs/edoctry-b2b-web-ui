@@ -7,6 +7,7 @@ import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { apiUrl } from "@/utils/config";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +29,7 @@ export default function SignInForm() {
     setError("");
 
     try {
-      const res = await fetch("https://api.edoctry.com/api/auth/local", {
+      const res = await fetch(`${apiUrl}/api/auth/local`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export default function SignInForm() {
 
         // 🔹 Fetch specific staff by email
         const staffRes = await fetch(
-          `https://api.edoctry.com/api/vendostaffs?filters[email][$eq]=${encodeURIComponent(identifier)}`,
+          `${apiUrl}/api/vendostaffs?filters[email][$eq]=${encodeURIComponent(identifier)}`,
           {
             method: "GET",
             headers: {

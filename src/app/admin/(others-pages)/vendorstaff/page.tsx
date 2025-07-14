@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   title: "Next.js Vendor Staff | TailAdmin - Next.js Dashboard Template",
   description:
     "This is Next.js Vendor Staff page for TailAdmin  Tailwind CSS Admin Dashboard Template",
-  // other metadata
 };
 export default function page() {
     

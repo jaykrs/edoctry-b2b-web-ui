@@ -1,7 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { DocsIcon, Pencil } from "@/icons/index";
+import { apiUrl } from "@/utils/config";
 
 interface Order {
     id: number;
@@ -54,7 +54,7 @@ function OrderPage() {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch("https://api.edoctry.com/api/orders", {
+            const res = await fetch(`${apiUrl}/api/orders`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
@@ -73,8 +73,8 @@ function OrderPage() {
 
     const handleSubmit = async () => {
         const url = editOrderId
-            ? `https://api.edoctry.com/api/orders/${editOrderId}`
-            : "https://api.edoctry.com/api/orders";
+            ? `${apiUrl}/api/orders/${editOrderId}`
+            : `${apiUrl}/api/orders`;
         const method = editOrderId ? "PUT" : "POST";
 
         try {

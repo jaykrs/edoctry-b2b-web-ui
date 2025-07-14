@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Pencil, EyeIcon } from "@/icons/index";
+import { apiUrl } from "@/utils/config";
 
 interface Order {
   id: number;
@@ -78,7 +79,7 @@ export default function Student() {
 
       if (vendorid && jwt) {
         const res = await fetch(
-          `https://api.edoctry.com/api/students?filters[vendoruuid][$eq]=${vendorid}`,
+          `${apiUrl}/api/students?filters[vendoruuid][$eq]=${vendorid}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -183,14 +184,14 @@ export default function Student() {
       const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
       if (!vendoruuid) return;
 
-      const apiUrl =
+      const url =
         editingStudentId === null
-          ? `https://api.edoctry.com/api/students`
-          : `https://api.edoctry.com/api/students/${editingStudentId}`;
+          ? `${apiUrl}/api/students`
+          : `${apiUrl}/api/students/${editingStudentId}`;
 
       const method = editingStudentId === null ? "POST" : "PUT";
 
-      const res = await fetch(apiUrl, {
+      const res = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
