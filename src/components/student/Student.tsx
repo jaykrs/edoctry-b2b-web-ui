@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Pencil, EyeIcon } from "@/icons/index";
+import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
 
 interface Order {
@@ -35,6 +35,7 @@ interface Order {
 export default function Student() {
   const [studentList, setStudentList] = useState<Order[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -126,6 +127,7 @@ export default function Student() {
 
   const openAddModal = () => {
     setEditingStudentId(null);
+    setIsEditable(true);
     setFormData({
       name: "",
       role: "",
@@ -151,6 +153,7 @@ export default function Student() {
 
   const openEditModal = (student: Order) => {
     setEditingStudentId(student.id);
+    setIsEditable(false);
     setFormData({
       name: student.user.name,
       role: student.user.role,
@@ -321,6 +324,24 @@ export default function Student() {
               </div>
             </div>
             {/* end */}
+            <div className="flex justify-end items-center mt-6">
+              {editingStudentId !== null && !isEditable ? (
+                <button
+                  onClick={() => setIsEditable(true)}
+                  className="flex justify-center items-center w-20 px-4 py-2 bg-[#2143BE] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
+                >
+                  <Pencil /> 
+                </button>
+              ) : (
+                <button
+                  onClick={handleSave}
+                  className="flex justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                >
+                  <DocsIcon />
+                </button>
+
+              )}
+            </div>
 
             {/* form div */}
             <div className="bg-[#DDE6FA] p-10 rounded-3xl mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
@@ -330,8 +351,9 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.name}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
@@ -342,8 +364,9 @@ export default function Student() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.email}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
@@ -365,8 +388,10 @@ export default function Student() {
                 <input
                   type="tel"
                   placeholder="Phone"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.phone}
+                  disabled={!isEditable}
+
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
               </div>
@@ -377,8 +402,10 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Skills (comma separated)"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.skills}
+                  disabled={!isEditable}
+
                   onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
                 />
               </div>
@@ -389,8 +416,10 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Qualification"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.qualification}
+                  disabled={!isEditable}
+
                   onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
                 />
               </div>
@@ -401,7 +430,7 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Avatar"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.avatar}
                   onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
                 />
@@ -413,6 +442,8 @@ export default function Student() {
                   type="checkbox"
                   className="mr-2"
                   checked={formData.active}
+                  disabled={!isEditable}
+
                   onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
                 />
                 <label className="text-gray-700">Active</label>
@@ -424,8 +455,10 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Remarks"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.remarks}
+                  disabled={!isEditable}
+
                   onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
                 />
               </div>
@@ -435,8 +468,9 @@ export default function Student() {
                 <h3 className="text-gray-700 text-base font-bold pb-2">Address</h3>
                 <textarea
                   placeholder="Address"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.address}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 />
               </div>
@@ -447,8 +481,9 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Social media links"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.smedia}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, smedia: e.target.value })}
                 />
               </div>
@@ -458,8 +493,9 @@ export default function Student() {
                 <h3 className="text-gray-700 text-base font-bold pb-2">Payment Summary</h3>
                 <textarea
                   placeholder="Payment summary"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.paymentSummery}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, paymentSummery: e.target.value })}
                 />
               </div>
@@ -470,8 +506,9 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Courses"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.courses}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, courses: e.target.value })}
                 />
               </div>
@@ -482,8 +519,9 @@ export default function Student() {
                 <input
                   type="text"
                   placeholder="Subscribed Domain"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.subscribeDomain}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, subscribeDomain: e.target.value })}
                 />
               </div>
@@ -493,8 +531,9 @@ export default function Student() {
                 <h3 className="text-gray-700 text-base font-bold pb-2">Date of Birth</h3>
                 <input
                   type="date"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.dob}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                 />
               </div>
@@ -504,8 +543,9 @@ export default function Student() {
                 <h3 className="text-gray-700 text-base font-bold pb-2">Biography</h3>
                 <textarea
                   placeholder="Biography"
-                  className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.biography}
+                  disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, biography: e.target.value })}
                 />
               </div>
@@ -516,23 +556,36 @@ export default function Student() {
 
             {/* form end */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">
+
+
               <button
                 onClick={() => {
                   setShowModal(false);
                   setEditingStudentId(null);
+                  setIsEditable(false);
                 }}
                 className="w-full px-4 py-2 bg-gray-400 hover:bg-red-700 hover:text-white rounded-2xl text-center"
               >
                 Cancel
               </button>
+              {editingStudentId !== null && !isEditable ? (
+                <button
+                  onClick={() => setIsEditable(true)}
+                  className="w-full px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-center"
+                >
+                  Edit
+                </button>
+              ) : (
+                <button
+                  onClick={handleSave}
+                  className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                >
+                  Save
+                </button>
 
-              <button
-                onClick={handleSave}
-                className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
-              >
-                Save
-              </button>
+              )}
             </div>
+
 
           </div>
         </div>
