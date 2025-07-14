@@ -108,11 +108,11 @@ const updateItems: NavItem[] = [
     name: "Recepient",
     path: "/admin/recepient",
   },
-  // {
-  //   icon: <GroupIcon />,
-  //   name: "Vendor",
-  //   path: "/admin/vendor",
-  // },
+  {
+    icon: <BoxCubeIcon />,
+    name: "Vendor Item",
+    path: "/admin/vendoritem",
+  },
     {
     icon: <GroupIcon />,
     name: "Vendor Staff",

@@ -13,7 +13,6 @@ export default function UserDropdown() {
     const staffData = localStorage.getItem("staffData");
     if (staffData) {
       const parsedData = JSON.parse(staffData);
-      console.log("Staff data loaded:", parsedData);
       setStaff(parsedData?.data?.[0]?.attributes);
     }
   }, []);
