@@ -53,8 +53,10 @@ import MoreDotIcon from "./more-dot.svg";
 import BellIcon from "./bell.svg";
 import StudentIcon from "./user-line.svg";
 import Pencil from "./pencil.svg";
+import GoDown from "./Down.gif";
 
 export {
+  GoDown,
   Pencil,
   StudentIcon,
   DownloadIcon,
