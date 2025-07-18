@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Pencil, EyeIcon } from "@/icons/index";
+import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
-
 
 function Recepient() {
   const [token, setToken] = useState("");
@@ -11,7 +10,7 @@ function Recepient() {
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
-
+  const [isEditable, setIsEditable] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kekyword, setKekyword] = useState("");
@@ -70,6 +69,7 @@ function Recepient() {
     setCollection("");
     setEditId(null);
     setIsEditing(false);
+    setIsEditable(false);
   };
 
   const handleSubmit = async () => {
@@ -85,7 +85,7 @@ function Recepient() {
     };
 
     try {
-      let res, data;
+      let res;
       if (isEditing && editId) {
         res = await fetch(`${apiUrl}/api/recepientlists/${editId}`, {
           method: "PUT",
@@ -106,7 +106,7 @@ function Recepient() {
         });
       }
 
-      data = await res.json();
+      await res.json();
       setShowModal(false);
       resetForm();
 
@@ -135,18 +135,20 @@ function Recepient() {
     setCollection(rec.collection);
     setEditId(item.id);
     setIsEditing(true);
+    setIsEditable(false);
     setShowModal(true);
   };
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-14">
-        <h1 className="text-4xl text-gray-700 uppercase pb-2 font-bold ">
+        <h1 className="text-4xl text-gray-700 uppercase pb-2 font-bold">
           <span className="text-[#2143BE] border-b-4 border-red-500">Recepient</span> Lists
         </h1>
         <button
           onClick={() => {
             resetForm();
+            setIsEditable(true);
             setShowModal(true);
           }}
           className="bg-[#2143BE] flex shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300 text-white text-lg px-4 py-2 rounded-full"
@@ -171,17 +173,12 @@ function Recepient() {
                     className="w-12 h-12 rounded-full"
                   />
                   <div>
-                    <h1 className="text-lg font-semibold uppercase ">
-                      {rec.name}
-                    </h1>
-                    <h2 className="text-gray-500">
-                      {rec.email || "No Email Provided"}
-                    </h2>
+                    <h1 className="text-lg font-semibold uppercase">{rec.name}</h1>
+                    <h2 className="text-gray-500">{rec.email || "No Email Provided"}</h2>
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 text-right">
-                  <strong>Updated At:</strong>{" "}
-                  {new Date(rec.updatedAt).toLocaleString()}
+                  <strong>Updated At:</strong> {new Date(rec.updatedAt).toLocaleString()}
                 </div>
                 <button
                   onClick={() => handleEdit(item)}
@@ -196,10 +193,11 @@ function Recepient() {
           <p>No recipients found.</p>
         )}
       </ul>
+
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
-          <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto   ">
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
+          <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
+            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
               <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
                 <h2 className="text-2xl font-semibold mb-2">
                   {isEditing ? "Edit Recepient Information" : "Add Recepient Information"}
@@ -207,69 +205,80 @@ function Recepient() {
                 <p className="text-sm text-blue-100 mb-6">
                   {isEditing ? "Update Recepient Details to keep your Profile Accurate" : "Add Recepient Details to keep your list organized"}
                 </p>
-
-                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                  <input
-                    type="email"
-                    placeholder="youremail@address.com"
-                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                  />
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                    ➜
-                  </button>
-                </div>
               </div>
             </div>
-            {/* end modal header */}
+
+            {/* buttn */}
+            <div className="flex justify-end mt-6 items-center">
+              {isEditing && !isEditable ? (
+                <button
+                  onClick={() => setIsEditable(true)}
+                  className="flex justify-center items-center w-20 px-4 py-2 bg-[#2143BE] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
+                >
+                  <Pencil />
+                </button>
+              ) : (
+                isEditing && (
+                  <button
+                    onClick={() => {
+                      handleSubmit();
+                      setIsEditable(false);
+                    }}
+                    className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                  >
+                    <DocsIcon />
+                  </button>
+                )
+              )}
+            </div>
+
             <div className="bg-[#DDE6FA] p-10 rounded-3xl mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-gray-700 text-base font-bold  pb-2">Name</h3>
+                  <h3 className="text-gray-700 text-base font-bold pb-2">Name</h3>
                   <input
-                    className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    disabled={!isEditable}
                   />
                 </div>
                 <div>
-                  <h3 className="text-gray-700 text-base font-bold  pb-2">Email</h3>
+                  <h3 className="text-gray-700 text-base font-bold pb-2">Email</h3>
                   <input
-                    className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={!isEditable}
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-gray-700 text-base font-bold  pb-2">Keyword</h3>
+                  <h3 className="text-gray-700 text-base font-bold pb-2">Keyword</h3>
                   <input
-                    className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
                     placeholder="Keyword"
                     value={kekyword}
                     onChange={(e) => setKekyword(e.target.value)}
+                    disabled={!isEditable}
                   />
                 </div>
                 <div>
-                  <h3 className="text-gray-700 text-base font-bold  pb-2">Author</h3>
+                  <h3 className="text-gray-700 text-base font-bold pb-2">Author</h3>
                   <input
-                    className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
                     placeholder="Author"
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
+                    disabled={!isEditable}
                   />
                 </div>
               </div>
             </div>
-            {/* <input
-        className="border-2 rounded-xl w-full p-2 mb-3 bg-gray-100 text-gray-600"
-        placeholder="Vendor UUID"
-        value={vendorId}
-        readOnly
-      /> */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">
               <button
@@ -283,15 +292,17 @@ function Recepient() {
               </button>
               <button
                 className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
-                onClick={handleSubmit}
+                onClick={() => {
+                  handleSubmit();
+                  setIsEditable(false);
+                }}
               >
-                {isEditing ? "Update" : "Add"}
+                {isEditing ? "Save" : "Add"}
               </button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 }
