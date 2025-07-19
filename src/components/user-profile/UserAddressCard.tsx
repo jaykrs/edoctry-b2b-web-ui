@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -8,6 +8,18 @@ import Label from "../form/Label";
 
 export default function UserAddressCard() {
   const { isOpen, openModal, closeModal } = useModal();
+   const [staff, setStaff] = useState<any>(null);
+  
+    useEffect(() => {
+      const staffData = localStorage.getItem("staffData");
+      if (staffData) {
+        const parsedData = JSON.parse(staffData);
+        console.log("Staff data loaded:", parsedData);
+        setStaff(parsedData?.data?.[0]?.attributes);
+      }
+    }, []);
+
+
   const handleSave = () => {
     // Handle save logic here
     console.log("Saving changes...");
@@ -28,7 +40,7 @@ export default function UserAddressCard() {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  United States
+                  {staff?.address}
                 </p>
               </div>
 
@@ -55,7 +67,7 @@ export default function UserAddressCard() {
                   TAX ID
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  AS4568384
+                  {staff?.vendoruuid}
                 </p>
               </div>
             </div>
