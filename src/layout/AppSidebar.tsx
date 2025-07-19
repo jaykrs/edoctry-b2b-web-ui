@@ -346,14 +346,14 @@ const AppSidebar: React.FC = () => {
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <Image
+              <img
                 className="dark:hidden"
                 src={staff?.avatar}
                 alt={staff?.name || "User Avatar"}
                 width={150}
                 height={40}
               />
-              <Image
+              <img
                 className="hidden dark:block"
                 src={staff?.avatar}
                 alt={staff?.name || "User Avatar"}
@@ -363,7 +363,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             // // Display a small avatar when collapsed
-            <Image
+            <img
               src={staff?.avatar}
               alt={staff?.name || "User Avatar"}
               width={32}
