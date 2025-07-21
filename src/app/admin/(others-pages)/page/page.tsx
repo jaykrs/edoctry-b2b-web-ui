@@ -29,7 +29,7 @@ const GrapesEditor: React.FC = () => {
 
 
     const getTemplateList = async () => {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("jwt");
         try {
             const response = await axios.get(`${apiUrl}/api/pages`, {
                 //  headers: { Authorization: "Bearer " + token },
@@ -184,14 +184,13 @@ const GrapesEditor: React.FC = () => {
                 // Only add blocks for the current user or admin
                 if (editorRef.current) { // && (localStorage.getItem("username") === el.userName || localStorage.getItem("username") === "admin")
                     let content = el?.attributes?.page_html_body;
-                    console.log('page code', content);
                     content = content.replace(/<!DOCTYPE[^>]*>/i, '');
                     content = content.replace(/<html[^>]*>([\s\S]*?)<\/html>/, '$1');
                     content = content.replace(/<head[^>]*>[\s\S]*?<\/head>/, '')
                     content = content.replace(/<body[^>]*>([\s\S]*?)<\/body>/, '$1');
                     content = content.replace(/\s+/g, ' ').trim();
                     editorRef.current.BlockManager.add(el.temName, {
-                        label: el.temName,
+                        label: el?.attributes?.name,
                         category: 'Email Templates',
                         content: content,
                     });
@@ -228,18 +227,24 @@ const GrapesEditor: React.FC = () => {
             `;
             setTemplateHtml(template);
             if (content !== "") {
-                let templateName = prompt("Please enter mail template Name");
-                await axios.post('/api/template', {
-                    temName: templateName,
-                    temCode: template,
-                    userName: localStorage.getItem("username") ? localStorage.getItem("username") : ""
+                let templateName = prompt("Please write your page name!");
+                await axios.post( apiUrl + '/api/pages', {
+                   "data": {
+                    name: templateName,
+                    page_html_body: template,
+                    author: localStorage.getItem("user") ? localStorage.getItem("user") : "",
+                    vendoruuid: 'dsdghdfhdag',
+                    pagepath: '/' + templateName,
+                    type:'Home',
+                    headerfooterid: 'shdha'
+                }
                 }, {
-                    headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
+                    headers: { Authorization: "Bearer " + localStorage.getItem("jwt") }
                 }).then(res => {
                     toastComponent({ Type: 'success', Message: res.data.message, Func: () => { } })
                 })
             } else {
-                toastComponent({ Type: 'success', Message: "Please add a template from block to save.", Func: () => { } })
+                toastComponent({ Type: 'success', Message: "Please drag and drop block to save page!", Func: () => { } })
             }
         }
     };
