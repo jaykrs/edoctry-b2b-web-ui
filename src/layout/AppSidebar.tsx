@@ -127,6 +127,11 @@ const updateItems: NavItem[] = [
     icon: <DollarLineIcon />,
     name: "Order",
     path: "/admin/order",
+  },
+    {
+    icon: <PageIcon />,
+    name: "Pages",
+    path: "/admin/pages",
   }
 ];
 
