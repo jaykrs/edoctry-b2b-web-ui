@@ -60,7 +60,7 @@ function PageFooter() {
             <TextHeading title='footer' />
             <div className="space-y-3 w-full mx-auto">
                 {loading ? (
-                    Array(options.length || 3).fill().map((_, index) => (
+                    Array(options.length || 3).fill(undefined).map((_, index) => (
                         <div key={index} className="mx-auto w-80 max-w-sm rounded-xl border p-4">
                             <div className="flex animate-pulse space-x-4">
                                 <div className="size-10 rounded-full bg-gray-200"></div>

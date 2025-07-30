@@ -3,10 +3,26 @@ import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon } from "@/icons/index";
 
+type VendorItemType = {
+  id: number;
+  attributes: {
+    name?: string;
+    category?: string;
+    type?: string;
+    warranty?: string;
+    expirydt?: string;
+    manual?: string;
+    page?: string;
+    cost?: string;
+    origin?: string;
+    [key: string]: any;
+  };
+};
+
 export default function VenderItem() {
-  const [vendorItem, setVendorItem] = useState([]);
+  const [vendorItem, setVendorItem] = useState<VendorItemType[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [editingItemId, setEditingItemId] = useState(null);
+  const [editingItemId, setEditingItemId] = useState<number | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -237,7 +253,7 @@ export default function VenderItem() {
               ) : (
                 <button
                   onClick={handleSave}
-                  className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                  className=" hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
                 >
                   💾
                 </button>

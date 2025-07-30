@@ -4,11 +4,53 @@ import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon, GoDown } from "@/icons/index";
 
 function VendorStaff() {
-  const [vendor, setVendor] = useState([]);
+  type VendorStaffType = {
+    id: number;
+    attributes: {
+      name?: string;
+      staffType?: string;
+      email?: string;
+      phone?: string;
+      vendoruuid?: string;
+      skills?: string;
+      address?: string;
+      smedia?: string;
+      certification?: string;
+      qualification?: string;
+      avatar?: string;
+      active?: boolean;
+      payroll?: string;
+      feedback?: any[];
+      bankDetails?: string;
+      rating?: string;
+      biography?: string;
+      // Add other fields as needed
+    };
+  };
+
+  const [vendor, setVendor] = useState<VendorStaffType[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editingStaffId, setEditingStaffId] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
-const [formData, setFormData] = useState({
+const [formData, setFormData] = useState<{
+  name: string;
+  staffType: string;
+  email: string;
+  phone: string;
+  vendoruuid: string;
+  skills: string;
+  address: string;
+  smedia: string;
+  certification: string;
+  qualification: string;
+  avatar: string;
+  active: boolean;
+  payroll: string;
+  feedback: string[];
+  bankDetails: string;
+  rating: string;
+  biography: string;
+}>({
   name: "",
   staffType: "",
   email: "",
@@ -54,7 +96,7 @@ const [formData, setFormData] = useState({
     }
   };
 
-  const openEditModal = (staff) => {
+  const openEditModal = (staff: any) => {
     setFormData({
       name: staff.name || "",
       staffType: staff.staffType || "",
@@ -274,7 +316,7 @@ const [formData, setFormData] = useState({
         ) : (
           <button
             onClick={handleSave}
-            className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+            className=" hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
           >
             💾
           </button>
@@ -449,7 +491,7 @@ const [formData, setFormData] = useState({
             className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
             value={formData.feedback}
             disabled={!isEditable}
-            onChange={(e) => setFormData({ ...formData, feedback: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, feedback: e.target.value.split('\n') })}
           />
           </div>
         {/* Bank Details */}
