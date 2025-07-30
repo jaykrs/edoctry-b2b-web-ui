@@ -240,7 +240,7 @@ export default function Student() {
   return (
     <div className="">
       {!showModal && (
-        <div className="flex justify-between items-center p-10 bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-t-2xl">
+        <div className="flex justify-between items-center p-10 rounded-t-2xl">
           <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold ">
             <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Students
           </h1>
@@ -266,10 +266,10 @@ export default function Student() {
                 width={40}
                 height={40}
                 alt={student.user.name}
-                className="rounded-full"
+                className="rounded-full dark:opacity-50"
               />
               <div>
-                <p className="font-semibold">{student.user.name}</p>
+                <p className="font-semibold dark:text-gray-400">{student.user.name}</p>
                 <p className="text-sm text-gray-500">{student.user.role}</p>
               </div>
             </div>

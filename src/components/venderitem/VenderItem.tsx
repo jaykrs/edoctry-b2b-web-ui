@@ -118,7 +118,7 @@ export default function VenderItem() {
 
   return (
     <>
-      <div className="flex justify-between items-center p-10 bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-t-2xl">
+      <div className="flex justify-between items-center p-10 rounded-t-2xl">
         <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
           <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Items
         </h1>
@@ -161,10 +161,10 @@ export default function VenderItem() {
                     alt={VenderItem.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className="rounded-full dark:opacity-50"
                   />
                   <div>
-                    <p className="font-semibold">{VenderItem.name}</p>
+                    <p className="font-semibold dark:text-gray-400">{VenderItem.name}</p>
                     <p className="text-sm text-gray-500">{VenderItem.category}</p>
                   </div>
                 </div>

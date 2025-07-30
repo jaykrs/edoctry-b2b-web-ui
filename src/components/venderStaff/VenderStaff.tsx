@@ -159,7 +159,7 @@ const [formData, setFormData] = useState({
 
   return (
     <>
-      <div className="flex justify-between items-center p-10 bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-t-2xl">
+      <div className="flex justify-between items-center p-10 bg-gradient-to-brounded-t-2xl">
         <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
           <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Staff
         </h1>
@@ -209,10 +209,10 @@ const [formData, setFormData] = useState({
                     alt={staff.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className="rounded-full dark:opacity-50"
                   />
                   <div>
-                    <p className="font-semibold">{staff.name}</p>
+                    <p className="font-semibold dark:text-gray-400">{staff.name}</p>
                     <p className="text-sm text-gray-500">{staff.staffType}</p>
                   </div>
                 </div>

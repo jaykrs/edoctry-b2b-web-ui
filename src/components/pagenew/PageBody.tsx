@@ -56,12 +56,12 @@ function PageBody() {
 
 
   return (
-    <div className='border-2 border-gray-200 rounded-lg pb-2 shadow-sm space-y-4'>
+    <div className='border-2 border-gray-200 dark:border-gray-700 rounded-lg pb-2 shadow-sm space-y-4'>
       <TextHeading title='Pages' />
       <div className="space-y-3 w-full mx-auto">
 {loading ? (
   Array(options.length || 3).fill().map((_, index) => (
-        <div key={index} className="mx-auto w-full max-w-sm rounded-md border p-4">
+        <div key={index} className="mx-auto w-80 max-w-sm rounded-xl border p-4">
       <div className="flex animate-pulse space-x-4">
         <div className="size-10 rounded-full bg-gray-200"></div>
         <div className="flex-1 space-y-6 py-1">

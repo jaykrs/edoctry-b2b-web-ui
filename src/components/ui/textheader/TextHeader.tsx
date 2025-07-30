@@ -18,10 +18,10 @@ const TextHeading: React.FC<{ title: string; icon?: React.ReactNode; icon2?: Rea
     <div className={`flex justify-between p-6 text-center transition-all duration-700 ease-out ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}`}>
 
       {/* Traffic lights style indicators */}
-      <div className="flex mt-1 space-x-2 justify-center align-center">
-        <span className='w-3 h-3 rounded-2xl bg-red-500'></span>
-        <span className='w-3 h-3 rounded-2xl bg-yellow-500'></span>
-        <span className='w-3 h-3 rounded-2xl bg-green-500'></span>
+      <div className="flex mt-3 space-x-1 justify-center align-center">
+        <span className='w-2 h-2 rounded-2xl bg-red-500'></span>
+        <span className='w-2 h-2 rounded-2xl bg-yellow-500'></span>
+        <span className='w-2 h-2 rounded-2xl bg-green-500'></span>
       </div>
 
 
