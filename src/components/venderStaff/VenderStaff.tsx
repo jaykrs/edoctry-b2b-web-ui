@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon, GoDown } from "@/icons/index";
+import { RipleLoader } from '../ui/loading/ripleloader';
+
 
 function VendorStaff() {
   type VendorStaffType = {
@@ -275,7 +277,9 @@ const [formData, setFormData] = useState<{
             );
           })
         ) : (
-          <p>No staff found</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 

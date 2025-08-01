@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon } from "@/icons/index";
+import { RipleLoader } from '../ui/loading/ripleloader';
+
 
 type VendorItemType = {
   id: number;
@@ -212,7 +214,9 @@ export default function VenderItem() {
             );
           })
         ) : (
-          <p>No items found</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 

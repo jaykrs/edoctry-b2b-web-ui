@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
+import { RipleLoader } from '../ui/loading/ripleloader';
+
 
 function Recepient() {
   const [token, setToken] = useState("");
@@ -190,7 +192,9 @@ function Recepient() {
             );
           })
         ) : (
-          <p>No recipients found.</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 
