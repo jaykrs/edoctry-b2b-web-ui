@@ -1,20 +1,27 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 import PageBody from '@/components/pagenew/PageBody';
 import PageHeader from '@/components/pagenew/PageHeader';
 import PageFooter from '@/components/pagenew/PageFooter';
-import PagePreview from '../pagenew/PagePreview';
+import PagePreview from '@/components/pagenew/PagePreview';
 
 function Pages() {
-  return (
-<div className='flex-col space-y-4 p-4'>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
-      <div className="w-full"><PageBody /></div>
-      <div className="w-full"><PageHeader /></div>
-      <div className="w-full"><PageFooter /></div>
-    </div>
-    <div className="w-full"><PagePreview /></div>
+  const [step, setStep] = useState(1);
 
-</div>
+  const handleNext = () => {
+    setStep((prev) => prev + 1);
+  };
+  const handleBack = () => {
+    setStep((prev) => (prev > 1 ? prev - 1 : prev));
+  };
+  
+
+  return (
+    <div className="flex flex-col space-y-4 p-4">
+      {step === 1 && <PageBody onNext={handleNext} onBack={handleBack} />}
+      {step === 2 && <PageHeader onNext={handleNext} onBack={handleBack} />}
+      {step === 3 && <PagePreview onBack={handleBack}  />}
+    </div>
   );
 }
 

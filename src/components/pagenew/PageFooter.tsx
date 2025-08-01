@@ -14,7 +14,7 @@ interface PageOption {
 }
 
 
-function PageFooter() {
+function PageFooter({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
     const [options, setOptions] = useState<PageOption[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -78,11 +78,25 @@ function PageFooter() {
                         </div>
                     ))
                 ) : (
-                    <PageDropdown options={options} />
+                    // <PageDropdown options={options} />
+                    <div>fhg</div>
                 )}
 
             </div>
-        </div>
+                  <button
+        onClick={onNext}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+      >
+        Next
+      </button>
+        <button
+          onClick={onBack}
+          className="mt-4 px-4 py-2 bg-gray-600 text-white rounded ml-2"
+        >
+          Back
+        </button>
+    
+      </div>
     )
 }
 

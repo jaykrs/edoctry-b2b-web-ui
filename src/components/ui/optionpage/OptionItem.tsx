@@ -14,7 +14,7 @@ const OptionItem: React.FC<OptionItemProps> = ({ icon, name, author, pagepath, i
   return (
     <div
       onClick={onClick}
-      className={`flex items-center justify-between p-4 rounded-xl shadow cursor-pointer transition-all duration-300 dark:text-gray-100 dark:bg-gray-800
+      className={`flex w-full items-center justify-between p-4 rounded-xl shadow cursor-pointer transition-all duration-300 dark:text-gray-100 dark:bg-gray-800
         ${isSelected ? 'bg-gradient-to-r from-indigo-100 to-purple-100 border border-indigo-300 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-600' : 'bg-white hover:bg-gray-100'}`}
     >
       <div className="flex items-center space-x-4">
