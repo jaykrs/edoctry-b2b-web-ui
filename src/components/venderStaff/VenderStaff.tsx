@@ -4,7 +4,6 @@ import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon, GoDown } from "@/icons/index";
 import { RipleLoader } from '../ui/loading/ripleloader';
 
-
 function VendorStaff() {
   type VendorStaffType = {
     id: number;
@@ -52,24 +51,6 @@ const [formData, setFormData] = useState<{
   bankDetails: string;
   rating: string;
   biography: string;
-}>({
-  name: "",
-  staffType: "",
-  email: "",
-  phone: "",
-  vendoruuid: "",
-  skills: "",
-  address: "",
-  smedia: "",
-  certification: "",
-  qualification: "",
-  avatar: "",
-  active: false,
-  payroll: "",
-  feedback: [],
-  bankDetails: "",
-  rating: "",
-  biography: "",
 });
 
 

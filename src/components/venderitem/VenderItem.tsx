@@ -4,7 +4,6 @@ import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon } from "@/icons/index";
 import { RipleLoader } from '../ui/loading/ripleloader';
 
-
 type VendorItemType = {
   id: number;
   attributes: {

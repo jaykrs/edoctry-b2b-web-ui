@@ -4,7 +4,6 @@ import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
 import { RipleLoader } from '../ui/loading/ripleloader';
 
-
 function Recepient() {
   const [token, setToken] = useState("");
   const [vendorId, setVendorId] = useState("");

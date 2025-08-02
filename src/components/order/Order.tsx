@@ -239,7 +239,7 @@ function OrderPage() {
                                         <input
                                             type="text"
                                             placeholder={key}
-                                            value={value || ""}
+                                            value={`${value}` || ""}
                                             onChange={(e) =>
                                                 setFormData((prev) => ({ ...prev, [key]: e.target.value }))
                                             }
