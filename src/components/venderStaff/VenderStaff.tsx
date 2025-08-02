@@ -51,6 +51,24 @@ const [formData, setFormData] = useState<{
   bankDetails: string;
   rating: string;
   biography: string;
+}>({
+  name: "",
+  staffType: "",
+  email: "",
+  phone: "",
+  vendoruuid: "",
+  skills: "",
+  address: "",
+  smedia: "",
+  certification: "",
+  qualification: "",
+  avatar: "",
+  active: false,
+  payroll: "",
+  feedback: [],
+  bankDetails: "",
+  rating: "",
+  biography: "",
 });
 
 
