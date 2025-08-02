@@ -2,30 +2,55 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon, GoDown } from "@/icons/index";
+import { RipleLoader } from '../ui/loading/ripleloader';
 
 function VendorStaff() {
-  const [vendor, setVendor] = useState([]);
+  type VendorStaffType = {
+    id: number;
+    attributes: {
+      name?: string;
+      staffType?: string;
+      email?: string;
+      phone?: string;
+      vendoruuid?: string;
+      skills?: string;
+      address?: string;
+      smedia?: string;
+      certification?: string;
+      qualification?: string;
+      avatar?: string;
+      active?: boolean;
+      payroll?: string;
+      feedback?: any[];
+      bankDetails?: string;
+      rating?: string;
+      biography?: string;
+      // Add other fields as needed
+    };
+  };
+
+  const [vendor, setVendor] = useState<VendorStaffType[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editingStaffId, setEditingStaffId] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
-const [formData, setFormData] = useState({
-  name: "",
-  staffType: "",
-  email: "",
-  phone: "",
-  vendoruuid: "",
-  skills: "",
-  address: "",
-  smedia: "",
-  certification: "",
-  qualification: "",
-  avatar: "",
-  active: false,
-  payroll: "",
-  feedback: [],
-  bankDetails: "",
-  rating: "",
-  biography: "",
+const [formData, setFormData] = useState<{
+  name: string;
+  staffType: string;
+  email: string;
+  phone: string;
+  vendoruuid: string;
+  skills: string;
+  address: string;
+  smedia: string;
+  certification: string;
+  qualification: string;
+  avatar: string;
+  active: boolean;
+  payroll: string;
+  feedback: string[];
+  bankDetails: string;
+  rating: string;
+  biography: string;
 });
 
 
@@ -54,7 +79,7 @@ const [formData, setFormData] = useState({
     }
   };
 
-  const openEditModal = (staff) => {
+  const openEditModal = (staff: any) => {
     setFormData({
       name: staff.name || "",
       staffType: staff.staffType || "",
@@ -159,7 +184,7 @@ const [formData, setFormData] = useState({
 
   return (
     <>
-      <div className="flex justify-between items-center p-10 bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-t-2xl">
+      <div className="flex justify-between items-center p-10 bg-gradient-to-brounded-t-2xl">
         <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
           <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Staff
         </h1>
@@ -209,10 +234,10 @@ const [formData, setFormData] = useState({
                     alt={staff.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className="rounded-full dark:opacity-50"
                   />
                   <div>
-                    <p className="font-semibold">{staff.name}</p>
+                    <p className="font-semibold dark:text-gray-400">{staff.name}</p>
                     <p className="text-sm text-gray-500">{staff.staffType}</p>
                   </div>
                 </div>
@@ -233,7 +258,9 @@ const [formData, setFormData] = useState({
             );
           })
         ) : (
-          <p>No staff found</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 
@@ -274,7 +301,7 @@ const [formData, setFormData] = useState({
         ) : (
           <button
             onClick={handleSave}
-            className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+            className=" hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
           >
             💾
           </button>
@@ -449,7 +476,7 @@ const [formData, setFormData] = useState({
             className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
             value={formData.feedback}
             disabled={!isEditable}
-            onChange={(e) => setFormData({ ...formData, feedback: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, feedback: e.target.value.split('\n') })}
           />
           </div>
         {/* Bank Details */}

@@ -2,11 +2,28 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 import { Pencil, EyeIcon } from "@/icons/index";
+import { RipleLoader } from '../ui/loading/ripleloader';
+
+type VendorItemType = {
+  id: number;
+  attributes: {
+    name?: string;
+    category?: string;
+    type?: string;
+    warranty?: string;
+    expirydt?: string;
+    manual?: string;
+    page?: string;
+    cost?: string;
+    origin?: string;
+    [key: string]: any;
+  };
+};
 
 export default function VenderItem() {
-  const [vendorItem, setVendorItem] = useState([]);
+  const [vendorItem, setVendorItem] = useState<VendorItemType[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [editingItemId, setEditingItemId] = useState(null);
+  const [editingItemId, setEditingItemId] = useState<number | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -118,7 +135,7 @@ export default function VenderItem() {
 
   return (
     <>
-      <div className="flex justify-between items-center p-10 bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-t-2xl">
+      <div className="flex justify-between items-center p-10 rounded-t-2xl">
         <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
           <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Items
         </h1>
@@ -161,10 +178,10 @@ export default function VenderItem() {
                     alt={VenderItem.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className="rounded-full dark:opacity-50"
                   />
                   <div>
-                    <p className="font-semibold">{VenderItem.name}</p>
+                    <p className="font-semibold dark:text-gray-400">{VenderItem.name}</p>
                     <p className="text-sm text-gray-500">{VenderItem.category}</p>
                   </div>
                 </div>
@@ -196,7 +213,9 @@ export default function VenderItem() {
             );
           })
         ) : (
-          <p>No items found</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 
@@ -237,7 +256,7 @@ export default function VenderItem() {
               ) : (
                 <button
                   onClick={handleSave}
-                  className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                  className=" hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
                 >
                   💾
                 </button>

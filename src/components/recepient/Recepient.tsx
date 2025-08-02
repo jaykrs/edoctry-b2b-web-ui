@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
+import { RipleLoader } from '../ui/loading/ripleloader';
 
 function Recepient() {
   const [token, setToken] = useState("");
@@ -170,10 +171,10 @@ function Recepient() {
                   <img
                     src={`https://ui-avatars.com/api/?name=${rec.name}&background=random`}
                     alt={rec.name}
-                    className="w-12 h-12 rounded-full"
+                    className="w-12 h-12 rounded-full dark:opacity-50"
                   />
                   <div>
-                    <h1 className="text-lg font-semibold uppercase">{rec.name}</h1>
+                    <h1 className="text-lg dark:text-gray-400 font-semibold uppercase">{rec.name}</h1>
                     <h2 className="text-gray-500">{rec.email || "No Email Provided"}</h2>
                   </div>
                 </div>
@@ -190,7 +191,9 @@ function Recepient() {
             );
           })
         ) : (
-          <p>No recipients found.</p>
+          <div className="justify-center items-center flex h-64">
+            <RipleLoader />
+          </div>
         )}
       </ul>
 
@@ -224,7 +227,7 @@ function Recepient() {
                       handleSubmit();
                       setIsEditable(false);
                     }}
-                    className="flex hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                    className="flex  justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
                   >
                     <DocsIcon />
                   </button>

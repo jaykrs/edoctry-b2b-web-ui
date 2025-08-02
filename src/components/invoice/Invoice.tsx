@@ -251,7 +251,7 @@ function Invoice() {
                                             key={key}
                                             type={isNumberField ? "number" : "text"}
                                             placeholder={key}
-                                            value={value ?? ""}
+                                            value={typeof value === "boolean" ? String(value) : value ?? ""}
                                             onChange={(e) =>
                                                 setFormData((prev) => ({
                                                     ...prev,
