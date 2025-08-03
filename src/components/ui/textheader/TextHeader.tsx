@@ -26,7 +26,7 @@ const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonpro
       <div className="flex items-center space-x-2">
         {icon && <span className="text-xl">{icon}</span>}
         {icon2 && <span className="text-xl">{icon2}</span>}
-        <h1 className="text-2xl md:text-2xl font-extrabold uppercase bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm tracking-wide">
+        <h1 className="text-2xl md:text-2xl font-extrabold uppercase text-gray-600 dark:text-white">
           {title}
         </h1>
       </div>
