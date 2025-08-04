@@ -113,7 +113,7 @@ const updateItems: NavItem[] = [
     name: "Vendor Item",
     path: "/admin/vendoritem",
   },
-    {
+  {
     icon: <GroupIcon />,
     name: "Vendor Staff",
     path: "/admin/vendorstaff",
@@ -128,7 +128,7 @@ const updateItems: NavItem[] = [
     name: "Order",
     path: "/admin/order",
   },
-    {
+  {
     icon: <PageIcon />,
     name: "Pages",
     path: "/admin/pages",
@@ -362,18 +362,15 @@ const AppSidebar: React.FC = () => {
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <img
-                className="dark:hidden"
+                className="dark:hidden h-20"
                 src={staff?.avatar}
                 alt={staff?.name || "User Avatar"}
-                width={150}
-                height={40}
+
               />
               <img
-                className="hidden dark:block"
+                className="hidden dark:block "
                 src={staff?.avatar}
                 alt={staff?.name || "User Avatar"}
-                width={150}
-                height={40}
               />
             </>
           ) : (
@@ -381,8 +378,7 @@ const AppSidebar: React.FC = () => {
             <img
               src={staff?.avatar}
               alt={staff?.name || "User Avatar"}
-              width={32}
-              height={32}
+              className="h-10 w-10 "
             />
           )}
         </Link>
