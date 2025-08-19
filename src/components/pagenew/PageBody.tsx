@@ -5,6 +5,7 @@ import TextHeading from '../ui/textheader/TextHeader';
 import { apiUrl } from "@/utils/config";
 import AssignedToSelect from '../ui/optionpage/OptionItem1';
 import { RipleLoader } from '../ui/loading/ripleloader';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -13,12 +14,16 @@ interface PageOption {
   name: string;
   author?: string;
   pagepath: string;
+  type?: string;
+  published?: boolean;
+  headerfooterid?: number;
+  onClick: () => void;
 }
 
-function PageBody({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
+function PageBody() {
   const [options, setOptions] = useState<PageOption[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +48,10 @@ function PageBody({ onNext, onBack }: { onNext: () => void, onBack: () => void }
           name: item.attributes.name,
           author: item.attributes.author || 'Unknown',
           pagepath: item.attributes.pagepath,
+          type: item.attributes.type || 'Default',
+          published: item.attributes.published || false,
+          headerfooterid: item.attributes.headerfooterid || 'N/A',
+          onClick: () => router.push('/admin/createpage')
         }));
 
         setOptions(formatted);
@@ -66,58 +75,46 @@ function PageBody({ onNext, onBack }: { onNext: () => void, onBack: () => void }
           buttonText: "+",
           title: "Create New Page",
           content: "Add custom pages with unique paths to enhance your user experience.",
+          onClick: () => router.push('/admin/createpage'), 
         }}
       />
       <div className="space-y-3 w-full px-8 mx-auto">
         {loading ? (
-          // Array(options.length || 2).fill(undefined).map((_, index) => (
-          //   <div key={index} className="mx-auto w-80 rounded-xl border p-4">
-          //     <div className="flex animate-pulse space-x-4">
-          //       <div className="size-10 rounded-full bg-gray-200"></div>
-          //       <div className="flex-1 space-y-6 py-1">
-          //         <div className="h-2 rounded bg-gray-200"></div>
-          //         <div className="space-y-3">
-          //           <div className="grid grid-cols-3 gap-4">
-          //             <div className="col-span-2 h-2 rounded bg-gray-200"></div>
-          //             <div className="col-span-1 h-2 rounded bg-gray-200"></div>
-          //           </div>
-          //           {/* <div className="h-2 rounded bg-gray-200"></div> */}
-          //         </div>
-          //       </div>
-          //     </div>
-          //   </div>
-          // ))
-                              <div className="justify-center items-center flex h-64">
-                                  <RipleLoader />
-                              </div>
+          Array(options.length || 4).fill(undefined).map((_, index) => (
+            <div key={index} className="mx-auto w-full rounded-xl border p-4">
+              <div className="flex animate-pulse space-x-4">
+                <div className="size-10 rounded-full bg-gray-200"></div>
+                <div className="flex-1 space-y-6 py-1">
+                  <div className="h-2 rounded bg-gray-200"></div>
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="col-span-2 h-2 rounded bg-gray-200"></div>
+                      <div className="col-span-1 h-2 rounded bg-gray-200"></div>
+                    </div>
+                    {/* <div className="h-2 rounded bg-gray-200"></div> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+          // <div className="justify-center items-center flex h-64">
+          //     <RipleLoader />
+          // </div>
         ) : (
           <div className="space-y-10 w-full mb-10 mx-auto">
-            <PageDropdown options={options} nameformat={{
-              label: "Page",
-              labelname: "Select a page*",
-              optionname: "Choose a page"
+            <PageDropdown options={options} tableNames={{
+              T1: "Page",
+              T2: "Page Path",
+              T3: "Author",
+              T4: "Type",
+              T5: "Published",
+              T6: "HF ID",
+              T7: "Edit"
             }} />
-            <PageDropdown options={options} nameformat={{
-              label: "Pagepath",
-              labelname: "Select a Pagepath*",
-              optionname: "Choose a Pagepath"
-            }} />
-          </div>
 
+          </div>
         )}
-      <button
-        onClick={onNext}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Next
-      </button>
-      <button
-        onClick={onBack}
-        className="mt-4 px-4 py-2 bg-gray-600 text-white rounded ml-2"
-      >
-        Back
-      </button>
-      </div>
+          </div>
     </div>
   );
 

@@ -66,8 +66,8 @@ const GrapesEditor: React.FC = () => {
             },
         });
 
-      //  editorRef.current.BlockManager.getAll().reset();
-      //  editorRef.current.BlockManager.getCategories().reset();
+        //  editorRef.current.BlockManager.getAll().reset();
+        //  editorRef.current.BlockManager.getCategories().reset();
 
         editorRef.current.BlockManager.add('Text', {
             label: 'Text',
@@ -226,26 +226,26 @@ const GrapesEditor: React.FC = () => {
             </html>
             `;
             setTemplateHtml(template);
-            if (content !== "") {
-                let templateName = prompt("Please write your page name!");
-                await axios.post( apiUrl + '/api/pages', {
-                   "data": {
-                    name: templateName,
-                    page_html_body: template,
-                    author: localStorage.getItem("user") ? localStorage.getItem("user") : "",
-                    vendoruuid: 'dsdghdfhdag',
-                    pagepath: '/' + templateName,
-                    type:'Home',
-                    headerfooterid: 'shdha'
-                }
-                }, {
-                    headers: { Authorization: "Bearer " + localStorage.getItem("jwt") }
-                }).then(res => {
-                    toastComponent({ Type: 'success', Message: res.data.message, Func: () => { } })
-                })
-            } else {
-                toastComponent({ Type: 'success', Message: "Please drag and drop block to save page!", Func: () => { } })
-            }
+            // if (content !== "") {
+            //     let templateName = prompt("Please write your page name!");
+            //     await axios.post(apiUrl + '/api/pages', {
+            //         "data": {
+            //             name: templateName,
+            //             page_html_body: template,
+            //             author: localStorage.getItem("user") ? localStorage.getItem("user") : "",
+            //             vendoruuid: 'dsdghdfhdag',
+            //             pagepath: '/' + templateName,
+            //             type: 'Home',
+            //             headerfooterid: 'shdha'
+            //         }
+            //     }, {
+            //         headers: { Authorization: "Bearer " + localStorage.getItem("jwt") }
+            //     }).then(res => {
+            //         toastComponent({ Type: 'success', Message: res.data.message, Func: () => { } })
+            //     })
+            // } else {
+            //     toastComponent({ Type: 'success', Message: "Please drag and drop block to save page!", Func: () => { } })
+            // }
         }
     };
 
@@ -280,6 +280,9 @@ const GrapesEditor: React.FC = () => {
                 <button onClick={() => setHtmlContentInEditor('<body></body>')} className="bg-blue-500 text-white py-1 px-4 my-1 rounded " >
                     Clear
                 </button>
+                <button onClick={() => setHtmlContentInEditor('<body></body>')} className="bg-blue-500 text-white py-1 px-4 my-1 rounded " >
+                    Review
+                </button>
             </div>
             <div>
                 <div
@@ -287,6 +290,11 @@ const GrapesEditor: React.FC = () => {
                     style={{ height: '100vh', width: '100%' }}
                 >
                 </div>
+            </div>
+            <div>
+                {
+                    <p dangerouslySetInnerHTML={{ __html: templateHtml }} ></p>
+                }
             </div>
         </div>
         // </DefaultLayout>

@@ -133,6 +133,11 @@ const updateItems: NavItem[] = [
     name: "Pages",
     path: "/admin/pages",
   },
+    {
+    icon: <PageIcon />,
+    name: "HeaderFooter",
+    path: "/admin/headerfooter",
+  },
   {
     icon: <PageIcon />,
     name: "Page",

@@ -10,6 +10,7 @@ interface TextHeadingProps {
     buttonText: string;
     title: string;
     content: string;
+    onClick?: () => void;
   };
 }
 
@@ -37,6 +38,7 @@ const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonpro
             buttonText={buttonprops.buttonText}
             title={buttonprops.title}
             content={buttonprops.content}
+            onClick={buttonprops.onClick}
           />
         </div>
       )}
