@@ -73,24 +73,25 @@ function CreatePage() {
     ];
 
     return (
-    <div className="createpage-container">
-      <div className="stepper-container mb-4">
-        {steps.map((s) => {
-          let className = "flex-col step-item ";
-          if (step > s.id || (s.id === 4 && isPublished)) {
-            className += "completed-step"; 
-          } else if (step === s.id) {
-            className += "active-step";
-          }
+        <div className="createpage-container ">
+            <div className="stepper-container mb-4" style={{ userSelect: 'none' }}>
+                {steps.map((s) => {
+                    let className = "flex-col step-item ";
+                    if (step > s.id || (s.id === 4 && isPublished)) {
+                        className += "completed-step";
+                    } else if (step === s.id) {
+                        className += "active-step";
+                    }
 
-          return (
-            <div key={s.id} className={className} onClick={() => setStep(s.id)}>
-              <div className="step-label">{s.label}</div>
-              <div className="step-subtext">{s.subtext}</div>
+                    return (
+                        // onClick={() => setStep(s.id)} for future
+                        <div key={s.id} className={className} >
+                            <div className="step-label">{s.label}</div>
+                            <div className="step-subtext">{s.subtext}</div>
+                        </div>
+                    );
+                })}
             </div>
-          );
-        })}
-      </div>
 
             <div className="step-content">
                 {step === 1 && (
@@ -110,7 +111,7 @@ function CreatePage() {
                 )}
                 {step === 3 && (
                     <PreviewAndPublish
-
+                        data={formData}
                         onNext={handleSubmit}
                         onBack={handleBack}
                     />

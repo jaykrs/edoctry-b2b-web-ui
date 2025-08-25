@@ -12,6 +12,7 @@ type DesignYourPageProps = {
   onBack: () => void;
   data: {
     page_html_body: string;
+    pagecss: string;
     [key: string]: any;
   }
   onChange: (newData: Partial<DesignYourPageProps['data']>) => void;
@@ -49,7 +50,8 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
   const handleNextClick = async () => {
     const htmlContent = gjsInstanceRef.current.getHtml();
-    onChange({ page_html_body: htmlContent });
+    const cssContent = gjsInstanceRef.current.getCss();
+    onChange({ page_html_body: htmlContent, pagecss: cssContent });
     onNext();
   };
 

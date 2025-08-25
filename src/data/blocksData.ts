@@ -36,45 +36,45 @@ export const generalBlocks: BlockProperties[] = [
   { id: 'checkbox', label: 'Checkbox', content: '<input type="checkbox"> Checkbox', category: 'Forms' },
   { id: 'radio', label: 'Radio', content: '<input type="radio"> Radio', category: 'Forms' },
   { id: 'label', label: 'Label', content: '<label>Label</label>', category: 'Forms' },
-// single row social media
-{
-  id: 'social-media',
-  label: `
+  // single row social media
+  {
+    id: 'social-media',
+    label: `
     <div style="display:flex; gap:6px; justify-content:center; font-size:14px; color:#444;">
       <i class="fab fa-facebook"></i>
       <i class="fab fa-twitter"></i>
       <i class="fab fa-instagram"></i>
     </div>
   `,
-  content: `
+    content: `
     <div class="social-media" style="display:flex; gap:12px; justify-content:center; font-size:20px;">
       <a href="#"><i class="fab fa-facebook"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
     </div>
   `,
-  category: 'Social Media',
-},
+    category: 'Social Media',
+  },
 
-// social media pack (with more spacing)
-{
-  id: 'social-media-pack',
-  label: `
+  // social media pack (with more spacing)
+  {
+    id: 'social-media-pack',
+    label: `
     <div style="display:flex; gap:8px; justify-content:center; font-size:14px; color:#444;">
       <i class="fab fa-facebook"></i>
       <i class="fab fa-twitter"></i>
       <i class="fab fa-instagram"></i>
     </div>
   `,
-  content: `
+    content: `
     <div class="social-media-pack" style="display:flex; gap:20px; justify-content:center; font-size:22px;">
       <a href="#"><i class="fab fa-facebook"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
     </div>
   `,
-  category: 'Social Media',
-},
+    category: 'Social Media',
+  },
 
 ];
 
@@ -141,7 +141,7 @@ export const headerBlocks: BlockProperties[] = [
 
   // 3 - Underline Hover
   {
-    id: 'nav-underline',
+    id: 'hover-underline',
     label: `
       <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
         <div style="font-size:12px; font-weight:bold;">Underline Hover</div>
@@ -1552,6 +1552,117 @@ Contact us
     `,
     category: 'Navigation'
   },
+  {
+    id: 'bea nav',
+label: `
+  <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
+    
+    <!-- Left Logo -->
+    <div style="flex-shrink:0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" alt="Logo" style="height:32px;">
+    </div>
+    
+    <!-- Center Menu -->
+    <div style="flex-grow:1; display:flex; justify-content:center; gap:28px;">
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        Who we are
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        What we do
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        Newsroom
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        Sustainability
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        Investors
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
+        Careers
+        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
+      </a>
+    </div>
+
+    <!-- Right Links -->
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
+      <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
+      <span style="cursor:pointer; font-size:18px;">🔍</span>
+    </div>
+  </div>
+
+  <style>
+    a:hover span { width:100%; }
+  </style>
+`
+,
+    content: `
+<div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
+
+  <!-- Left Logo -->
+  <div style="flex-shrink:0;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" alt="Logo" style="height:32px;">
+  </div>
+
+  <!-- Center Menu -->
+  <div style="flex-grow:1; display:flex; justify-content:center; gap:28px;">
+    <a href="#" class="nav-link">Who we are<span></span></a>
+    <a href="#" class="nav-link">What we do<span></span></a>
+    <a href="#" class="nav-link">Newsroom<span></span></a>
+    <a href="#" class="nav-link">Sustainability<span></span></a>
+    <a href="#" class="nav-link">Investors<span></span></a>
+    <a href="#" class="nav-link">Careers<span></span></a>
+  </div>
+
+  <!-- Right Links -->
+  <div style="display:flex; align-items:center; gap:16px;">
+    <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
+    <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
+    <span style="cursor:pointer; font-size:18px;">🔍</span>
+  </div>
+</div>
+
+<!-- Inline Hover CSS -->
+<style>
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+
+  .nav-link span {
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: #d00;
+    transition: width 0.3s;
+  }
+
+  .nav-link:hover {
+    color: #000;
+  }
+
+  .nav-link:hover span {
+    width: 100%;
+  }
+</style>
+
+    `,
+    category: 'Bea Systems'
+  },
+
 ];
 
 export const footerBlocks: BlockProperties[] = [

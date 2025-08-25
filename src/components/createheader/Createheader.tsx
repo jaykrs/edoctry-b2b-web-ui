@@ -188,7 +188,7 @@ function CreateHeader() {
 
   return (
     <div className="createpage-container">
-      <div className="stepper-container mb-4">
+      <div className="stepper-container mb-4" style={{ userSelect: 'none' }}>
         {steps.map((s) => {
           let className = "flex-col step-item ";
           if (step > s.id || (s.id === 4 && isPublished)) {
@@ -198,7 +198,8 @@ function CreateHeader() {
           }
 
           return (
-            <div key={s.id} className={className} onClick={() => setStep(s.id)}>
+            // onClick={() => setStep(s.id)}  for future use
+            <div key={s.id} className={className} >
               <div className="step-label">{s.label}</div>
               <div className="step-subtext">{s.subtext}</div>
             </div>

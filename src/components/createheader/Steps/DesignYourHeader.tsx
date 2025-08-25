@@ -58,12 +58,10 @@ function DesignYourHeader({ data, onChange, onNext, onBack }: DesignYourHeaderPr
   const handleNextClick = () => {
     if (gjsInstanceRef.current) {
       const html = gjsInstanceRef.current.getHtml();
-      onChange({ header_html_element: html });
-
-      // ✅ If you also want CSS
-      // const css = gjsInstanceRef.current.getCss();
-      // onChange({ header_html_element: `${html}<style>${css}</style>` });
+      const css = gjsInstanceRef.current.getCss();
+      onChange({ header_html_element: `${html}<style>${css}</style>` });
     }
+
     onNext();
   };
 
