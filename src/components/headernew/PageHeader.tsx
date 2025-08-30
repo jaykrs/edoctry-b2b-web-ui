@@ -42,7 +42,6 @@ function PageHeader() {
                 }
 
                 const json = await res.json();
-                console.log(json);
                 const formatted = json?.data?.map((item: any) => ({
                     icon: '📄',
                     headerfooterid: item.id,

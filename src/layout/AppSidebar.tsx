@@ -138,16 +138,7 @@ const updateItems: NavItem[] = [
     name: "HeaderFooter",
     path: "/admin/headerfooter",
   },
-  {
-    icon: <PageIcon />,
-    name: "Page",
-    path: "/admin/page",
-  },
-  {
-    icon: <PageIcon />,
-    name: "New Page",
-    path: "/admin/new-pages",
-  }
+
 ];
 
 const AppSidebar: React.FC = () => {

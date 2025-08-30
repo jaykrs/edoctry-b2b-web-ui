@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TextHeading from '@/components/ui/textheader/TextHeader';
 import { apiUrl } from '@/utils/config';
 import HoverPopover from '@/components/ui/popupbutton/HoverPopover';
+import fs from "fs";
 
 function PreviewAndPublish({ onNext, onBack, data }: { onNext: () => void; onBack: () => void; data: any }) {
     const [headerHtml, setHeaderHtml] = useState('');
@@ -35,15 +36,61 @@ function PreviewAndPublish({ onNext, onBack, data }: { onNext: () => void; onBac
         fetchHeaderFooter();
     }, [data.headerfooterid]);
 
-    // 🔹 Combine header + body + footer
+    // const finalHtml = `
+    //   <style>
+    //     ${data?.pagecss || ""}
+    //   </style>
+    //   ${headerHtml}
+    //   ${data?.page_html_body || ""}
+    //   ${footerHtml}
+    // `;
+
     const finalHtml = `
-      <style>
-        ${data?.pagecss || ""}
-      </style>
-      ${headerHtml}
-      ${data?.page_html_body || ""}
-      ${footerHtml}
-    `;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mera HTML Page</title>
+
+</head>
+<body>
+  <style>
+    ${data?.pagecss || ""}
+    ${data?.clientsidelibs || ""}
+  </style>
+
+${headerHtml}
+${data?.page_html_body || ""}
+${footerHtml}
+</body>
+</html>
+`;
+
+
+    const saveFile = async () => {
+        try {
+            // Extract pagepath from data, fallback to empty string if not present
+    console.log("👉 data object:", data);
+    console.log("👉 data.pagepath:", data?.pagepath);
+
+    const pagepath = data?.name;
+            const res = await fetch("/api/saveFile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ htmlContent: finalHtml, pageName: pagepath }),
+            });
+
+            const dataRes = await res.json();
+            alert(dataRes.message);
+        } catch (err) {
+            console.error("Error:", err);
+        }
+    };
+
+
 
     const setFullscreen = () => {
         setShowModal(true);
@@ -63,7 +110,6 @@ function PreviewAndPublish({ onNext, onBack, data }: { onNext: () => void; onBac
             }
         }
 
-        // 🔹 Handle fullscreen exit (ESC ya exitFullscreen pe modal band ho)
         const handleFullscreenChange = () => {
             if (!document.fullscreenElement) {
                 setShowModal(false);
@@ -108,6 +154,13 @@ function PreviewAndPublish({ onNext, onBack, data }: { onNext: () => void; onBac
                     )}
                 </div>
             </div>
+
+            <button
+                onClick={saveFile}
+                className="px-6 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition shadow"
+            >
+                Save File 💾
+            </button>
 
             {/* Footer Box */}
             <div className="my-6 p-6 rounded-xl border shadow bg-white text-center space-y-4">

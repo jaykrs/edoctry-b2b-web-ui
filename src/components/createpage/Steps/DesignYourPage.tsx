@@ -42,14 +42,15 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
       if (data.page_html_body) {
         gjsInstanceRef.current.setComponents(data.page_html_body);
-      } 
+      }
     }
   }, [data.page_html_body]);
 
 
 
   const handleNextClick = async () => {
-    const htmlContent = gjsInstanceRef.current.getHtml();
+    const wrapper = gjsInstanceRef.current.getWrapper();
+    const htmlContent = wrapper.toHTML();
     const cssContent = gjsInstanceRef.current.getCss();
     onChange({ page_html_body: htmlContent, pagecss: cssContent });
     onNext();

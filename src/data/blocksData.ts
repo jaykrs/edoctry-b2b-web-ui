@@ -1554,15 +1554,11 @@ Contact us
   },
   {
     id: 'bea nav',
-label: `
+    label: `
   <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
-    
-    <!-- Left Logo -->
-    <div style="flex-shrink:0;">
+  <div style="flex-shrink:0;">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" alt="Logo" style="height:32px;">
-    </div>
-    
-    <!-- Center Menu -->
+    </div>    
     <div style="flex-grow:1; display:flex; justify-content:center; gap:28px;">
       <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
         Who we are
@@ -1589,29 +1585,18 @@ label: `
         <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
       </a>
     </div>
-
-    <!-- Right Links -->
-    <div style="display:flex; align-items:center; gap:16px;">
+  <div style="display:flex; align-items:center; gap:16px;">
       <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
       <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
-      <span style="cursor:pointer; font-size:18px;">🔍</span>
+      <span style="cursor:pointer; font-size:18px;"></span>
     </div>
   </div>
-
-  <style>
-    a:hover span { width:100%; }
-  </style>
-`
-,
+`,
     content: `
 <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
-
-  <!-- Left Logo -->
   <div style="flex-shrink:0;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" alt="Logo" style="height:32px;">
   </div>
-
-  <!-- Center Menu -->
   <div style="flex-grow:1; display:flex; justify-content:center; gap:28px;">
     <a href="#" class="nav-link">Who we are<span></span></a>
     <a href="#" class="nav-link">What we do<span></span></a>
@@ -1620,16 +1605,12 @@ label: `
     <a href="#" class="nav-link">Investors<span></span></a>
     <a href="#" class="nav-link">Careers<span></span></a>
   </div>
-
-  <!-- Right Links -->
   <div style="display:flex; align-items:center; gap:16px;">
     <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
     <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
-    <span style="cursor:pointer; font-size:18px;">🔍</span>
+    <span style="cursor:pointer; font-size:18px;"></span>
   </div>
 </div>
-
-<!-- Inline Hover CSS -->
 <style>
   .nav-link {
     position: relative;
@@ -1639,7 +1620,6 @@ label: `
     padding-bottom: 4px;
     transition: color 0.3s;
   }
-
   .nav-link span {
     position: absolute;
     left: 0;
@@ -1649,16 +1629,13 @@ label: `
     background: #d00;
     transition: width 0.3s;
   }
-
   .nav-link:hover {
     color: #000;
   }
-
   .nav-link:hover span {
     width: 100%;
   }
 </style>
-
     `,
     category: 'Bea Systems'
   },

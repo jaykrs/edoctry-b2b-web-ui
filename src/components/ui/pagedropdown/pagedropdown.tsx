@@ -30,7 +30,7 @@ interface PageDropdownProps {
 
 function PageDropdown({ options, tableNames }: PageDropdownProps) {
   const [selected, setSelected] = useState<string>("");
-  console.log(options);
+
 
   if (!options || options.length === 0) return null;
 
