@@ -130,7 +130,6 @@ function InputHeaderDetail({ data, onChange, onNext }: InputHeaderDetailProps) {
                     const parsed = JSON.parse(e.target.value);
                     onChange({ header_footer_json: parsed });
                   } catch {
-                    // invalid JSON, ignore
                   }
                 }}
                 placeholder={`{\n  "key": "value"\n}`}

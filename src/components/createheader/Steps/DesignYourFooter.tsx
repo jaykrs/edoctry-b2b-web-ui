@@ -32,6 +32,14 @@ function DesignYourFooter({ data, onChange, onNext, onBack }: DesignYourFooterPr
       blockManager: {
         appendTo: '#blocks',
       },
+        canvas: {
+    styles: [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    ],
+    scripts: [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ]
+  }
     });
 
     // Add blocks dynamically
@@ -57,9 +65,13 @@ function DesignYourFooter({ data, onChange, onNext, onBack }: DesignYourFooterPr
   }, [data.footer_html_element]);
 
   const handleSaveAndNext = () => {
-    if (gjsInstanceRef.current) {
-      const html = gjsInstanceRef.current.getHtml();
-      const css = gjsInstanceRef.current.getCss();
+  if (gjsInstanceRef.current) {
+    const wrapper = gjsInstanceRef.current.getWrapper();
+    // Sirf children ka HTML collect karo (body skip)
+    const html = wrapper
+      ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
+      : '';
+    const css = gjsInstanceRef.current.getCss();
 
       onChange({ footer_html_element: `${html}<style>${css}</style>` });
       onNext();

@@ -31,6 +31,14 @@ function DesignYourHeader({ data, onChange, onNext, onBack }: DesignYourHeaderPr
       blockManager: {
         appendTo: '#blocks',
       },
+        canvas: {
+    styles: [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    ],
+    scripts: [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ]
+  }
     });
 
 // Add custom blocks
@@ -55,15 +63,19 @@ function DesignYourHeader({ data, onChange, onNext, onBack }: DesignYourHeaderPr
     };
   }, [data.header_html_element]);
 
-  const handleNextClick = () => {
-    if (gjsInstanceRef.current) {
-      const html = gjsInstanceRef.current.getHtml();
-      const css = gjsInstanceRef.current.getCss();
-      onChange({ header_html_element: `${html}<style>${css}</style>` });
-    }
+const handleNextClick = () => {
+  if (gjsInstanceRef.current) {
+    const wrapper = gjsInstanceRef.current.getWrapper();
+    const html = wrapper
+      ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
+      : '';
+    const css = gjsInstanceRef.current.getCss();
 
-    onNext();
-  };
+    onChange({ header_html_element: `${html}<style>${css}</style>` });
+  }
+
+  onNext();
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

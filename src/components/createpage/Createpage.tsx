@@ -85,7 +85,7 @@ function CreatePage() {
 
                     return (
                         // onClick={() => setStep(s.id)} for future
-                        <div key={s.id} className={className} >
+                        <div key={s.id} onClick={() => setStep(s.id)} className={className} >
                             <div className="step-label">{s.label}</div>
                             <div className="step-subtext">{s.subtext}</div>
                         </div>

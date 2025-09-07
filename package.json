@@ -23,6 +23,7 @@
     "apexcharts": "^4.3.0",
     "axios": "^1.10.0",
     "flatpickr": "^4.6.13",
+    "fs": "^0.0.1-security",
     "grapesjs": "^0.22.11",
     "next": "15.2.3",
     "react": "^19.0.0",

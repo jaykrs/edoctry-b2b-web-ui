@@ -2,24 +2,73 @@ import type { BlockProperties } from 'grapesjs';
 
 export const generalBlocks: BlockProperties[] = [
   // Layout Blocks
-  { id: '1-column', label: '1 Column', content: '<div class="col-1">1 Column</div>', category: 'Layout' },
-  { id: '2-column', label: '2 Columns', content: '<div class="row"><div class="col-6">Column 1</div><div class="col-6">Column 2</div></div>', category: 'Layout' },
-  { id: '3-column', label: '3 Columns', content: '<div class="row"><div class="col-4">Column 1</div><div class="col-4">Column 2</div><div class="col-4">Column 3</div></div>', category: 'Layout' },
-  { id: 'section', label: '<section class="section">Section</section>', content: '<section class="section">Section</section>', category: 'Layout' },
-  { id: 'divider', label: 'Divider', content: '<hr>', category: 'Layout' },
-  { id: 'container', label: 'Container', content: '<div class="container">Container</div>', category: 'Layout' },
-  { id: 'row', label: 'Row', content: '<div class="row">Row</div>', category: 'Layout' },
-  { id: '2-row', label: '2 Row', content: '<div class="row"><div class="col-6">Column 1</div><div class="col-6">Column 2</div></div>', category: 'Layout' },
-
-  // Typography
+  {
+    id: '1-column',
+    label: '1 Column',
+    content: '<div style="width:100%; border:1px solid #ccc; padding:10px; text-align:center;" data-gjs-droppable="true">1 Column</div>',
+    category: 'Layout'
+  },
+  {
+    id: '2-column',
+    label: '2 Columns',
+    content: '<div style="display:flex; gap:10px;"><div style="flex:1; border:1px solid #ccc; padding:10px;">Column 1</div><div style="flex:1; border:1px solid #ccc; padding:10px;">Column 2</div></div>',
+    category: 'Layout'
+  },
+  {
+    id: '3-column',
+    label: '3 Columns',
+    content: '<div style="display:flex; gap:10px;" data-gjs-droppable="true"><div style="flex:1; border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Column 1</div><div style="flex:1; border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Column 2</div><div style="flex:1; border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Column 3</div></div>',
+    category: 'Layout'
+  },
+  {
+    id: 'section',
+    label: 'Section',
+    content: '<section style="padding:20px; border:2px dashed #999; text-align:center;" data-gjs-droppable="true">Section</section>',
+    category: 'Layout'
+  },
+  {
+    id: 'divider',
+    label: 'Divider',
+    content: '<hr style="border:none; border-top:2px solid #ccc; margin:20px 0;">',
+    category: 'Layout'
+  },
+  {
+    id: 'container',
+    label: 'Container',
+    content: '<div style="max-width:1200px; margin:0 auto; padding:20px; border:1px solid #ddd;" data-gjs-droppable="true">Container</div>',
+    category: 'Layout'
+  },
+  {
+    id: 'row',
+    label: 'Row',
+    content: '<div style="display:flex; gap:10px; border:1px dashed #aaa; padding:10px;" data-gjs-droppable="true">Row</div>',
+    category: 'Layout'
+  },
+{
+  id: '2-row',
+  label: '2 Row',
+  content: `
+    <div style="display:flex; flex-direction:column; gap:10px;" data-gjs-type="row">
+      <div style="border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Row 1</div>
+      <div style="border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Row 2</div>
+    </div>
+  `,
+  category: 'Layout'
+}
+  ,
   { id: 'h1', label: '<h1>H1</h1>', content: '<h1>Heading 1</h1>', category: 'Typography' },
   { id: 'h2', label: '<h2>H2</h2>', content: '<h2>Heading 2</h2>', category: 'Typography' },
   { id: 'h3', label: '<h3>H3</h3>', content: '<h3>Heading 3</h3>', category: 'Typography' },
   { id: 'h4', label: '<h4>H4</h4>', content: '<h4>Heading 4</h4>', category: 'Typography' },
   { id: 'h5', label: '<h5>H5</h5>', content: '<h5>Heading 5</h5>', category: 'Typography' },
   { id: 'h6', label: '<h6>H6</h6>', content: '<h6>Heading 6</h6>', category: 'Typography' },
-  { id: 'link', label: '<a href="#">Link</a>', content: '<a href="#">Link</a>', category: 'Typography' },
-  { id: 'link-box', label: 'Link Box', content: '<div class="link-box"><a href="#">Link Box</a></div>', category: 'Typography' },
+{
+  id: 'link',
+  label: 'Link',
+  content: '<a href="#" data-gjs-droppable="true">Edit Me 3</a>',
+  category: 'Typography',
+},
+  { id: 'link-box', label: 'Link Box', content: '<div class="link-box" data-gjs-droppable="true"><a href="#" data-gjs-droppable="true">Link Box</a></div>', category: 'Typography' },
 
   // Media
   { id: 'image', label: 'Image', content: '<img src="https://via.placeholder.com/150" alt="Image"/>', category: 'Media' },
@@ -41,16 +90,14 @@ export const generalBlocks: BlockProperties[] = [
     id: 'social-media',
     label: `
     <div style="display:flex; gap:6px; justify-content:center; font-size:14px; color:#444;">
-      <i class="fab fa-facebook"></i>
-      <i class="fab fa-twitter"></i>
-      <i class="fab fa-instagram"></i>
+      Facebook
     </div>
   `,
     content: `
     <div class="social-media" style="display:flex; gap:12px; justify-content:center; font-size:20px;">
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
     </div>
   `,
     category: 'Social Media',
@@ -80,48 +127,52 @@ export const generalBlocks: BlockProperties[] = [
 
 export const headerBlocks: BlockProperties[] = [
   {
-    id: 'nav-minimal',
+    id: 'nav-sidebar',
     label: `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
-        <div style="font-size:12px; font-weight:bold;">Minimal Nav</div>
-        <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px;">
-          <nav style="background:#fff; border-bottom:1px solid #eee;">
-            <ul style="display:flex; justify-content:center; gap:20px; margin:0; padding:12px; list-style:none; font-size:12px;">
-              <li>Home</li><li>About</li><li>Contact</li>
-            </ul>
-          </nav>
-        </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
+      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
+        <nav style="background:#fff; width:100%; padding:6px;">
+          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+          </ul>
+        </nav>
       </div>
-    `,
+    </div>
+  `,
     content: `
-      <nav style="background:#fff; border-bottom:1px solid #eee; padding:15px;">
-        <ul style="display:flex; justify-content:center; gap:25px; list-style:none; margin:0; padding:0;">
-          <li style="transition:color 0.3s;"><a href="#" style="text-decoration:none; color:#333;">Home</a></li>
-          <li style="transition:color 0.3s;"><a href="#" style="text-decoration:none; color:#333;">About</a></li>
-          <li style="transition:color 0.3s;"><a href="#" style="text-decoration:none; color:#333;">Contact</a></li>
-        </ul>
-      </nav>
-      <style>
-        nav ul li:hover a { color: #007BFF; }
-      </style>
-    `,
+    <aside style="width:200px; background:#fff; border-right:1px solid #eee; padding:20px;">
+      <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:15px;">
+        <li><a href="#" style="text-decoration:none; color:#333;">Dashboard</a></li>
+        <li><a href="#" style="text-decoration:none; color:#333;">Profile</a></li>
+        <li><a href="#" style="text-decoration:none; color:#333;">Settings</a></li>
+      </ul>
+    </aside>
+    <style>
+      aside ul li a:hover { color: #007BFF; }
+    </style>
+  `,
     category: 'Navigation'
-  },
+  }
+  ,
 
   // 2 - Logo + Links
   {
     id: 'nav-logo',
     label: `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
-        <div style="font-size:12px; font-weight:bold;">Logo Nav</div>
-        <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex; align-items:center; padding:4px;">
-          <img src="https://via.placeholder.com/40" style="border-radius:50%;" />
-          <ul style="display:flex; gap:10px; margin-left:10px; font-size:12px; list-style:none;">
-            <li>Home</li><li>Shop</li><li>Blog</li>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
+      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
+        <nav style="background:#ccc; width:100%; padding:6px;">
+          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
           </ul>
-        </div>
+        </nav>
       </div>
-    `,
+    </div>
+  `,
     content: `
       <nav style="display:flex; align-items:center; background:#fff; border-bottom:1px solid #eee; padding:10px 20px;">
         <img src="https://via.placeholder.com/50" style="border-radius:50%; transition:transform 0.3s;" />
@@ -141,17 +192,19 @@ export const headerBlocks: BlockProperties[] = [
 
   // 3 - Underline Hover
   {
-    id: 'hover-underline',
     label: `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
-        <div style="font-size:12px; font-weight:bold;">Underline Hover</div>
-        <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px;">
-          <ul style="display:flex; justify-content:center; gap:10px; list-style:none; font-size:12px; margin:0; padding:10px;">
-            <li>Home</li><li>Portfolio</li><li>Contact</li>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
+      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
+        <nav style="background:#fff; width:100%; padding:6px;">
+          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
           </ul>
-        </div>
+        </nav>
       </div>
-    `,
+    </div>
+  `,
     content: `
       <nav style="background:#fff; padding:15px; border-bottom:1px solid #eee;">
         <ul style="display:flex; justify-content:center; gap:25px; list-style:none; margin:0; padding:0;">
@@ -204,6 +257,47 @@ export const headerBlocks: BlockProperties[] = [
         nav ul li a:hover { color: #FFD700; }
       </style>
     `,
+    category: 'Navigation'
+  },
+  {
+    id: 'hover-underline',
+    label: `
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
+      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
+        <nav style="background:#fff; width:100%; padding:6px;">
+          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  `,
+    content: `
+    <nav style="background:#fff; padding:15px; border-bottom:1px solid #eee;">
+      <ul style="display:flex; justify-content:center; gap:25px; list-style:none; margin:0; padding:0;">
+        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Home</a></li>
+        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Portfolio</a></li>
+        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Contact</a></li>
+      </ul>
+    </nav>
+    <style>
+      nav ul li a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #007BFF;
+        transition: width 0.3s;
+      }
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+    </style>
+  `,
     category: 'Navigation'
   },
 
@@ -1639,6 +1733,248 @@ Contact us
     `,
     category: 'Bea Systems'
   },
+  {
+    id: 'Personal Shape',
+    label: `
+  <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
+ 
+  <div style="display:flex; align-items:center; gap:16px;">
+      <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
+      <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
+      <span style="cursor:pointer; font-size:18px;"></span>
+    </div>
+  </div>
+`,
+    content: ` 
+    <style>
+    nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    padding: 1rem 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--shadow-lg);
+    padding: 0.75rem 0;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: var(--gradient-elegant);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background: var(--gradient-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+    border-radius: 1px;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+}
+
+.hamburger {
+    width: 25px;
+    height: 3px;
+    background: var(--text-primary);
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 1px;
+}
+
+.mobile-menu-toggle.active .hamburger:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    text-align: center;
+}
+
+.mobile-nav-links li {
+    margin: 2rem 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.active .mobile-nav-links li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-menu.active .mobile-nav-links li:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.mobile-menu.active .mobile-nav-links li:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.mobile-menu.active .mobile-nav-links li:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.mobile-menu.active .mobile-nav-links li:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.mobile-nav-links a {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: var(--gradient-elegant);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mobile-nav-links a:hover {
+    transform: scale(1.05);
+}
+
+    </style>
+       <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Personal Shape</div>
+            <ul class="nav-links">
+                <li><a href="./index.html" data-gjs-type="link">Home</a></li>
+                <li><a href="./about.html" data-gjs-type="link">About</a></li>
+                <li><a href="./portfolio.html" data-gjs-type="link">Portfolio</a></li>
+                <li><a href="./contact.html" data-gjs-type="link">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+            </div>
+        </div>
+    </nav>`,
+    category: 'Personal Shape'
+  },
+  {
+  id: 'navbar Zay',
+  label: 'Navbar',
+  content: `
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#" data-gjs-droppable="true">MyShop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  `,
+  category: 'Zay Layout'
+}
 
 ];
 
@@ -2013,6 +2349,207 @@ export const footerBlocks: BlockProperties[] = [
     </footer>
   `,
   },
+  {
+    id: 'Footers Personal Shape',
+    label: `
+    <div style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px; background:#f1f1f1; border-radius:6px; width:140px;">
+      <div style="font-size:12px; font-weight:bold;">Footer with Logo</div>
+      <dFooters Personal Shape
+      </div>
+    </div>
+  `,
+    category: 'Footers Personal Shape',
+    content: `
+    <style>
+    .footer {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    color: var(--text-light);
+    padding: 3rem 0 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
 
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="footer-grid" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23footer-grid)"/></svg>');
+    opacity: 0.4;
+}
+
+.footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-left p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.footer-right {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-right a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-right a:hover {
+    color: var(--text-light);
+    transform: translateY(-1px);
+}
+
+.footer-right a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -3px;
+    left: 0;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.footer-right a:hover::after {
+    width: 100%;
+}
+
+/* Footer Mobile Responsiveness */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .footer-right {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .footer-right a {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-right {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+    </style>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2025 Personal Shape. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Use</a>
+                    <a href="#sitemap">Sitemap</a>
+                    <a href="https://templatemo.com" target="_blank" rel="noopener nofollow">Provided by TemplateMo</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+  `,
+  },
+{
+  id: 'footer',
+  label: 'Footer',
+  content: `
+    <footer class="bg-dark text-light pt-5 pb-4">
+      <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+          <!-- About -->
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Zay Shop</h5>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus, expedita.
+            </p>
+          </div>
+
+          <!-- Products -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Products</h5>
+            <p><a href="#" class="text-light text-decoration-none">Shoes</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Clothing</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Watches</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Accessories</a></p>
+          </div>
+
+          <!-- Useful links -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Useful Links</h5>
+            <p><a href="#" class="text-light text-decoration-none">Your Account</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Become an Affiliate</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Shipping Rates</a></p>
+            <p><a href="#" class="text-light text-decoration-none">Help</a></p>
+          </div>
+
+          <!-- Contact -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h5>
+            <p><i class="bi bi-house-door-fill"></i> New York, NY 10012, US</p>
+            <p><i class="bi bi-envelope-fill"></i> info@example.com</p>
+            <p><i class="bi bi-phone-fill"></i> + 01 234 567 88</p>
+            <p><i class="bi bi-printer-fill"></i> + 01 234 567 89</p>
+          </div>
+        </div>
+
+        <hr class="mb-4" />
+
+        <div class="row align-items-center">
+          <div class="col-md-7 col-lg-8">
+            <p class="text-center text-md-left">
+              © 2025 Zay Shop. All rights reserved.
+            </p>
+          </div>
+          <div class="col-md-5 col-lg-4">
+            <div class="text-center text-md-right">
+              <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="text-light me-2"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  `,
+  category: 'Zay / Footer'
+},
 
 ]

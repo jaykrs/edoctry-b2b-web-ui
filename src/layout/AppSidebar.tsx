@@ -18,7 +18,8 @@ import {
   UserCircleIcon,
   StudentIcon,
   GroupIcon,
-  DollarLineIcon
+  DollarLineIcon,
+  FolderIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 
@@ -129,11 +130,16 @@ const updateItems: NavItem[] = [
     path: "/admin/order",
   },
   {
+    icon: <FolderIcon />,
+    name: "Templates",
+    path: "/admin/templates",
+  },
+  {
     icon: <PageIcon />,
     name: "Pages",
     path: "/admin/pages",
   },
-    {
+  {
     icon: <PageIcon />,
     name: "HeaderFooter",
     path: "/admin/headerfooter",
