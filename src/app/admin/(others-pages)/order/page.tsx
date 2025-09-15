@@ -1,12 +1,13 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 import Order from "@/components/order/Order";
 
 export const metadata: Metadata = {
-  title: "Next.js Order | TailAdmin - Next.js Dashboard Template",
+  title: ` Order | ${appName}`,
   description:
-    "This is Next.js Order page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Order `,
   // other metadata
 };
 export default function page() {

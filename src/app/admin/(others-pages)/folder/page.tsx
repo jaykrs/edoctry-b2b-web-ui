@@ -2,20 +2,19 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
 import { appName } from "@/utils/config";
 import React from "react";
-import Recepient from "@/components/recepient/Recepient";
+import MediaLibrary from "@/components/MediaLibrary/MediaLibrary";
 
 export const metadata: Metadata = {
-  title: ` Recepient | ${appName}`,
+  title: ` Media Library | ${appName}`,
   description:
-    `${appName} Recepient `,
+    `${appName} Media Library `,
   // other metadata
 };
 export default function page() {
-    
   return (
-    <>
-      <PageBreadcrumb pageTitle="Recepient" />
-      <Recepient />
-    </>
+    <div>
+      <PageBreadcrumb pageTitle="Media Library" />
+      <MediaLibrary />
+    </div>
   );
 }

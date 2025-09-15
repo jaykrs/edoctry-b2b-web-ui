@@ -12,9 +12,15 @@ interface TextHeadingProps {
     content: string;
     onClick?: () => void;
   };
+  secondbuttonprops?: {
+    buttonText: string;
+    title: string;
+    content: string;
+    onClick?: () => void;
+  };
 }
 
-const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonprops }) => {
+const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonprops, secondbuttonprops }) => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -31,17 +37,32 @@ const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonpro
           {title}
         </h1>
       </div>
-
-      {buttonprops && (
+      <div className='flex items-center'>
         <div>
-          <HoverPopover
-            buttonText={buttonprops.buttonText}
-            title={buttonprops.title}
-            content={buttonprops.content}
-            onClick={buttonprops.onClick}
-          />
+          {buttonprops && (
+            <div>
+              <HoverPopover
+                buttonText={buttonprops.buttonText}
+                title={buttonprops.title}
+                content={buttonprops.content}
+                onClick={buttonprops.onClick}
+              />
+            </div>
+          )}
         </div>
-      )}
+        <div>
+          {secondbuttonprops && (
+            <div>
+              <HoverPopover
+                buttonText={secondbuttonprops.buttonText}
+                title={secondbuttonprops.title}
+                content={secondbuttonprops.content}
+                onClick={secondbuttonprops.onClick}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

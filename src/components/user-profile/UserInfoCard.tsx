@@ -14,14 +14,12 @@ export default function UserInfoCard() {
     const staffData = localStorage.getItem("staffData");
     if (staffData) {
       const parsedData = JSON.parse(staffData);
-      console.log("Staff data loaded:", parsedData);
       setStaff(parsedData?.data?.[0]?.attributes);
     }
   }, []);
 
   const handleSave = () => {
     // Handle save logic here
-    console.log("Saving changes...");
     closeModal();
   };
   return (
@@ -38,7 +36,7 @@ export default function UserInfoCard() {
                 First Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {staff?.name || "User name"}
+                {staff?.ownerName || "User name"}
               </p>
             </div>
 

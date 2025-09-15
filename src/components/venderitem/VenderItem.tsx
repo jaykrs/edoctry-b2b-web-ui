@@ -1,8 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
-import { Pencil, EyeIcon } from "@/icons/index";
+import { Pencil, EyeIcon, PencilIcon } from "@/icons/index";
 import { RipleLoader } from '../ui/loading/ripleloader';
+import TextHeading from "../ui/textheader/TextHeader";
+import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
+
 
 type VendorItemType = {
   id: number;
@@ -135,89 +138,151 @@ export default function VenderItem() {
 
   return (
     <>
-      <div className="flex justify-between items-center p-10 rounded-t-2xl">
-        <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
-          <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Items
-        </h1>
-        <button
-          onClick={() => {
-            setFormData({
-              name: "",
-              category: "",
-              type: "",
-              warranty: "",
-              expirydt: "",
-              manual: "",
-              page: "",
-              cost: "",
-              origin: "",
-
-            });
-            setEditingItemId(null);
-            setIsEditable(true);
-            setShowModal(true);
+      <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+        <TextHeading
+          title="Vendor Items"
+          icon="📦"
+          buttonprops={{
+            buttonText: '+',
+            title: 'Add Items',
+            content: 'Here you can add items to the system.',
+            onClick: () => {
+              setFormData({
+                name: "",
+                category: "",
+                type: "",
+                warranty: "",
+                expirydt: "",
+                manual: "",
+                page: "",
+                cost: "",
+                origin: "",
+              });
+              setEditingItemId(null);
+              setIsEditable(true);
+              setShowModal(true);
+            }
           }}
-          className="bg-[#2143BE] text-white text-2xl px-4 py-2 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
-        >
-          <Pencil />
-        </button>
+        />
       </div>
 
-      <ul className="space-y-4 p-4 pt-4">
-        {vendorItem.length > 0 ? (
-          vendorItem.map((item) => {
-            const VenderItem = item.attributes || {};
-            return (
-              <li
-                key={item.id}
-                className="flex justify-between items-center border-b border-[#2143BE] py-5 px-4 shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300 rounded-2xl"
-              >
-                <div className="flex items-center space-x-4">
-                  <img
-                    src={`https://ui-avatars.com/api/?name=${VenderItem.name}&background=random`}
-                    alt={VenderItem.name}
-                    width={40}
-                    height={40}
-                    className="rounded-full dark:opacity-50"
-                  />
-                  <div>
-                    <p className="font-semibold dark:text-gray-400">{VenderItem.name}</p>
-                    <p className="text-sm text-gray-500">{VenderItem.category}</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setFormData({
-                        name: VenderItem.name || "",
-                        category: VenderItem.category || "",
-                        type: VenderItem.type || "",
-                        warranty: VenderItem.warranty || "",
-                        expirydt: VenderItem.expirydt || "",
-                        manual: VenderItem.manual || "",
-                        page: VenderItem.page || "",
-                        cost: VenderItem.cost || "",
-                        origin: VenderItem.origin || "",
-
-                      });
-                      setEditingItemId(item.id);
-                      setIsEditable(false);
-                      setShowModal(true);
-                    }}
-                    className="bg-[#2143BE] text-white px-3 py-1 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        <div className="max-w-full overflow-x-auto">
+          <div className="min-w-[1102px]">
+            <Table>
+              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                <TableRow>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                   >
-                    <EyeIcon />
-                  </button>
-                </div>
-              </li>
-            );
-          })
-        ) : (
-          <div className="justify-center items-center flex h-64">
-            <RipleLoader />
+                    Name
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Category
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Cost
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Origin
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Warranty & Expiry Date
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Edit
+                  </TableCell>
+                </TableRow>
+              </TableHeader>
+              {/* table body */}
+              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                {vendorItem.map((item) => {
+                  const VenderItem = item.attributes || {};
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell className="px-5 py-6 sm:px-6 text-start">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 overflow-hidden rounded-lg">
+                            <img
+                              src={`https://ui-avatars.com/api/?name=${VenderItem.name}&background=random`}
+                              alt={VenderItem.name}
+                              className=""
+                            />
+                          </div>
+                          <div>
+                            <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                              {VenderItem.name}
+                            </span>
+                            <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+                              {VenderItem.type}
+                            </span>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className=" px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                        {VenderItem.category}
+                      </TableCell>
+                      <TableCell className=" px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                        {VenderItem.cost}
+                      </TableCell>
+                      <TableCell className=" px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                        <span className="text-blue-600 font font-bold">
+                          {VenderItem.origin}
+                        </span>
+                      </TableCell>
+                      <TableCell className="flex flex-col px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                        <span className="text-blue-600 font font-bold">
+                          Warranty : {VenderItem.warranty}
+                        </span>
+                        <span className="font-bold">Exp : {VenderItem.expirydt} </span>
+                      </TableCell>
+                      <TableCell className="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <button
+                          onClick={() => {
+                            setFormData({
+                              name: VenderItem.name || "",
+                              category: VenderItem.category || "",
+                              type: VenderItem.type || "",
+                              warranty: VenderItem.warranty || "",
+                              expirydt: VenderItem.expirydt || "",
+                              manual: VenderItem.manual || "",
+                              page: VenderItem.page || "",
+                              cost: VenderItem.cost || "",
+                              origin: VenderItem.origin || "",
+                            });
+                            setEditingItemId(item.id);
+                            setIsEditable(false);
+                            setShowModal(true);
+                          }}
+                          className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                        >
+                          <PencilIcon />
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </div>
-        )}
-      </ul>
+        </div>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
@@ -324,7 +389,7 @@ export default function VenderItem() {
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, expirydt: e.target.value })}
                 />
-                </div>
+              </div>
               {/* Manual */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Manual</h3>
@@ -348,7 +413,7 @@ export default function VenderItem() {
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, page: e.target.value })}
                 />
-                </div>
+              </div>
               {/* Cost */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Cost</h3>
@@ -360,7 +425,7 @@ export default function VenderItem() {
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
                 />
-                </div>
+              </div>
               {/* Origin */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Origin</h3>
@@ -372,9 +437,9 @@ export default function VenderItem() {
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
                 />
-                </div>
-
               </div>
+
+            </div>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">

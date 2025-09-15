@@ -1,22 +1,48 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
+import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
-import { RipleLoader } from '../ui/loading/ripleloader';
+import TextHeading from "../ui/textheader/TextHeader";
+import { TableBody, TableCell, TableHeader, TableRow, Table } from "../ui/table";
 
 function Recepient() {
   const [token, setToken] = useState("");
   const [vendorId, setVendorId] = useState("");
-  const [recepientList, setRecepientList] = useState([]);
+  const [recepientList, setRecepientList] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<number | string | null>(null);
   const [isEditable, setIsEditable] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kekyword, setKekyword] = useState("");
   const [author, setAuthor] = useState("");
   const [collection, setCollection] = useState("");
+  const [ownerName, setOwnerName] = useState("");
+
+  const fetchRecepientList = async (jwt: string, vendoruuid: string) => {
+    const res = await fetch(
+      `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+    const recepients = data.data.map((item: any) => ({
+      id: item.id,
+      user: {
+        name: item.attributes.name,
+        collection: item.attributes.collection,
+        kekyword: item.attributes.kekyword,
+        author: item.attributes.author,
+      },
+    }));
+    setRecepientList(recepients || []);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,24 +50,14 @@ function Recepient() {
       const staffDataString = localStorage.getItem("staffData");
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
       const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
+      const ownerName = staffData?.data?.[0]?.attributes?.ownerName;
+      setOwnerName(ownerName);
 
       if (jwt && vendoruuid) {
         setToken(jwt);
         setVendorId(vendoruuid);
-
         try {
-          const res = await fetch(
-            `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-
-          const data = await res.json();
-          setRecepientList(data.data || []);
+          await fetchRecepientList(jwt, vendoruuid);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -66,7 +82,7 @@ function Recepient() {
     setName("");
     setEmail("");
     setKekyword("");
-    setAuthor("");
+    setAuthor(ownerName);
     setCollection("");
     setEditId(null);
     setIsEditing(false);
@@ -110,30 +126,17 @@ function Recepient() {
       await res.json();
       setShowModal(false);
       resetForm();
-
-      const newRes = await fetch(
-        `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendorId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const newData = await newRes.json();
-      setRecepientList(newData.data || []);
+      await fetchRecepientList(token, vendorId);
     } catch (err) {
       console.error("Error saving data:", err);
     }
   };
 
   const handleEdit = (item: any) => {
-    const rec = item.attributes || item;
-    setName(rec.name);
-    setEmail(rec.email);
-    setKekyword(rec.kekyword);
-    setAuthor(rec.author);
-    setCollection(rec.collection);
+    setName(item.user.name);
+    setKekyword(item.user.kekyword);
+    setAuthor(item.user.author);
+    setCollection(item.user.collection);
     setEditId(item.id);
     setIsEditing(true);
     setIsEditable(false);
@@ -141,61 +144,71 @@ function Recepient() {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-14">
-        <h1 className="text-4xl text-gray-700 uppercase pb-2 font-bold">
-          <span className="text-[#2143BE] border-b-4 border-red-500">Recepient</span> Lists
-        </h1>
-        <button
-          onClick={() => {
-            resetForm();
-            setIsEditable(true);
-            setShowModal(true);
+    <div className="">
+      <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+        <TextHeading
+          title="All Recepients"
+          icon="👥"
+          buttonprops={{
+            buttonText: '+',
+            title: 'Add Recepients',
+            content: 'Here you can enroll Recepients in the system.',
+            onClick: () => {
+              resetForm();
+              setIsEditable(true);
+              setShowModal(true);
+            }
           }}
-          className="bg-[#2143BE] flex shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300 text-white text-lg px-4 py-2 rounded-full"
-        >
-          <Pencil />
-        </button>
+        />
       </div>
 
-      <ul className="mt-6 space-y-4">
-        {recepientList.length > 0 ? (
-          recepientList.map((item: any, index) => {
-            const rec = item.attributes || item;
-            return (
-              <li
-                key={index}
-                className="flex justify-between items-center border-b border-[#2143BE] py-5 px-4 shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300 rounded-2xl"
-              >
-                <div className="flex items-center gap-4">
-                  <img
-                    src={`https://ui-avatars.com/api/?name=${rec.name}&background=random`}
-                    alt={rec.name}
-                    className="w-12 h-12 rounded-full dark:opacity-50"
-                  />
-                  <div>
-                    <h1 className="text-lg dark:text-gray-400 font-semibold uppercase">{rec.name}</h1>
-                    <h2 className="text-gray-500">{rec.email || "No Email Provided"}</h2>
-                  </div>
-                </div>
-                <div className="text-sm text-gray-500 text-right">
-                  <strong>Updated At:</strong> {new Date(rec.updatedAt).toLocaleString()}
-                </div>
-                <button
-                  onClick={() => handleEdit(item)}
-                  className="bg-[#2143BE] text-white px-3 py-1 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
-                >
-                  <EyeIcon />
-                </button>
-              </li>
-            );
-          })
-        ) : (
-          <div className="justify-center items-center flex h-64">
-            <RipleLoader />
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        <div className="max-w-full overflow-x-auto">
+          <div className="min-w-[1102px]">
+            <Table>
+              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                <TableRow>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Name</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">kekyword</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Author</TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Edit</TableCell>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                {recepientList.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="px-5 py-6 sm:px-6 text-start">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 overflow-hidden rounded-lg">
+                          <img src={`https://ui-avatars.com/api/?name=${order.user.name}&background=random`} alt={order.user.name} />
+                        </div>
+                        <div>
+                          <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                            {order.user.name}
+                          </span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                      {order.user.kekyword}
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                      {order.user.author}
+                    </TableCell>
+                    <TableCell>
+                      <button onClick={() => handleEdit(order)} className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                      >
+                        <PencilIcon />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        )}
-      </ul>
+        </div>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
@@ -206,7 +219,7 @@ function Recepient() {
                   {isEditing ? "Edit Recepient Information" : "Add Recepient Information"}
                 </h2>
                 <p className="text-sm text-blue-100 mb-6">
-                  {isEditing ? "Update Recepient Details to keep your Profile Accurate" : "Add Recepient Details to keep your list organized"}
+                  {isEditing ? "Update Recepient Details to keep your Profile Accurate" : "Add Recepient Details to keep your Profile Accurate"}
                 </p>
               </div>
             </div>
@@ -247,16 +260,6 @@ function Recepient() {
                     disabled={!isEditable}
                   />
                 </div>
-                <div>
-                  <h3 className="text-gray-700 text-base font-bold pb-2">Email</h3>
-                  <input
-                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={!isEditable}
-                  />
-                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -274,10 +277,11 @@ function Recepient() {
                   <h3 className="text-gray-700 text-base font-bold pb-2">Author</h3>
                   <input
                     className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
-                    placeholder="Author"
+                    placeholder={author}
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                     disabled={!isEditable}
+                    readOnly
                   />
                 </div>
               </div>

@@ -38,9 +38,10 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
           }
         );
         const result = await response.json();
+        console.log("Fetched templates:", result);
 
-        const mappedBlocks = result.data.map((tpl: any) => ({
-          id: `tpl-${tpl.id}`,
+        const mappedBlocks = result.data.map((tpl: any, index: number) => ({
+          id: `tpl-${tpl.id}-${index}`,
           label: `
             <div style="width:100%;height:60px;border:1px solid #ddd;
               border-radius:4px;background:#f9f9f9;display:flex;
@@ -73,7 +74,7 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
         canvas: {
           styles: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css", 
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
           ],
           scripts: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",

@@ -1,19 +1,19 @@
-import Calendar from "@/components/calendar/Calendar";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import PageHeader from "@/components/headernew/PageHeader";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Header | TailAdmin - Next.js Dashboard Template",
+  title: ` Header | ${appName}`,
   description:
-    "This is Next.js Header page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Header `,
   // other metadata
 };
 export default function page() {
   return (
     <div>
-      <PageBreadcrumb pageTitle="Header" />
+      <PageBreadcrumb pageTitle="Header/Footer" />
       <PageHeader />
     </div>
   );

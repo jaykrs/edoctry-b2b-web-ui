@@ -12,6 +12,7 @@ interface OptionItemProps {
   headerfooterId?: number;
   isSelected?: boolean;
   onClick: () => void;
+  clientsidelibs?: string;
 }
 
 const OptionItem: React.FC<OptionItemProps> = ({
@@ -22,6 +23,7 @@ const OptionItem: React.FC<OptionItemProps> = ({
   type,
   published,
   headerfooterId,
+  clientsidelibs,
   isSelected,
   onClick,
 }) => {
@@ -35,14 +37,17 @@ const OptionItem: React.FC<OptionItemProps> = ({
       <div className="w-1/5 text-sm text-gray-600 dark:text-gray-300">{pagepath}</div>
       <div className="w-1/5 text-sm text-gray-500 dark:text-gray-400">{author}</div>
       <div className="w-1/5 text-sm text-gray-500 dark:text-gray-400">{type}</div>
-      <div className="w-1/5 text-sm ps-8 justify-center text-gray-500 dark:text-gray-400">
+      <div className="w-1/5 text-sm ps-4 justify-center text-gray-500 dark:text-gray-400">
         <span
-          className={`inline-block w-3 h-3 rounded-full ${
-            published ? 'bg-green-500' : 'bg-red-500'
-          }`}
+          className={`inline-block w-3 h-3 rounded-full ${published ? 'bg-green-500' : 'bg-red-500'
+            }`}
         ></span>
       </div>
       <div className="w-1/5 text-sm text-gray-500 dark:text-gray-400 ps-6">{headerfooterId}</div>
+      <div className="w-1/5 text-sm text-gray-500 dark:text-gray-400 ps-6 truncate">
+        {clientsidelibs}
+      </div>
+
       <button
         onClick={onClick}
         aria-label="Edit"

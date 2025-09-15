@@ -1,12 +1,13 @@
 import Invoice from "@/components/invoice/Invoice";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Invoice | TailAdmin - Next.js Dashboard Template",
+  title: ` Invoice | ${appName}`,
   description:
-    "This is Next.js Invoice page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Invoice `,
   // other metadata
 };
 export default function page() {

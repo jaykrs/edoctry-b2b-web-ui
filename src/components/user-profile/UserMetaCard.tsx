@@ -17,14 +17,12 @@ export default function UserMetaCard() {
     const staffData = localStorage.getItem("staffData");
     if (staffData) {
       const parsedData = JSON.parse(staffData);
-      console.log("Staff data loaded:", parsedData);
       setStaff(parsedData?.data?.[0]?.attributes);
     }
   }, []);
 
   const handleSave = () => {
     // Handle save logic here
-    console.log("Saving changes...");
     closeModal();
   };
   return (
@@ -37,7 +35,7 @@ export default function UserMetaCard() {
                 width={80}
                 height={80}
                 // src="${apiUrl}/uploads/abc_training_677c0828ab.png"
-                src={staff?.avatar}
+                src={staff?.logo}
                 alt={staff?.name || "User Avatar"}
               />
             </div>
@@ -47,7 +45,7 @@ export default function UserMetaCard() {
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {staff?.staffType || "User Type"}
+                  {staff?.specialization || "User Specialization"}
                 </p>
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">

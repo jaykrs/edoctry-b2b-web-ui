@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DocsIcon, Pencil, EyeIcon } from "@/icons/index";
+import { DocsIcon, Pencil, EyeIcon, DownloadIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
+import TextHeading from "../ui/textheader/TextHeader";
+import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
 
 interface Invoice {
     id: number;
@@ -118,8 +120,24 @@ function Invoice() {
     }, [showModal]);
 
     return (
-        <div className="bg-gradient-to-b from-[#EEEDF6] to-[#C0BDC8] shadow-md rounded-2xl p-8">
-            <div className="flex justify-between items-center bg-[#DDE6FA] rounded-2xl p-4 mb-6">
+        <div>
+            <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+                <TextHeading
+                    title="Invoices"
+                    icon="🧾"
+                    buttonprops={{
+                        buttonText: '+',
+                        title: 'Add Invoices',
+                        content: 'Here you can add invoices to the system.',
+                        onClick: () => {
+                            setEditInvoiceId(null);
+                            setFormData(initialForm);
+                            setShowModal(true);
+                        }
+                    }}
+                />
+            </div>
+            {/* <div className="flex justify-between items-center bg-[#DDE6FA] rounded-2xl p-4 mb-6">
                 <h2 className="text-2xl font-bold text-[#2143BE] uppercase font-mono">Invoices</h2>
                 <button
                     onClick={() => {
@@ -131,63 +149,141 @@ function Invoice() {
                 >
                     <Pencil />
                 </button>
-            </div>
+            </div> */}
 
-            <div className="space-y-4 overflow-x-auto h-[400px] pr-2">
-                {invoices.map((invoice) => (
-                    <div
-                        key={invoice.id}
-                        className="min-w-[1024px] bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-2xl shadow-md flex items-center justify-between px-6 py-4 hover:shadow-lg"
-                    >
-                        {/* Avatar + Info */}
-                        <div className="flex items-center space-x-4">
-                            <div className="w-14 h-14">
-                                <img
-                                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(invoice.customeremail)}&background=random&color=fff`}
-                                    alt={invoice.customeremail}
-                                    className="rounded-xl object-cover w-full h-full"
-                                />
-                            </div>
-                            <div>
-                                <div className="font-semibold text-gray-800 text-sm">
-                                    {invoice.customeremail}
-                                </div>
-                                <div className="text-xs text-gray-500">{invoice.course}</div>
-                                <div className="text-xs text-gray-500">{invoice.invoicedescription}</div>
-                            </div>
-                        </div>
 
-                        {/* Date + Amounts */}
-                        <div className="flex items-center space-x-12 text-sm text-gray-600">
-                            <div>{invoice.invoicedate}</div>
-                            <div>{invoice.invoiceamount}</div>
-                            <div className="text-black font-medium">{invoice.invoicetotal}</div>
-                            <div>
-                                <span
-                                    className={`w-3 h-3 rounded-full inline-block ${invoice.paidstatus ? "bg-green-500" : "bg-red-500"
-                                        }`}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Buttons */}
-                        <div className="flex items-center space-x-2 ml-4">
-                            <button
-                                onClick={() => openEdit(invoice)}
-                                className="bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
-                            >
-                                <EyeIcon />
-                            </button>
-                            <button
-                                onClick={() => openEdit(invoice)}
-                                className="bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
-                            >
-                                <DocsIcon />
-                            </button>
-                        </div>
+            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+                <div className="max-w-full overflow-x-auto">
+                    <div className="min-w-[1102px]">
+                        <Table >
+                            <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                                <TableRow>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Invoices Details
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Invoice Date
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Amount
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Tax
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Paid Date
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Discount
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Total
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        Paid
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        <DownloadIcon />
+                                    </TableCell>
+                                    <TableCell
+                                        isHeader
+                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    >
+                                        <PencilIcon />
+                                    </TableCell>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                                {invoices.map((invoice) => (
+                                    <TableRow key={invoice.id}>
+                                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-4">
+                                                <div className="w-14 h-14">
+                                                    <img
+                                                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(invoice.customeremail)}&background=random&color=fff`}
+                                                        alt={invoice.customeremail}
+                                                        className="rounded-xl object-cover w-full h-full"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <div className="font-semibold text-gray-800 text-sm">
+                                                        {invoice.customeremail}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">{invoice.course}</div>
+                                                    <div className="text-xs text-gray-500">{invoice.invoicedescription}</div>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.invoicedate}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.invoiceamount}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.invoicetax}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.paiddate}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.inovicediscount}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {invoice.invoicetotal}
+                                        </TableCell>
+                                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                                            <span
+                                                className={`w-3 h-3 rounded-full inline-block ${invoice.paidstatus ? "bg-green-500" : "bg-red-500"
+                                                    }`}
+                                            />
+                                        </TableCell>
+                                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                                            <DownloadIcon />
+                                        </TableCell>
+                                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                                            <button
+                                                onClick={() => openEdit(invoice)}
+                                                className="bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
+                                            >
+                                                <DocsIcon />
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </div>
-                ))}
+                </div>
             </div>
+
 
 
             {showModal && (
@@ -265,7 +361,7 @@ function Invoice() {
                             })}
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">
-                                                        <button
+                            <button
                                 onClick={() => {
                                     setShowModal(false);
                                 }}
@@ -273,12 +369,12 @@ function Invoice() {
                             >
                                 Cancel
                             </button>
-                        <button
-                            onClick={handleSubmit}
+                            <button
+                                onClick={handleSubmit}
                                 className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
-                        >
-                            {editInvoiceId ? "Update Invoice" : "Add Invoice"}
-                        </button>
+                            >
+                                {editInvoiceId ? "Update Invoice" : "Add Invoice"}
+                            </button>
                         </div>
                     </div>
                 </div>
