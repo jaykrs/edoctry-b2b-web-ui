@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
-import { Pencil, EyeIcon, GoDown } from "@/icons/index";
+import { Pencil, EyeIcon, GoDown, PencilIcon } from "@/icons/index";
 import { RipleLoader } from '../ui/loading/ripleloader';
 import TextHeading from "../ui/textheader/TextHeader";
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "../ui/table";
 function VendorStaff() {
   type VendorStaffType = {
     id: number;
@@ -89,6 +90,10 @@ function VendorStaff() {
           }
         );
         const data = await res.json();
+        console.log("Vendor Staff Data:", data);
+        if (!res.ok) {
+          throw new Error(data.error?.message || "Failed to fetch vendor staff list");
+        }
         setVendor(data.data || []);
       }
     } catch (error) {
@@ -236,43 +241,119 @@ function VendorStaff() {
           }}
         />
       </div>
+      {/* Vendor Staff List */}
+      <Table>
+        <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+          <TableRow>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Name
+            </TableCell>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Email & Phone
+            </TableCell>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Skill & Qualification
+            </TableCell>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Courses
+            </TableCell>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Address
+            </TableCell>
+            <TableCell
+              isHeader
+              className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+            >
+              Edit
+            </TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+          {vendor.map((staff) => {
+            const vendorStaff = staff.attributes || {};
+            return (
+              <TableRow key={staff.id}>
+                <TableCell className="px-5 py-6 sm:px-6 text-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 overflow-hidden rounded-lg">
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${vendorStaff.name}&background=random`}
+                        alt={vendorStaff.name}
+                      />
+                    </div>
+                    <div>
+                      <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                        {vendorStaff.name}
+                      </span>
+                      <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+                        {vendorStaff.staffType}
+                      </span>
+                    </div>
+                  </div>
+                </TableCell>
 
-      {/* <div className="flex justify-between items-center p-10 bg-gradient-to-brounded-t-2xl">
-        <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold">
-          <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Staff
-        </h1>
-        <button
-          onClick={() => {
-            setFormData({
-              name: "",
-              staffType: "",
-              email: "",
-              phone: "",
-              vendoruuid: "",
-              skills: "",
-              address: "",
-              smedia: "",
-              certification: "",
-              qualification: "",
-              avatar: "",
-              active: false,
-              payroll: "",
-              feedback: [],
-              bankDetails: "",
-              rating: "",
-              biography: "",
-            });
-            setEditingStaffId(null);
-            setIsEditable(true);
-            setShowModal(true);
-          }}
-          className="bg-[#2143BE] text-white text-2xl px-4 py-2 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
-        >
-          <Pencil />
-        </button>
-      </div> */}
+                <TableCell className="flex flex-col px-4 py-3 mt-2 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                  <span className="text-blue-600 font-bold">
+                    {vendorStaff.email}
+                  </span>
+                  <span className="font-bold">{vendorStaff.phone}</span>
+                </TableCell>
 
-      <ul className="space-y-4 p-4 pt-4">
+                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                  <div className="flex flex-col">
+                    <span className="text-blue-600 font-bold">
+                      {vendorStaff.skills}
+                    </span>
+                    <span>{vendorStaff.qualification}</span>
+                  </div>
+                </TableCell>
+
+                <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                  <span>{vendorStaff.certification}</span>
+                </TableCell>
+
+                <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                  <span>{vendorStaff.address}</span>
+                </TableCell>
+
+                <TableCell>
+                  <button
+                    onClick={() =>
+                      openEditModal({
+                        ...vendorStaff,
+                        id: staff.id,
+                      })
+                    }
+
+                    className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                    <PencilIcon />
+                  </button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+
+      </Table>
+      {/* vendor end */}
+
+      {/* <ul className="space-y-4 p-4 pt-4">
         {vendor.length > 0 ? (
           vendor.map((vendorStaff) => {
             const staff = vendorStaff.attributes || {};
@@ -315,18 +396,18 @@ function VendorStaff() {
             <RipleLoader />
           </div>
         )}
-      </ul>
+      </ul> */}
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
             {/* Header with gradient */}
             <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
               <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl font-semibold mb-2">
+                <h2 className="text-2xl text-gray-500 font-semibold mb-2">
                   {editingStaffId ? "Edit Staff Details ?" : "Add Staff Details ?"}
                 </h2>
-                <p className="text-sm text-blue-100 mb-6">
+                <p className="text-sm text-gray-700 mb-6">
                   {editingStaffId ? "Update staff information to keep records accurate." : "Keep your staff info updated and organized."}
                 </p>
                 <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
@@ -604,7 +685,8 @@ function VendorStaff() {
               {editingStaffId && !isEditable ? (
                 <button
                   onClick={() => setIsEditable(true)}
-                  className="w-full px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Edit
                 </button>
@@ -614,7 +696,8 @@ function VendorStaff() {
                     handleSave();
                     setIsEditable(false);
                   }}
-                  className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Save
                 </button>

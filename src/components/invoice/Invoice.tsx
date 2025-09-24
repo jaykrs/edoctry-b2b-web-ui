@@ -4,6 +4,10 @@ import { DocsIcon, Pencil, EyeIcon, DownloadIcon, PencilIcon } from "@/icons/ind
 import { apiUrl } from "@/utils/config";
 import TextHeading from "../ui/textheader/TextHeader";
 import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+
 
 interface Invoice {
     id: number;
@@ -41,7 +45,6 @@ function Invoice() {
     const [formData, setFormData] = useState(initialForm);
 
     const jwt = typeof window !== "undefined" ? localStorage.getItem("jwt") : "";
-
     const fetchInvoices = async () => {
         try {
             const res = await fetch(`${apiUrl}/api/invoices`, {
@@ -52,6 +55,7 @@ function Invoice() {
                 },
             });
             const data = await res.json();
+            console.log("Fetched Invoices:", data);
             const formatted = data.data.map((item: any) => ({
                 id: item.id,
                 ...item.attributes,
@@ -118,6 +122,128 @@ function Invoice() {
         }
         return () => document.body.classList.remove("hide-app-layout");
     }, [showModal]);
+
+    const generatePDF = (invoice: any) => {
+        const doc = new jsPDF();
+
+        // ---- LocalStorage se data fetch karo ----
+        const staffDataStr = localStorage.getItem("staffData");
+        let vendorName = "Name not provided";
+        let vendorEmail = "Email not provided";
+        let vendorPhone = "Phone not provided";
+        let vendorAddress = "Address not provided";
+        let vendorWebsite = "Website not provided";
+
+
+        if (staffDataStr) {
+            try {
+                const staffData = JSON.parse(staffDataStr);
+                if (staffData.data && staffData.data.length > 0) {
+                    const vendor = staffData.data[0].attributes;
+                    vendorName = vendor.name || vendorName;
+                    vendorEmail = vendor.email || vendorEmail;
+                    vendorPhone = vendor.phone || vendorPhone;
+                    vendorAddress = vendor.address || vendorAddress;
+                    vendorWebsite = vendor.website || vendorWebsite;
+                }
+            } catch (err) {
+                console.error("Error parsing staffData from localStorage", err);
+            }
+        }
+
+        // -------- Header --------
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text(`${vendorName}`, 14, 20);
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Address: ${vendorAddress}`, 14, 26);
+        doc.text(`Phone: ${vendorPhone}   Email: ${vendorEmail}`, 14, 32);
+        doc.text(`Website: ${vendorWebsite}`, 14, 38);
+
+        doc.setFontSize(22);
+        doc.setTextColor(200, 70, 40);
+        doc.text("Invoice", 170, 20);
+
+        doc.setTextColor(0, 0, 0);
+
+
+        // -------- Invoice Info --------
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Invoice Number: ${invoice.id || "01234"}`, 14, 50);
+        doc.text("BILL TO:", 120, 50);
+
+        doc.setFont("helvetica", "normal");
+        doc.text(`Date: ${invoice.invoicedate}`, 14, 60);
+        doc.text(`Due Date: ${invoice.paiddate}`, 14, 66);
+
+        doc.text(`${invoice.customeremail}`, 120, 60);
+        doc.text("Ginyard International Co.", 120, 66);
+
+        // -------- Table (Description of Services) --------
+        autoTable(doc, {
+            startY: 80,
+            head: [["Item", "Description", "Quantity", "Unit Price", "Total"]],
+            body: [
+                [
+                    "001",
+                    invoice.invoicedescription,
+                    "1",
+                    `₹${invoice.invoiceamount}`,
+                    `₹${invoice.invoiceamount}`,
+                ],
+            ],
+            theme: "grid",
+            styles: { fontSize: 10 },
+            headStyles: { fillColor: [255, 153, 51] }, // orange header
+        });
+
+        // -------- Totals --------
+        // ---- Totals Section ----
+        let finalY = (doc as any).lastAutoTable.finalY + 10;
+        doc.setFont("helvetica", "bold");
+        doc.text(`Subtotal: ₹${invoice.invoiceamount || 0}`, 150, finalY);
+        doc.text(`Tax: ₹${invoice.invoicetax || 0}`, 150, finalY + 6);
+        doc.text(`Discount: ₹${invoice.inovicediscount || 0}`, 150, finalY + 12);
+        doc.text(`Total Amount Due: ₹${invoice.invoicetotal || 0}`, 150, finalY + 18);
+
+        // ---- Footer ----
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        let vendorFooterName = "Vendor name not provided";
+        let vendorFooterAddress = "Vendor address not provided";
+        let vendorBankDetails = "Bank details not provided";
+
+        if (staffDataStr) {
+            try {
+                const staffData = JSON.parse(staffDataStr);
+                if (staffData.data && staffData.data.length > 0) {
+                    const vendor = staffData.data[0].attributes;
+                    vendorFooterName = vendor.name || vendorFooterName;
+                    vendorFooterAddress = vendor.address || vendorFooterAddress;
+                    vendorBankDetails = vendor.bankDetails || vendorBankDetails;
+                }
+            } catch (err) {
+                console.error("Error parsing staffData from localStorage", err);
+            }
+        }
+
+        doc.text("Please make checks payable to:", 14, finalY + 20);
+        doc.setFont("helvetica", "bold");
+        doc.text(vendorFooterName, 14, finalY + 26);
+        doc.setFont("helvetica", "normal");
+        doc.text(vendorFooterAddress, 14, finalY + 32);
+        doc.text(vendorBankDetails, 14, finalY + 42);
+
+        doc.setFont("helvetica", "bold");
+        doc.text(`Thank you for choosing ${vendorFooterName}!`, 120, finalY + 48);
+
+        // -------- Save --------
+        doc.save(`Invoice_${invoice.id}.pdf`);
+    };
+
 
     return (
         <div>
@@ -266,7 +392,12 @@ function Invoice() {
                                             />
                                         </TableCell>
                                         <TableCell className="px-5 py-4 whitespace-nowrap">
-                                            <DownloadIcon />
+                                            <button
+                                                onClick={() => generatePDF(invoice)}
+                                                className="bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
+                                            >
+                                                <DownloadIcon />
+                                            </button>
                                         </TableCell>
                                         <TableCell className="px-5 py-4 whitespace-nowrap">
                                             <button
@@ -296,10 +427,10 @@ function Invoice() {
                             ×
                         </button>
 
-                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
+                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
                             <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                                <h2 className="text-2xl font-semibold mb-2">{editInvoiceId ? "Edit Invoice" : "Add Invoice"}</h2>
-                                <p className="text-sm text-blue-100 mb-6">
+                                <h2 className="text-2xl font-semibold text-gray-500 mb-2">{editInvoiceId ? "Edit Invoice" : "Add Invoice"}</h2>
+                                <p className="text-sm text-gray-700 mb-6">
                                     {editInvoiceId ? "Update Invoice Details to keep your Profile Accurate" : "Stay organized by keeping all invoice information in one place."}
                                 </p>
 
@@ -371,7 +502,8 @@ function Invoice() {
                             </button>
                             <button
                                 onClick={handleSubmit}
-                                className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                                className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                             >
                                 {editInvoiceId ? "Update Invoice" : "Add Invoice"}
                             </button>

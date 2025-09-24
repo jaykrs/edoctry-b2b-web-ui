@@ -11,7 +11,7 @@ export default function Home() {
     if (jwt) {
       router.replace('/admin'); 
     } else {
-      router.replace('/signin'); // Signin page URL
+      router.replace('/signin'); 
     }
   }, [router]);
 

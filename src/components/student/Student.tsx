@@ -374,7 +374,7 @@ export default function Student() {
                         onClick={() => openEditModal(order)}
                         className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                       >
-                       <PencilIcon />
+                        <PencilIcon />
                       </button>
                     </TableCell>
                   </TableRow>
@@ -385,17 +385,16 @@ export default function Student() {
         </div>
       </div>
 
-      {/* Student List */}
 
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto   ">
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
-              <div className="bg-gradient-to-r from-[#506edb] to-[#4E6CDA] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
+            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
+              <div className=" text-gray-500 rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
                 <h2 className="text-2xl font-semibold mb-2">{editingStudentId ? "Edit Student Information ?" : "Add Student Details ?"}</h2>
-                <p className="text-sm text-blue-100 mb-6">
+                <p className="text-sm text-gray-700 mb-6">
                   {editingStudentId ? "Update Student Details to keep your Profile Accurate" : "Stay organized by keeping all student information in one place."}
 
                 </p>
@@ -459,17 +458,6 @@ export default function Student() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
-
-              {/* Vendor UUID - Readonly */}
-              {/* <div>
-    <h3 className="text-gray-700 text-base font-bold pb-2">Vendor UUID</h3>
-    <input
-      type="text"
-      readOnly
-      className="w-full border-2 bg-gray-200 rounded-xl p-2 mb-3"
-      value={formData.vendoruuid}
-    />
-  </div> */}
 
               {/* Phone */}
               <div>
@@ -660,14 +648,16 @@ export default function Student() {
               {editingStudentId !== null && !isEditable ? (
                 <button
                   onClick={() => setIsEditable(true)}
-                  className="w-full px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Edit
                 </button>
               ) : (
                 <button
                   onClick={handleSave}
-                  className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Save
                 </button>

@@ -127,7 +127,7 @@ const updateItems: NavItem[] = [
   {
     icon: <DollarLineIcon />,
     name: "Order",
-    path: "/admin/order",
+    path: "#",
   },
   {
     icon: <FolderIcon />,

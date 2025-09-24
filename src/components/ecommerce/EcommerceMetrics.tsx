@@ -46,11 +46,10 @@ export const EcommerceMetrics = () => {
       const staffDataString = localStorage.getItem("staffData");
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
       const jwt = localStorage.getItem("jwt");
-      const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
 
-      if (vendorid && jwt) {
+      if (jwt) {
         const res = await fetch(
-          `${apiUrl}/api/orders?filters[vendoruuid][$eq]=${vendorid}`,
+          `${apiUrl}/api/orders`,
           {
             headers: {
               "Content-Type": "application/json",

@@ -285,7 +285,7 @@ function OrderPage() {
                         >
                             ×
                         </button> */}
-                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
+                                    <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#4E6CDA] px-4 rounded-3xl">
                             <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
                                 <h2 className="text-2xl font-semibold mb-2">{editOrderId ? "Edit Order" : "Add Order"}</h2>
                                 <p className="text-sm text-blue-100 mb-6">
@@ -354,7 +354,8 @@ function OrderPage() {
 
                             <button
                                 onClick={handleSubmit}
-                                className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                                className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                             >
                                 {editOrderId ? "Update Order" : "Add Order"}
                             </button>

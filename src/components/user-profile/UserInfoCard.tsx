@@ -5,23 +5,85 @@ import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import { apiUrl } from "@/utils/config";
+
 
 export default function UserInfoCard() {
+
+
+
   const { isOpen, openModal, closeModal } = useModal();
   const [staff, setStaff] = useState<any>(null);
+  const [formData, setFormData] = useState<any>({});
+  const [isSaving, setIsSaving] = useState(false);
 
+  // Initial load from localStorage
   useEffect(() => {
-    const staffData = localStorage.getItem("staffData");
-    if (staffData) {
-      const parsedData = JSON.parse(staffData);
-      setStaff(parsedData?.data?.[0]?.attributes);
+    const staffDataString = localStorage.getItem("staffData");
+    if (staffDataString) {
+      const parsedData = JSON.parse(staffDataString);
+      const staffInfo = parsedData?.data?.[0]?.attributes || {};
+      setStaff(staffInfo);
+      setFormData(staffInfo);
     }
   }, []);
 
-  const handleSave = () => {
-    // Handle save logic here
-    closeModal();
+  const handleOpenModal = () => {
+    if (staff) setFormData(staff);
+    openModal();
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+
+      const staffDataString = localStorage.getItem("staffData");
+      const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+      const jwt = localStorage.getItem("jwt");
+      const vendorid = staffData?.data?.[0]?.id;
+      console.log("Vendor ID:", vendorid);
+
+      if (!vendorid || !jwt) {
+        console.error("Vendor ID or JWT missing");
+        return;
+      }
+
+      const res = await fetch(`${apiUrl}/api/vendors/${vendorid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({ data: formData }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update vendor");
+
+      const updated = await res.json();
+      const updatedAttributes = updated?.data?.attributes || {};
+
+      setStaff(updatedAttributes);
+      setFormData(updatedAttributes);
+
+      // Update localStorage
+      const updatedLocal = {
+        ...staffData,
+        data: [{ ...staffData.data[0], attributes: updatedAttributes }],
+      };
+      localStorage.setItem("staffData", JSON.stringify(updatedLocal));
+
+      closeModal();
+    } catch (err) {
+      console.error("Update error:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -29,57 +91,36 @@ export default function UserInfoCard() {
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
             Personal Information
           </h4>
-
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
             <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                First Name
-              </p>
+              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">Name</p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                 {staff?.ownerName || "User name"}
               </p>
             </div>
-
             <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Last Name
-              </p>
+              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">Email</p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {staff?.lastname || "Last Name"}
+                {staff?.email || "user@email.com"}
               </p>
             </div>
-
             <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Email address
-              </p>
+              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">Phone</p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {staff?.email || "randomuser@pimjo.com"}
+                {staff?.phone || "0000000000"}
               </p>
             </div>
-
             <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Phone
-              </p>
+              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">Bio</p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {staff?.phone || "+09 363 398 46"}
-              </p>
-            </div>
-
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Bio
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {staff?.biography || "Bio"}
+                {staff?.details || "Bio"}
               </p>
             </div>
           </div>
         </div>
 
         <button
-          onClick={openModal}
+          onClick={handleOpenModal}
           className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
         >
           <svg
@@ -102,92 +143,68 @@ export default function UserInfoCard() {
       </div>
 
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
-        <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
-          <div className="px-2 pr-14">
-            <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Personal Information
-            </h4>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your details to keep your profile up-to-date.
-            </p>
-          </div>
+        <div className="relative w-full max-w-[700px] rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <form className="flex flex-col">
-            <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
-              <div>
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-                  Social Links
-                </h5>
+            <div className="h-[450px] overflow-y-auto px-2 pb-3">
+              <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90">
+                Personal Information
+              </h5>
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
 
-                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div>
-                    <Label>Facebook</Label>
-                    <Input
-                      type="text"
-                      defaultValue="https://www.facebook.com/PimjoHQ"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>X.com</Label>
-                    <Input type="text" defaultValue="https://x.com/PimjoHQ" />
-                  </div>
-
-                  <div>
-                    <Label>Linkedin</Label>
-                    <Input
-                      type="text"
-                      defaultValue="https://www.linkedin.com/company/pimjo"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>Instagram</Label>
-                    <Input
-                      type="text"
-                      defaultValue="https://instagram.com/PimjoHQ"
-                    />
-                  </div>
+                <div>
+                  <Label>First Name</Label>
+                  <input
+                    name="ownerName"
+                    type="text"
+                    value={formData.ownerName || ""}
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
+                  />
                 </div>
-              </div>
-              <div className="mt-7">
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-                  Personal Information
-                </h5>
 
-                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div className="col-span-2 lg:col-span-1">
-                    <Label>First Name</Label>
-                    <Input type="text" defaultValue="Musharof" />
-                  </div>
-
-                  <div className="col-span-2 lg:col-span-1">
-                    <Label>Last Name</Label>
-                    <Input type="text" defaultValue="Chowdhury" />
-                  </div>
-
-                  <div className="col-span-2 lg:col-span-1">
-                    <Label>Email Address</Label>
-                    <Input type="text" defaultValue="randomuser@pimjo.com" />
-                  </div>
-
-                  <div className="col-span-2 lg:col-span-1">
-                    <Label>Phone</Label>
-                    <Input type="text" defaultValue="+09 363 398 46" />
-                  </div>
-
-                  <div className="col-span-2">
-                    <Label>Bio</Label>
-                    <Input type="text" defaultValue="Team Manager" />
-                  </div>
+                <div>
+                  <Label>Email</Label>
+                  <input
+                    name="email"
+                    type="text"
+                    value={formData.email || ""}
+                    className="w-full border-2 cursor-not-allowed bg-gray-100 rounded-xl p-2 mb-3"
+                    disabled
+                    readOnly
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
                 </div>
+
+                <div>
+                  <Label>Phone</Label>
+                  <input
+                    name="phone"
+                    type="text"
+                    value={formData.phone || ""}
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <Label>Bio</Label>
+                  <textarea
+                    name="details"
+                    value={formData.details || ""}
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                  />
+                </div>
+
               </div>
             </div>
+
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
-                Save Changes
+              <Button size="sm" variant="outline" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>

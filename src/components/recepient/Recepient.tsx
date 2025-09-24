@@ -4,6 +4,7 @@ import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
 import TextHeading from "../ui/textheader/TextHeader";
 import { TableBody, TableCell, TableHeader, TableRow, Table } from "../ui/table";
+import Select from 'react-select';
 
 function Recepient() {
   const [token, setToken] = useState("");
@@ -17,8 +18,57 @@ function Recepient() {
   const [email, setEmail] = useState("");
   const [kekyword, setKekyword] = useState("");
   const [author, setAuthor] = useState("");
-  const [collection, setCollection] = useState("");
+  const [students, setStudents] = useState<any[]>([]);
+  const [collection, setCollection] = useState<string>("");
   const [ownerName, setOwnerName] = useState("");
+
+  // const options = [
+  //   { value: 'Books', label: 'Books' },
+  //   { value: 'Movies', label: 'Movies, Music & Games' },
+  //   { value: 'Electronics', label: 'Electronics & Computers' },
+  //   { value: 'Home', label: 'Home, Garden & Tools' },
+  //   { value: 'Health', label: 'Health & Beauty' },
+  //   { value: 'Toys', label: 'Toys, Kids & Baby' },
+  //   { value: 'Clothing', label: 'Clothing & Jewelry' },
+  //   { value: 'Sports', label: 'Sports & Outdoors' },
+  // ];
+
+ useEffect(() => {
+    fetchStudentList();
+  }, []);
+
+  const fetchStudentList = async () => {
+    try {
+      const staffDataString = localStorage.getItem("staffData");
+      const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+      const jwt = localStorage.getItem("jwt");
+      const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
+      if (vendorid && jwt) {
+        const res = await fetch(
+          `${apiUrl}/api/students?filters[vendoruuid][$eq]=${vendorid}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+        // students ko set karo
+        setStudents(data?.data || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch student list:", error);
+    }
+  };
+
+
+    const options = students.map((s: any) => ({
+    value: s.attributes?.email, // email ko value
+    label: s.attributes?.name,  // name ko label
+  }));
 
   const fetchRecepientList = async (jwt: string, vendoruuid: string) => {
     const res = await fetch(
@@ -211,16 +261,26 @@ function Recepient() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
             <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
               <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl font-semibold mb-2">
+                <h2 className="text-2xl text-gray-500 font-semibold mb-2">
                   {isEditing ? "Edit Recepient Information" : "Add Recepient Information"}
                 </h2>
-                <p className="text-sm text-blue-100 mb-6">
+                <p className="text-sm text-gray-700 mb-6">
                   {isEditing ? "Update Recepient Details to keep your Profile Accurate" : "Add Recepient Details to keep your Profile Accurate"}
                 </p>
+                                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
+                  <input
+                    type="email"
+                    placeholder="youremail@address.com"
+                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
+                  />
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
+                    ➜
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -262,6 +322,23 @@ function Recepient() {
                 </div>
               </div>
 
+              {/* Collection Multi-Select */}
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">Collection</label>
+                <Select
+                  isMulti
+                  closeMenuOnSelect={false}
+                  options={options}
+                  value={
+                    collection
+                      ? JSON.parse(collection).map((val: string) => options.find(o => o.value === val)).filter(Boolean)
+                      : []
+                  }
+                  onChange={(selectedOptions) => setCollection(JSON.stringify(selectedOptions.map((o: any) => o.value)))}
+                  isDisabled={!isEditable}
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-gray-700 text-base font-bold pb-2">Keyword</h3>
@@ -298,7 +375,7 @@ function Recepient() {
                 Cancel
               </button>
               <button
-                className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                className="w-full px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
                 onClick={() => {
                   handleSubmit();
                   setIsEditable(false);

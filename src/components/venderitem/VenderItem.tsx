@@ -5,6 +5,7 @@ import { Pencil, EyeIcon, PencilIcon } from "@/icons/index";
 import { RipleLoader } from '../ui/loading/ripleloader';
 import TextHeading from "../ui/textheader/TextHeader";
 import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
+import Select from "../form/Select";
 
 
 type VendorItemType = {
@@ -27,6 +28,9 @@ export default function VenderItem() {
   const [vendorItem, setVendorItem] = useState<VendorItemType[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editingItemId, setEditingItemId] = useState<number | null>(null);
+  type OptionType = { label: string; value: string };
+  const [options, setOptions] = useState<OptionType[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<OptionType[]>([]);
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -66,12 +70,48 @@ export default function VenderItem() {
     }
   };
 
+  useEffect(() => {
+    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendertype`)
+      .then((res) => res.json())
+      .then((data) => {
+        const vendortype = data.data?.[0]?.attributes?.json || [];
+
+        const formattedOptions = vendortype.map((item: any) =>
+          item.value && item.label
+            ? item
+            : { label: item, value: item.toLowerCase() }
+        );
+
+        setOptions(formattedOptions);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendercategory`)
+      .then((res) => res.json())
+      .then((data) => {
+        const vendorcategory = data.data?.[0]?.attributes?.json || [];
+
+        const formattedcategory = vendorcategory.map((item: any) =>
+          item.value && item.label
+            ? item
+            : { label: item, value: item.toLowerCase() }
+        );
+
+        setCategoryOptions(formattedcategory);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+
+
   const handleSave = async () => {
     const jwt = localStorage.getItem("jwt");
     const staffDataString = localStorage.getItem("staffData");
     const staffData = staffDataString ? JSON.parse(staffDataString) : null;
     const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
-
+    console.log("Saving formData: ", formData);
     const method = editingItemId ? "PUT" : "POST";
     const endpoint = editingItemId
       ? `${apiUrl}/api/vendoritems/${editingItemId}`
@@ -285,21 +325,21 @@ export default function VenderItem() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
             {/* Gradient Header */}
             <div className="flex flex-col items-center justify-center min-h-[250px] bg-[#DDE6FA] px-4 rounded-3xl">
               <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl font-semibold mb-2">
+                <h2 className="text-2xl font-semibold mb-2 text-gray-500">
                   {editingItemId ? "Edit Item Details ?" : "Add Item Details ?"}
                 </h2>
-                <p className="text-sm text-blue-100 mb-6">
+                <p className="text-sm text-gray-500 mb-6">
                   {editingItemId ? "Update item info to keep inventory accurate." : "Keep your item details up to date and categorized properly."}
                 </p>
                 <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
                   <input
                     type="text"
-                    placeholder="Item name or SKU"
+                    placeholder="youremail@address.com"
                     className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
                   />
                   <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
@@ -345,6 +385,22 @@ export default function VenderItem() {
 
               {/* Category */}
               <div>
+                <label className="block text-gray-700 font-bold mb-2">Type</label>
+                <select
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
+                  value={formData.category}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                >
+                  <option value="">Select category</option>
+                  {categoryOptions.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Category</h3>
                 <input
                   type="text"
@@ -354,18 +410,23 @@ export default function VenderItem() {
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 />
-              </div>
-              {/* Type */}
+              </div> */}
+              {/* Type Single-Select */}
               <div>
-                <h3 className="text-gray-700 text-base font-bold pb-2">Type</h3>
-                <input
-                  type="text"
-                  placeholder="Item Type"
+                <label className="block text-gray-700 font-bold mb-2">Type</label>
+                <select
                   className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
                   value={formData.type}
                   disabled={!isEditable}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                />
+                >
+                  <option value="">Select type</option>
+                  {options.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
               {/* Warranty */}
               <div>
@@ -468,7 +529,8 @@ export default function VenderItem() {
               {editingItemId && !isEditable ? (
                 <button
                   onClick={() => setIsEditable(true)}
-                  className="w-full px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Edit
                 </button>
@@ -478,15 +540,17 @@ export default function VenderItem() {
                     handleSave();
                     setIsEditable(false);
                   }}
-                  className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Save
                 </button>
               )}
             </div>
           </div>
-        </div>
-      )}
+        </div >
+      )
+      }
 
     </>
   );

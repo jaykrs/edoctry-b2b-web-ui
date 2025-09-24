@@ -44,17 +44,17 @@ export const generalBlocks: BlockProperties[] = [
     content: '<div style="display:flex; gap:10px; border:1px dashed #aaa; padding:10px;" data-gjs-droppable="true">Row</div>',
     category: 'Layout'
   },
-{
-  id: '2-row',
-  label: '2 Row',
-  content: `
+  {
+    id: '2-row',
+    label: '2 Row',
+    content: `
     <div style="display:flex; flex-direction:column; gap:10px;" data-gjs-type="row">
       <div style="border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Row 1</div>
       <div style="border:1px solid #ccc; padding:10px;" data-gjs-droppable="true">Row 2</div>
     </div>
   `,
-  category: 'Layout'
-}
+    category: 'Layout'
+  }
   ,
   { id: 'h1', label: '<h1>H1</h1>', content: '<h1>Heading 1</h1>', category: 'Typography' },
   { id: 'h2', label: '<h2>H2</h2>', content: '<h2>Heading 2</h2>', category: 'Typography' },
@@ -62,12 +62,12 @@ export const generalBlocks: BlockProperties[] = [
   { id: 'h4', label: '<h4>H4</h4>', content: '<h4>Heading 4</h4>', category: 'Typography' },
   { id: 'h5', label: '<h5>H5</h5>', content: '<h5>Heading 5</h5>', category: 'Typography' },
   { id: 'h6', label: '<h6>H6</h6>', content: '<h6>Heading 6</h6>', category: 'Typography' },
-{
-  id: 'link',
-  label: 'Link',
-  content: '<a href="#" data-gjs-droppable="true">Edit Me 3</a>',
-  category: 'Typography',
-},
+  {
+    id: 'link',
+    label: 'Link',
+    content: '<a href="#" data-gjs-droppable="true">Edit Me 3</a>',
+    category: 'Typography',
+  },
   { id: 'link-box', label: 'Link Box', content: '<div class="link-box" data-gjs-droppable="true"><a href="#" data-gjs-droppable="true">Link Box</a></div>', category: 'Typography' },
 
   // Media
@@ -126,52 +126,17 @@ export const generalBlocks: BlockProperties[] = [
 ];
 
 export const headerBlocks: BlockProperties[] = [
-  {
-    id: 'nav-sidebar',
-    label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
-      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
-        <nav style="background:#fff; width:100%; padding:6px;">
-          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  `,
-    content: `
-    <aside style="width:200px; background:#fff; border-right:1px solid #eee; padding:20px;">
-      <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:15px;">
-        <li><a href="#" style="text-decoration:none; color:#333;">Dashboard</a></li>
-        <li><a href="#" style="text-decoration:none; color:#333;">Profile</a></li>
-        <li><a href="#" style="text-decoration:none; color:#333;">Settings</a></li>
-      </ul>
-    </aside>
-    <style>
-      aside ul li a:hover { color: #007BFF; }
-    </style>
-  `,
-    category: 'Navigation'
-  }
-  ,
 
   // 2 - Logo + Links
   {
     id: 'nav-logo',
     label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
-      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
-        <nav style="background:#ccc; width:100%; padding:6px;">
-          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              With Logo
+            </div>
   `,
     content: `
       <nav style="display:flex; align-items:center; background:#fff; border-bottom:1px solid #eee; padding:10px 20px;">
@@ -193,17 +158,12 @@ export const headerBlocks: BlockProperties[] = [
   // 3 - Underline Hover
   {
     label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
-      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
-        <nav style="background:#fff; width:100%; padding:6px;">
-          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Hover Underline
+            </div>
   `,
     content: `
       <nav style="background:#fff; padding:15px; border-bottom:1px solid #eee;">
@@ -236,14 +196,12 @@ export const headerBlocks: BlockProperties[] = [
   {
     id: 'nav-gradient',
     label: `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
-        <div style="font-size:12px; font-weight:bold;">Gradient Nav</div>
-        <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;">
-          <ul style="display:flex; justify-content:center; gap:10px; list-style:none; font-size:12px; margin:0; padding:10px;">
-            <li>Home</li><li>Services</li><li>About</li>
-          </ul>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Gradient BG nav
+            </div>
     `,
     content: `
       <nav style="background:linear-gradient(45deg,#6a11cb,#2575fc); padding:15px;">
@@ -259,75 +217,8 @@ export const headerBlocks: BlockProperties[] = [
     `,
     category: 'Navigation'
   },
-  {
-    id: 'hover-underline',
-    label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:80px;">
-      <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px; display:flex;">
-        <nav style="background:#fff; width:100%; padding:6px;">
-          <ul style="display:flex; flex-direction:column; gap:6px; list-style:none; font-size:12px; margin:0; padding:0;">
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-            <li style="background:#e0e0e0; height:10px; border-radius:2px;"></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  `,
-    content: `
-    <nav style="background:#fff; padding:15px; border-bottom:1px solid #eee;">
-      <ul style="display:flex; justify-content:center; gap:25px; list-style:none; margin:0; padding:0;">
-        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Home</a></li>
-        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Portfolio</a></li>
-        <li><a href="#" style="position:relative; text-decoration:none; color:#333; padding-bottom:4px;">Contact</a></li>
-      </ul>
-    </nav>
-    <style>
-      nav ul li a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: #007BFF;
-        transition: width 0.3s;
-      }
-      nav ul li a:hover::after {
-        width: 100%;
-      }
-    </style>
-  `,
-    category: 'Navigation'
-  },
 
-  // 5 - Icon Nav
-  {
-    id: 'nav-icons',
-    label: `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; width:250px;">
-        <div style="font-size:12px; font-weight:bold;">Icon Nav</div>
-        <div style="width:100%; height:70px; border:1px solid #ddd; border-radius:4px;">
-          <ul style="display:flex; justify-content:center; gap:10px; list-style:none; font-size:12px; margin:0; padding:10px;">
-            <li>🏠</li><li>📦</li><li>📞</li>
-          </ul>
-        </div>
-      </div>
-    `,
-    content: `
-      <nav style="background:#fff; padding:15px;">
-        <ul style="display:flex; justify-content:center; gap:25px; list-style:none; margin:0; padding:0; font-size:18px;">
-          <li><a href="#" style="text-decoration:none; color:#333;">🏠 Home</a></li>
-          <li><a href="#" style="text-decoration:none; color:#333;">📦 Products</a></li>
-          <li><a href="#" style="text-decoration:none; color:#333;">📞 Contact</a></li>
-        </ul>
-      </nav>
-      <style>
-        nav ul li a:hover { color: #28A745; }
-      </style>
-    `,
-    category: 'Navigation'
-  },
+
   {
     id: 'nav-bea',
     category: 'Navigation',
@@ -1496,16 +1387,11 @@ Contact us
   {
     id: 'nav-simple',
     label: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-size:12px;font-weight:bold;">Simple Nav</div>
-        <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;">
-          <nav style="background:#ffffff;border-bottom:1px solid #eee;">
-            <ul style="display:flex;justify-content:center;gap:20px;margin:0;padding:8px;list-style:none;font-size:12px;">
-              <li>Home</li><li>Services</li><li>Contact</li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Nav-simple            </div>
     `,
     content: `
       <nav style="background:#ffffff;border-bottom:1px solid #eee;">
@@ -1525,17 +1411,12 @@ Contact us
   {
     id: 'nav-logo-left',
     label: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-size:12px;font-weight:bold;">Logo Left Nav</div>
-        <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;">
-          <nav style="background:#f8f9fa;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:10px;">
-            <span>Logo</span>
-            <ul style="display:flex;gap:10px;list-style:none;margin:0;padding:0;">
-              <li>Home</li><li>Blog</li><li>About</li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Nav + Logo (left)
+            </div>
     `,
     content: `
       <nav style="background:#f8f9fa;display:flex;justify-content:space-between;align-items:center;padding:0 20px;height:60px;">
@@ -1557,16 +1438,12 @@ Contact us
   {
     id: 'nav-dark',
     label: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-size:12px;font-weight:bold;">Dark Nav</div>
-        <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;background:#222;color:#fff;">
-          <nav style="padding:8px;">
-            <ul style="display:flex;justify-content:center;gap:10px;margin:0;padding:0;list-style:none;font-size:10px;">
-              <li>Home</li><li>Portfolio</li><li>Contact</li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              nav-dark Bg
+            </div>
     `,
     content: `
       <nav style="background:#222;padding:12px;">
@@ -1587,18 +1464,11 @@ Contact us
   {
     id: 'nav-with-button',
     label: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-size:12px;font-weight:bold;">Nav + Button</div>
-        <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;">
-          <nav style="background:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:10px;">
-            <span>Logo</span>
-            <div style="display:flex;gap:8px;">
-              <span>Links</span>
-              <button style="background:#007bff;color:#fff;border:none;padding:2px 6px;border-radius:3px;">Sign Up</button>
-            </div>
-          </nav>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Nav with button            </div>
     `,
     content: `
       <nav style="background:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 20px;height:60px;border-bottom:1px solid #eee;">
@@ -1621,16 +1491,11 @@ Contact us
   {
     id: 'nav-colored',
     label: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-size:12px;font-weight:bold;">Colored Nav</div>
-        <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;background:#4cafef;color:#fff;">
-          <nav style="padding:8px;">
-            <ul style="display:flex;justify-content:center;gap:10px;margin:0;padding:0;list-style:none;font-size:10px;">
-              <li>Home</li><li>Shop</li><li>Contact</li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Nav with Bg            </div>
     `,
     content: `
       <nav style="background:#4cafef;padding:14px;">
@@ -1649,42 +1514,11 @@ Contact us
   {
     id: 'bea nav',
     label: `
-  <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
-  <div style="flex-shrink:0;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" alt="Logo" style="height:32px;">
-    </div>    
-    <div style="flex-grow:1; display:flex; justify-content:center; gap:28px;">
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        Who we are
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        What we do
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        Newsroom
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        Sustainability
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        Investors
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-      <a href="#" style="text-decoration:none; color:#333; font-size:15px; position:relative;">
-        Careers
-        <span style="position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#d00; transition:all 0.3s;"></span>
-      </a>
-    </div>
-  <div style="display:flex; align-items:center; gap:16px;">
-      <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
-      <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
-      <span style="cursor:pointer; font-size:18px;"></span>
-    </div>
-  </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Nav Bea System            </div>
 `,
     content: `
 <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
@@ -1736,14 +1570,12 @@ Contact us
   {
     id: 'Personal Shape',
     label: `
-  <div style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; box-sizing:border-box; font-family:Arial, sans-serif; border-bottom:1px solid #eee;">
- 
-  <div style="display:flex; align-items:center; gap:16px;">
-      <a href="#" style="color:#777; font-size:14px; text-decoration:none;">Contact us</a>
-      <a href="#" style="color:#000; font-size:14px; font-weight:600; text-decoration:none;">Global site</a>
-      <span style="cursor:pointer; font-size:18px;"></span>
-    </div>
-  </div>
+             <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Nav Personal Shape
+            </div>
 `,
     content: ` 
     <style>
@@ -1944,9 +1776,13 @@ nav.scrolled {
     category: 'Personal Shape'
   },
   {
-  id: 'navbar Zay',
-  label: 'Navbar',
-  content: `
+    id: 'navbar Zay',
+    label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Zay NavBar            </div>`,
+    content: `
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand" href="#" data-gjs-droppable="true">MyShop</a>
@@ -1973,8 +1809,8 @@ nav.scrolled {
       </div>
     </nav>
   `,
-  category: 'Zay Layout'
-}
+    category: 'Zay Navbar'
+  }
 
 ];
 
@@ -1982,12 +1818,12 @@ export const footerBlocks: BlockProperties[] = [
   {
     id: 'footer-bae',
     label: `
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-      <div style="font-size:12px;font-weight:bold;">Footer</div>
-      <div style="width:100%;height:40px;overflow:hidden;border:1px solid #ddd;border-radius:4px;background:#f5f5f5;color:#333;display:flex;align-items:center;justify-content:center;font-size:10px;">
-        Footer Preview
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Simple Footer
+            </div>
   `,
     content: `
     <footer style="background:#eee;padding:30px 40px;font-family:Arial,sans-serif;color:#222;">
@@ -2078,36 +1914,11 @@ export const footerBlocks: BlockProperties[] = [
   {
     id: 'footer-bae 2',
     label: `
-    <div style="display:flex;flex-direction:column;gap:6px;width:100%;">
-      <div style="font-size:12px;font-weight:bold;text-align:center;">Footer</div>
-      
-      <div style="width:100%;border:1px solid #ddd;border-radius:4px;background:#f5f5f5;color:#333;padding:6px;">
-        
-        <!-- Top Left -->
-        <div style="font-size:8px;font-weight:bold;margin-bottom:4px;">BAE SYSTEMS</div>
-        <div style="font-size:9px;margin-bottom:4px;">1,790.50 GBX</div>
-        
-        <!-- Links -->
-        <div style="display:flex;justify-content:space-between;gap:10px;font-size:7px;line-height:1.4;">
-          <div>
-            <div style="font-weight:bold;">WHO WE ARE</div>
-            <div>Leadership</div>
-            <div>Locations</div>
-          </div>
-          <div>
-            <div style="font-weight:bold;">WHAT WE DO</div>
-            <div>Air</div>
-            <div>Sea</div>
-          </div>
-          <div>
-            <div style="font-weight:bold;">CAREERS</div>
-            <div>Life at BAE</div>
-            <div>Join us</div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              BAE Footer
   `,
     content: `
     <footer style="background:#eee;padding:30px 40px;font-family:Arial,sans-serif;color:#222;">
@@ -2190,41 +2001,11 @@ export const footerBlocks: BlockProperties[] = [
   {
     id: 'footer-bae-logo',
     label: `
-    <div style="display:flex;flex-direction:column;gap:6px;width:100%;">
-      <div style="font-size:12px;font-weight:bold;text-align:center;">Footer with Logo</div>
-      
-      <div style="width:100%;border:1px solid #ddd;border-radius:4px;background:#f5f5f5;color:#333;padding:6px;">
-        
-        <!-- Logo + Title -->
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/BAE_Systems_logo.svg/2560px-BAE_Systems_logo.svg.png" style="height:10px;">
-          <div style="font-size:8px;font-weight:bold;">BAE SYSTEMS</div>
-        </div>
-        
-        <!-- Stock Info -->
-        <div style="font-size:9px;margin-bottom:4px;">1,790.50 GBX</div>
-        
-        <!-- Links -->
-        <div style="display:flex;justify-content:space-between;gap:10px;font-size:7px;line-height:1.4;">
-          <div>
-            <div style="font-weight:bold;">WHO WE ARE</div>
-            <div>Leadership</div>
-            <div>Locations</div>
-          </div>
-          <div>
-            <div style="font-weight:bold;">WHAT WE DO</div>
-            <div>Air</div>
-            <div>Sea</div>
-          </div>
-          <div>
-            <div style="font-weight:bold;">CAREERS</div>
-            <div>Life at BAE</div>
-            <div>Join us</div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              BAE Logo Footer
   `,
     content: `
     <footer style="background:#eee;padding:30px 40px;font-family:Arial,sans-serif;color:#222;">
@@ -2316,12 +2097,11 @@ export const footerBlocks: BlockProperties[] = [
   {
     id: 'footer-with-logo',
     label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px; background:#f1f1f1; border-radius:6px; width:140px;">
-      <div style="font-size:12px; font-weight:bold;">Footer with Logo</div>
-      <div style="width:100%; height:30px; background:#ddd; display:flex; align-items:center; justify-content:center; font-size:10px;">
-        LOGO + Icons
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Footer With Logo            </div>
   `,
     category: 'Footers',
     content: `
@@ -2352,11 +2132,12 @@ export const footerBlocks: BlockProperties[] = [
   {
     id: 'Footers Personal Shape',
     label: `
-    <div style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px; background:#f1f1f1; border-radius:6px; width:140px;">
-      <div style="font-size:12px; font-weight:bold;">Footer with Logo</div>
-      <dFooters Personal Shape
-      </div>
-    </div>
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Footer Personal Shape
+            </div>
   `,
     category: 'Footers Personal Shape',
     content: `
@@ -2485,10 +2266,14 @@ export const footerBlocks: BlockProperties[] = [
     </footer>
   `,
   },
-{
-  id: 'footer',
-  label: 'Footer',
-  content: `
+  {
+    id: 'footer',
+    label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+Zay Footer            </div>`,
+    content: `
     <footer class="bg-dark text-light pt-5 pb-4">
       <div class="container text-center text-md-left">
         <div class="row text-center text-md-left">
@@ -2549,7 +2334,7 @@ export const footerBlocks: BlockProperties[] = [
       </div>
     </footer>
   `,
-  category: 'Zay / Footer'
-},
+    category: 'Zay / Footer'
+  },
 
 ]
