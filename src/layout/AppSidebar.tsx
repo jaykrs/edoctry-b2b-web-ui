@@ -18,9 +18,9 @@ import {
   UserCircleIcon,
   StudentIcon,
   GroupIcon,
-  DollarLineIcon
+  DollarLineIcon,
+  FolderIcon,
 } from "../icons/index";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -33,7 +33,8 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/",
+    // subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
   {
     icon: <CalenderIcon />,
@@ -46,24 +47,24 @@ const navItems: NavItem[] = [
     path: "/admin/profile",
   },
 
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/admin/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/admin/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/admin/blank", pro: false },
-      { name: "404 Error", path: "/admin/error-404", pro: false },
-    ],
-  },
+  // {
+  //   name: "Forms",
+  //   icon: <ListIcon />,
+  //   subItems: [{ name: "Form Elements", path: "/admin/form-elements", pro: false }],
+  // },
+  // {
+  //   name: "Tables",
+  //   icon: <TableIcon />,
+  //   subItems: [{ name: "Basic Tables", path: "/admin/basic-tables", pro: false }],
+  // },
+  // {
+  //   name: "Pages",
+  //   icon: <PageIcon />,
+  //   subItems: [
+  //     { name: "Blank Page", path: "/admin/blank", pro: false },
+  //     { name: "404 Error", path: "/admin/error-404", pro: false },
+  //   ],
+  // },
 ];
 
 const othersItems: NavItem[] = [
@@ -99,50 +100,27 @@ const othersItems: NavItem[] = [
 
 const updateItems: NavItem[] = [
   {
-    icon: <StudentIcon />,
-    name: "Student",
-    path: "/admin/student",
+    icon: <FolderIcon />,
+    name: "Media Library",
+    path: "/admin/folder",
   },
   {
-    icon: <GroupIcon />,
-    name: "Recepient",
-    path: "/admin/recepient",
+    icon: <FolderIcon />,
+    name: "Templates",
+    path: "/admin/templates",
   },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Vendor Item",
-    path: "/admin/vendoritem",
-  },
-  {
-    icon: <GroupIcon />,
-    name: "Vendor Staff",
-    path: "/admin/vendorstaff",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Invoice",
-    path: "/admin/invoice",
-  },
-  {
-    icon: <DollarLineIcon />,
-    name: "Order",
-    path: "/admin/order",
+    {
+    icon: <PageIcon />,
+    name: "HeaderFooter",
+    path: "/admin/headerfooter",
   },
   {
     icon: <PageIcon />,
     name: "Pages",
     path: "/admin/pages",
   },
-  {
-    icon: <PageIcon />,
-    name: "Page",
-    path: "/admin/page",
-  },
-  {
-    icon: <PageIcon />,
-    name: "New Page",
-    path: "/admin/new-pages",
-  }
+
+
 ];
 
 const AppSidebar: React.FC = () => {
@@ -151,7 +129,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others" | "update"
+    menuType: "main"  | "others" | "update"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -363,20 +341,20 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden h-20"
-                src={staff?.avatar}
+                src={staff?.logo}
                 alt={staff?.name || "User Avatar"}
 
               />
               <img
                 className="hidden dark:block "
-                src={staff?.avatar}
+                src={staff?.logo}
                 alt={staff?.name || "User Avatar"}
               />
             </>
           ) : (
             // // Display a small avatar when collapsed
             <img
-              src={staff?.avatar}
+              src={staff?.logo}
               alt={staff?.name || "User Avatar"}
               className="h-10 w-10 "
             />
@@ -401,7 +379,7 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
-
+{/* 
             <div className="">
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
@@ -416,7 +394,7 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(othersItems, "others")}
-            </div>
+            </div> */}
             <div className="">
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
@@ -434,7 +412,6 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

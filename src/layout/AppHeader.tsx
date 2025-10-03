@@ -96,7 +96,7 @@ const AppHeader: React.FC = () => {
           <Link href="/" className="lg:hidden">
             <img
               className="dark:hidden h-14"
-              src={staff?.avatar}
+              src={staff?.logo}
               alt={staff?.name || "User Avatar"}
             />
           </Link>
@@ -121,7 +121,7 @@ const AppHeader: React.FC = () => {
             </svg>
           </button> */}
 
-          <div className="hidden lg:block">
+          <div className="hidden">
             <form>
               <div className="relative">
                 <span className="absolute -translate-y-1/2 left-4 top-1/2 mt-2 pointer-events-none">
@@ -162,7 +162,7 @@ const AppHeader: React.FC = () => {
         >
           <div className="flex items-center gap-2 2xsm:gap-3">
             {/* <!-- Dark Mode Toggler --> */}
-            <ThemeToggleButton />
+            {/* <ThemeToggleButton /> */}
             {/* <!-- Dark Mode Toggler --> */}
 
             <NotificationDropdown />

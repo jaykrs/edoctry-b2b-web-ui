@@ -2,12 +2,13 @@ import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Avatar from "@/components/ui/avatar/Avatar";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Avatars | TailAdmin - Next.js Dashboard Template",
+  title: ` Avatars | ${appName}`,
   description:
-    "This is Next.js Avatars page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    `${appName} Avatars page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
 
 export default function AvatarPage() {

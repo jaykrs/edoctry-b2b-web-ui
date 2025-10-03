@@ -2,6 +2,7 @@ import GridShape from "@/components/common/GridShape";
 import ThemeTogglerTwo from "@/components/common/ThemeTogglerTwo";
 
 import { ThemeProvider } from "@/context/ThemeContext";
+import { appLogo, slogan } from "@/utils/config";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -25,12 +26,14 @@ export default function AuthLayout({
                   <Image
                     width={231}
                     height={48}
-                    src="./images/logo/auth-logo.svg"
+                    src={appLogo || "/images/logo/auth-logo.svg"}
                     alt="Logo"
+                    className="dark:invert rounded-2xl"
                   />
+
                 </Link>
                 <p className="text-center text-gray-400 dark:text-white/60">
-                  Free and Open-Source Tailwind CSS Admin Dashboard Template
+                  {slogan}
                 </p>
               </div>
             </div>
