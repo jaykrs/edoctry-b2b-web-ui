@@ -12,6 +12,7 @@ import { PencilIcon } from '@/icons';
 
 
 interface PageOption {
+  id: number;
   icon: string;
   name: string;
   author?: string;
@@ -46,6 +47,7 @@ function PageBody() {
 
         const json = await res.json();
         const formatted = json?.data?.map((item: any) => ({
+          id: item.id,
           icon: '📄',
           name: item.attributes.name,
           author: item.attributes.author || 'Unknown',
@@ -60,10 +62,9 @@ function PageBody() {
       } catch (error) {
         console.error('Failed to fetch:', error);
       } finally {
-        setLoading(false); // Stop loading
-      }
+        setLoading(false);
+      };
     };
-
     fetchData();
   }, []);
 
@@ -186,7 +187,13 @@ function PageBody() {
                           {opt.headerfooterid}
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                          <PencilIcon className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                          <button
+                            onClick={() => router.push(`/admin/editpage?pid=${opt.id}`)}
+                            onClickCapture={() => console.log("Edit page", opt.id)}
+                            title="Edit Page"
+                          >
+                            <PencilIcon className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer" />
+                          </button>
                         </TableCell>
                       </TableRow>
                     ))}
