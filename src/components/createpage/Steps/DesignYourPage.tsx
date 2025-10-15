@@ -23,7 +23,6 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
   const [apiBlocks, setApiBlocks] = useState<any[]>([]);
 
   useEffect(() => {
-    // 1. API call to fetch templates
     const fetchTemplates = async () => {
       const token = localStorage.getItem("jwt");
       try {
