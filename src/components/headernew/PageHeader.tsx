@@ -177,7 +177,12 @@ function PageHeader() {
                                                 </TableCell>
 
                                                 <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                                                    <PencilIcon className="w-4 h-4 text-blue-500" />
+                                                    <button
+                                                        onClick={() => router.push(`/admin/editheaderfooter?hfid=${opt.headerfooterid}`)}
+                                                        title="Edit Header/Footer"
+                                                    >
+                                                        <PencilIcon className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer" />
+                                                    </button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}

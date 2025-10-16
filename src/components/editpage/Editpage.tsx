@@ -31,7 +31,8 @@ export default function EditPage() {
                     else if (step === s.id) className += "active-step";
 
                     return (
-                        <div key={s.id} onClick={() => setStep(s.id)} className={className}>
+                        //onClick={() => setStep(s.id)}
+                        <div key={s.id}  className={className}>
                             <div className="step-label">{s.label}</div>
                             <div className="step-subtext">{s.subtext}</div>
                         </div>
