@@ -16,7 +16,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: ` Form Elements | ${appName}`,
   description:
-    `${appName} Form Elements page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    `${appName} Form Elements page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template"`,
 };
 
 export default function FormElements() {
