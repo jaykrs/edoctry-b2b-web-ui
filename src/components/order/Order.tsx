@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DocsIcon, Pencil } from "@/icons/index";
+import { CopyIcon, DocsIcon, DownloadIcon, Pencil, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
-
+import TextHeading from "../ui/textheader/TextHeader";
+import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
 interface Order {
     id: number;
     customeremail: string;
@@ -122,66 +123,157 @@ function OrderPage() {
     }, [showModal]);
 
     return (
-        <div className="p-8 bg-gradient-to-b from-[#EEEDF6] to-[#C0BDC8] rounded-2xl">
-            <div className="flex justify-between items-center bg-[#DDE6FA] rounded-2xl p-4 mb-6">
-                <h2 className="text-2xl font-bold text-[#2143BE] uppercase font-mono">Orders</h2>
-                <button
-                    onClick={() => {
-                        setEditOrderId(null);
-                        setFormData(initialForm);
-                        setShowModal(true);
+        <div>
+            <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+                <TextHeading
+                    title="Orders"
+                    icon="💲"
+                    buttonprops={{
+                        buttonText: '+',
+                        title: 'Orders',
+                        content: 'Here you can add orders to the system.',
+                        onClick: () => {
+                            setEditOrderId(null);
+                            setFormData(initialForm);
+                            setShowModal(true);
+                        }
                     }}
-                    className="bg-[#2143BE] text-white text-2xl px-4 py-2 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
-                >
-                    <Pencil />
-                </button>
+                />
             </div>
 
-            {/* Order list */}
-            <div className="space-y-4 overflow-x-auto h-[400px] pr-2">
-                {orders.map((order) => (
-                    <div
-                        key={order.id}
-                        className="bg-gradient-to-b from-[#EEEDF4] to-[#DBDAE5] rounded-2xl shadow-md flex items-center justify-between px-6 py-4 hover:shadow-lg"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="w-14 h-14">
-                                <img
-                                    src={
-                                        order.course_logo
-                                            ? order.course_logo
-                                            : `https://ui-avatars.com/api/?name=${encodeURIComponent(order.customeremail)}&background=random&color=fff`
-                                    }
-                                    alt={order.customeremail}
-                                    className="rounded-xl object-cover w-full h-full"
-                                />
-                            </div>
-                            <div>
-                                <div className="font-semibold text-gray-800 text-sm">{order.customeremail}</div>
-                                <div className="text-xs text-gray-500">{order.course_title}</div>
-                                <div className="text-xs text-gray-500">{order.instructor}</div>
-                            </div>
-                        </div>
-                        <div className="flex items-center space-x-12 text-sm text-gray-600">
-                            <div>{order.oderid}</div>
-                            <div>{order.amount}</div>
-                            <div className="text-black font-medium">{order.payment_method}</div>
-                            <div>
-                                <span
-                                    className={`w-3 h-3 rounded-full inline-block ${order.payment_status ? "bg-green-500" : "bg-red-500"
-                                        }`}
-                                />
-                            </div>
-                        </div>
-                        <button
-                            onClick={() => openEdit(order)}
-                            className="ml-4 bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
+            
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        <div className="max-w-full overflow-x-auto">
+          <div className="min-w-[1102px]">
+            <Table>
+                <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                    <TableRow>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                         >
-                            <DocsIcon />
-                        </button>
-                    </div>
-                ))}
+                            Customer Details
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            Order ID
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            Amount
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            Payment Status
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            Payment Method
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            <DownloadIcon />
+                        </TableCell>
+                        <TableCell
+                            isHeader
+                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                        >
+                            <PencilIcon />
+                        </TableCell>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    {orders.map((order) => (
+                        <TableRow key={order.id}>
+                            <TableCell className="px-5 py-4 whitespace-nowrap">
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-14 h-14">
+                                        {order.course_logo ? (
+                                            <img
+                                                src={order.course_logo}
+                                                alt={order.customeremail}
+                                                className="rounded-xl object-cover w-full h-full"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(order.customeremail)}&background=random&color=fff`}
+                                                alt={order.customeremail}
+                                                className="rounded-xl object-cover w-full h-full"
+                                            />
+                                        )}
+                                    </div>
+                                    <div>
+                                        <div className="font-semibold text-gray-800 text-sm">
+                                            {order.customeremail}
+                                        </div>
+                                        <div className="text-xs text-gray-500">{order.course_title}</div>
+                                        <div className="text-xs text-gray-500">{order.instructor}</div>
+                                    </div>
+                                </div>
+                            </TableCell>
+                            <TableCell className="px-4 py-3 mt-6 text-gray-500 text-theme-sm dark:text-gray-400 flex items-center space-x-2">
+                                <span>{order.oderid}
+                                    <button
+                                        onClick={() => navigator.clipboard.writeText(order.oderid)}
+                                        className=" rounded hover:text-blue-600 active:text-gray-500 text-md "
+                                    >
+                                        <CopyIcon />
+                                    </button>
+                                </span>
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                {order.amount}
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                <div className="flex justify-center items-center">
+                                    <span
+                                        className={`w-3 h-3 rounded-full inline-block ${order.payment_status ? "bg-green-500" : "bg-red-500"}`}
+                                    />
+                                </div>
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                {order.payment_method}
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                <div className="flex justify-center items-start">
+                                    <button
+                                        onClick={() => openEdit(order)}
+                                        className=" bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
+                                    >
+                                        <DownloadIcon />
+                                    </button>
+                                </div>
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                                <div>
+                                    <button
+                                        onClick={() => openEdit(order)}
+                                        className=" bg-gray-50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center"
+                                    >
+                                        <PencilIcon />
+                                    </button>
+                                </div>
+                            </TableCell>
+
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
             </div>
+        </div>
+      </div>
+            {/* end */}
 
             {/* Modal */}
             {showModal && (
@@ -193,7 +285,7 @@ function OrderPage() {
                         >
                             ×
                         </button> */}
-                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
+                                    <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#4E6CDA] px-4 rounded-3xl">
                             <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
                                 <h2 className="text-2xl font-semibold mb-2">{editOrderId ? "Edit Order" : "Add Order"}</h2>
                                 <p className="text-sm text-blue-100 mb-6">
@@ -262,7 +354,8 @@ function OrderPage() {
 
                             <button
                                 onClick={handleSubmit}
-                                className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                                className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                             >
                                 {editOrderId ? "Update Order" : "Add Order"}
                             </button>

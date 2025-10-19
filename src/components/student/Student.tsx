@@ -1,8 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Pencil, EyeIcon, DocsIcon } from "@/icons/index";
+import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
+import TextHeading from "../ui/textheader/TextHeader";
+import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
+import Badge from "../ui/badge/Badge";
 
 interface Order {
   id: number;
@@ -33,7 +36,7 @@ interface Order {
 }
 
 export default function Student() {
-  const [studentList, setStudentList] = useState<Order[]>([]);
+  const [tableData, setTableData] = useState<Order[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
@@ -71,6 +74,16 @@ export default function Student() {
     return () => document.body.classList.remove("hide-app-layout");
   }, [showModal]);
 
+  const extractPlainText = (richText: any) => {
+    if (Array.isArray(richText)) {
+      return richText.map(block =>
+        block.children.map((child: any) => child.text).join('')
+      ).join('\n');
+    }
+    return richText;
+  };
+
+
   const fetchStudentList = async () => {
     try {
       const staffDataString = localStorage.getItem("staffData");
@@ -90,7 +103,7 @@ export default function Student() {
         );
 
         const data = await res.json();
-        const tableData: Order[] = data.data.map((item: any, index: number) => ({
+        const studentList: Order[] = data.data.map((item: any, index: number) => ({
           id: item.id || index + 1,
           user: {
             image: item.attributes.avatar || "/images/user/user-22.jpg",
@@ -118,7 +131,7 @@ export default function Student() {
           budget: item.attributes.gstin || "0.0K",
         }));
 
-        setStudentList(tableData);
+        setTableData(studentList);
       }
     } catch (error) {
       console.error("Failed to fetch student list:", error);
@@ -239,7 +252,19 @@ export default function Student() {
 
   return (
     <div className="">
-      {!showModal && (
+      <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+        <TextHeading
+          title="All Students"
+          icon="🎓"
+          buttonprops={{
+            buttonText: '+',
+            title: 'Add Students',
+            content: 'Here you can enroll students in the system.',
+            onClick: openAddModal
+          }}
+        />
+      </div>
+      {/* {!showModal && (
         <div className="flex justify-between items-center p-10 rounded-t-2xl">
           <h1 className="text-4xl uppercase text-gray-700 pb-2 font-bold ">
             <span className="text-[#2143BE] border-b-4 border-red-500">All</span> Students
@@ -251,62 +276,125 @@ export default function Student() {
             <Pencil />
           </button>
         </div>
-      )}
+      )} */}
 
-      {/* Student List */}
-      <ul className="space-y-4  p-4 pt-4">
-        {studentList.map((student) => (
-          <li
-            key={student.id}
-            className="flex justify-between items-center border-b border-[#2143BE] py-5 px-4 shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300 rounded-2xl"
-          >
-            <div className="flex items-center gap-4">
-              <img
-                src={`https://ui-avatars.com/api/?name=${student.user.name}&background=random`}
-                width={40}
-                height={40}
-                alt={student.user.name}
-                className="rounded-full dark:opacity-50"
-              />
-              <div>
-                <p className="font-semibold dark:text-gray-400">{student.user.name}</p>
-                <p className="text-sm text-gray-500">{student.user.role}</p>
-              </div>
-            </div>
-            {/* all data for future use */}
-            {/* <div>
-              <p>{student.user.active ? "Active" : "Inactive"}</p>
-              <p className="text-sm text-gray-500">{student.user.address ? student.user.address : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.biography ? student.user.biography : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.courses ? student.user.courses : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.dob ? student.user.dob : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.email ? student.user.email : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.phone ? student.user.phone : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.qualification ? student.user.qualification : "N/A"}</p>
-              <p className="text-sm text-gray-500">{student.user.remarks ? student.user.remarks : "N/A"}</p>
+      {/* new list */}
 
-            </div> */}
-            {/* end */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => openEditModal(student)}
-                className="bg-[#2143BE] text-white px-3 py-1 rounded-full shadow-[#4E6CDA] hover:shadow-lg transition-shadow duration-300"
-              >
-                <EyeIcon />
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        <div className="max-w-full overflow-x-auto">
+          <div className="min-w-[1102px]">
+            <Table>
+              {/* Table Header */}
+              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                <TableRow>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Email & Phone
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Skill & Qualification
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Courses
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Address
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Edit
+                  </TableCell>
+                </TableRow>
+              </TableHeader>
+
+              {/* Table Body */}
+              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                {tableData.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="px-5 py-6 sm:px-6 text-start">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 overflow-hidden rounded-lg">
+                          <img
+                            src={`https://ui-avatars.com/api/?name=${order.user.name}&background=random`}
+                            alt={order.user.name}
+                            className=""
+                          />
+                        </div>
+                        <div>
+                          <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                            {order.user.name}
+                          </span>
+                          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+                            {order.user.role}
+                          </span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="flex flex-col px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                      <span className="text-blue-600 font font-bold">
+                        {order.user.email}
+                      </span>
+                      <span className="font-bold">{order.user.phone}</span>
+
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                      <div className="flex flex-col">
+                        <span className="text-blue-600 font font-bold">{extractPlainText(order.user.skills).split(' ').slice(0, 3).join(' ') + (extractPlainText(order.user.skills).split(' ').length > 3 ? '...' : '')}</span>
+                        <span>{extractPlainText(order.user.qualification)}</span>
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                      <span>{order.user.courses}</span>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                      <span>{order.user.address}</span>
+                    </TableCell>
+                    <TableCell>
+                      <button
+                        onClick={() => openEditModal(order)}
+                        className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                      >
+                        <PencilIcon />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </div>
+
+
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-300 bg-opacity-10 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto   ">
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4  rounded-3xl">
-              <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
+            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
+              <div className=" text-gray-500 rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
                 <h2 className="text-2xl font-semibold mb-2">{editingStudentId ? "Edit Student Information ?" : "Add Student Details ?"}</h2>
-                <p className="text-sm text-blue-100 mb-6">
+                <p className="text-sm text-gray-700 mb-6">
                   {editingStudentId ? "Update Student Details to keep your Profile Accurate" : "Stay organized by keeping all student information in one place."}
 
                 </p>
@@ -330,7 +418,7 @@ export default function Student() {
                   onClick={() => setIsEditable(true)}
                   className="flex justify-center items-center w-20 px-4 py-2 bg-[#2143BE] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
                 >
-                  <Pencil /> 
+                  <Pencil />
                 </button>
               ) : (
                 <button
@@ -370,17 +458,6 @@ export default function Student() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
-
-              {/* Vendor UUID - Readonly */}
-              {/* <div>
-    <h3 className="text-gray-700 text-base font-bold pb-2">Vendor UUID</h3>
-    <input
-      type="text"
-      readOnly
-      className="w-full border-2 bg-gray-200 rounded-xl p-2 mb-3"
-      value={formData.vendoruuid}
-    />
-  </div> */}
 
               {/* Phone */}
               <div>
@@ -571,14 +648,16 @@ export default function Student() {
               {editingStudentId !== null && !isEditable ? (
                 <button
                   onClick={() => setIsEditable(true)}
-                  className="w-full px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Edit
                 </button>
               ) : (
                 <button
                   onClick={handleSave}
-                  className="w-full px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-2xl text-center"
+                  className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl text-center"
+
                 >
                   Save
                 </button>

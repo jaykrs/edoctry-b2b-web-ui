@@ -1,12 +1,13 @@
 import Student from "@/components/student/Student";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Student | TailAdmin - Next.js Dashboard Template",
+  title: ` Student | ${appName}`,
   description:
-    "This is Next.js Student page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Student `,
   // other metadata
 };
 export default function page() {

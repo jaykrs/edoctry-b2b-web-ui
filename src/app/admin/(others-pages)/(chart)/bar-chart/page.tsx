@@ -2,12 +2,13 @@ import BarChartOne from "@/components/charts/bar/BarChartOne";
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Bar Chart | TailAdmin - Next.js Dashboard Template",
+  title: ` Bar Chart | ${appName}`,
   description:
-    "This is Next.js Bar Chart page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    `${appName} Bar Chart page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
 
 export default function page() {

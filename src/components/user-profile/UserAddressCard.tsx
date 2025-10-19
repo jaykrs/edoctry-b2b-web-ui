@@ -5,25 +5,82 @@ import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import { apiUrl } from "@/utils/config";
 
 export default function UserAddressCard() {
   const { isOpen, openModal, closeModal } = useModal();
-   const [staff, setStaff] = useState<any>(null);
-  
-    useEffect(() => {
-      const staffData = localStorage.getItem("staffData");
-      if (staffData) {
-        const parsedData = JSON.parse(staffData);
-        console.log("Staff data loaded:", parsedData);
-        setStaff(parsedData?.data?.[0]?.attributes);
+  const [staff, setStaff] = useState<any>(null);
+  const [formData, setFormData] = useState<any>({});
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    const staffData = localStorage.getItem("staffData");
+    if (staffData) {
+      const parsedData = JSON.parse(staffData);
+      setStaff(parsedData?.data?.[0]?.attributes);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (isOpen && staff) {
+      setFormData(staff);
+    }
+  }, [isOpen, staff]);
+
+  const handleOpenModal = () => {
+    openModal();
+  };
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+
+      const staffDataString = localStorage.getItem("staffData");
+      const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+      const jwt = localStorage.getItem("jwt");
+      const vendorid = staffData?.data?.[0]?.id;
+
+      if (!vendorid || !jwt) {
+        console.error("Vendor ID or JWT missing");
+        return;
       }
-    }, []);
 
+      const res = await fetch(`${apiUrl}/api/vendors/${vendorid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({ data: formData }),
+      });
 
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
-    closeModal();
+      if (!res.ok) throw new Error("Failed to update vendor");
+
+      const updated = await res.json();
+      const updatedAttributes = updated?.data?.attributes || {};
+
+      setStaff(updatedAttributes);
+      setFormData(updatedAttributes);
+
+      // Update localStorage
+      const updatedLocal = {
+        ...staffData,
+        data: [{ ...staffData.data[0], attributes: updatedAttributes }],
+      };
+      localStorage.setItem("staffData", JSON.stringify(updatedLocal));
+
+      closeModal();
+    } catch (err) {
+      console.error("Update error:", err);
+    } finally {
+      setIsSaving(false);
+    }
   };
   return (
     <>
@@ -40,25 +97,16 @@ export default function UserAddressCard() {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {staff?.location}
+                </p>
+              </div>
+
+              <div>
+                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                  Address
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                   {staff?.address}
-                </p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  City/State
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Phoenix, Arizona, United States.
-                </p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  Postal Code
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  ERT 2489
                 </p>
               </div>
 
@@ -67,14 +115,14 @@ export default function UserAddressCard() {
                   TAX ID
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {staff?.vendoruuid}
+                  {staff?.gstin}
                 </p>
               </div>
             </div>
           </div>
 
           <button
-            onClick={openModal}
+            onClick={handleOpenModal}
             className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
           >
             <svg
@@ -109,33 +157,48 @@ export default function UserAddressCard() {
           <form className="flex flex-col">
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+
                 <div>
                   <Label>Country</Label>
-                  <Input type="text" defaultValue="United States" />
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  />
                 </div>
 
                 <div>
-                  <Label>City/State</Label>
-                  <Input type="text" defaultValue="Arizona, United States." />
-                </div>
-
-                <div>
-                  <Label>Postal Code</Label>
-                  <Input type="text" defaultValue="ERT 2489" />
+                  <Label>Address</Label>
+                  <textarea
+                    placeholder="City/State"
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  />
                 </div>
 
                 <div>
                   <Label>TAX ID</Label>
-                  <Input type="text" defaultValue="AS4568384" />
+                  <input
+                    type="text"
+                    placeholder="TAX ID"
+                    className="w-full border-2 bg-gray-100 rounded-xl p-2 mb-3"
+                    value={formData.gstin}
+                    onChange={(e) => setFormData({ ...formData, gstin: e.target.value })}
+                  />
                 </div>
+
               </div>
             </div>
+
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
-                Save Changes
+              <Button size="sm" variant="outline" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>

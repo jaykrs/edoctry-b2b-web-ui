@@ -12,8 +12,8 @@ import { useRouter } from "next/navigation";
 
 // export const metadata: Metadata = {
 //   title:
-//     "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
-//   description: "This is Next.js Home for TailAdmin Dashboard Template",
+//     "Next.js E-commerce Dashboard | ${appName}`,
+//   description: `${appName} Home for TailAdmin Dashboard Template",
 // };
 
 export default function Ecommerce() {
@@ -66,9 +66,9 @@ export default function Ecommerce() {
         <DemographicCard />
       </div>
 
-      <div className="col-span-12 xl:col-span-7">
+      {/* <div className="col-span-12 xl:col-span-7">
         <RecentOrders />
-      </div>
+      </div> */}
     </div>
   );
 }

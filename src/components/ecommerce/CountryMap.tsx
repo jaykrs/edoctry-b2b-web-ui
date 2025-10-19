@@ -48,6 +48,9 @@ const CountryMap: React.FC<CountryMapProps> = ({ mapColor }) => {
       markersSelectable={true}
       markers={
         [
+          { latLng: [28.6139, 77.209], name: "New Delhi" },
+          { latLng: [19.076, 72.8777], name: "Mumbai" },
+          { latLng: [13.0827, 80.2707], name: "Chennai" },
           {
             latLng: [37.2580397, -104.657039],
             name: "United States",

@@ -3,8 +3,9 @@ import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 import { MoreDotIcon } from "@/icons";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
+import { apiUrl } from "@/utils/config";
 
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -91,13 +92,9 @@ export default function MonthlySalesChart() {
       },
     },
   };
-  const series = [
-    {
-      name: "Sales",
-      data: [168, 385, 201, 298, 187, 195, 291, 110, 215, 390, 280, 112],
-    },
-  ];
+
   const [isOpen, setIsOpen] = useState(false);
+  const [studentSeries, setStudentSeries] = useState<number[]>(Array(12).fill(0));
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -107,11 +104,56 @@ export default function MonthlySalesChart() {
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    fetchStudentList();
+  }, []);
+  
+  const fetchStudentList = async () => {
+    try {
+      const staffDataString = localStorage.getItem("staffData");
+      const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+      const jwt = localStorage.getItem("jwt");
+      const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
+      if (vendorid && jwt) {
+        const res = await fetch(
+          `${apiUrl}/api/students?filters[vendoruuid][$eq]=${vendorid}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+
+        const months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+
+        const monthlyCounts = Array(12).fill(0);
+
+        data.data.forEach((student: any) => {
+          const createdAt = student.attributes.createdAt;
+          const date = new Date(createdAt);
+          const monthIndex = date.getMonth();
+          monthlyCounts[monthIndex]++;
+        });
+
+        setStudentSeries(monthlyCounts);
+      }
+    } catch (error) {
+      console.error("Failed to fetch student list:", error);
+    }
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Monthly Sales
+          Monthly Added Students
         </h3>
 
         <div className="relative inline-block">
@@ -143,7 +185,7 @@ export default function MonthlySalesChart() {
         <div className="-ml-5 min-w-[650px] xl:min-w-full pl-2">
           <ReactApexChart
             options={options}
-            series={series}
+            series={[{ name: "New Students", data: studentSeries }]}
             type="bar"
             height={180}
           />

@@ -1,12 +1,13 @@
 import VendorStaff from "@/components/venderStaff/VenderStaff";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Vendor Staff | TailAdmin - Next.js Dashboard Template",
+  title: ` Vendor Staff | ${appName}`,
   description:
-    "This is Next.js Vendor Staff page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Vendor Staff `,
 };
 export default function page() {
     

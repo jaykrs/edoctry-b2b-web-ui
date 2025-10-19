@@ -1,12 +1,13 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
+import { appName } from "@/utils/config";
 import React from "react";
 import Recepient from "@/components/recepient/Recepient";
 
 export const metadata: Metadata = {
-  title: "Next.js Recepient | TailAdmin - Next.js Dashboard Template",
+  title: ` Recepient | ${appName}`,
   description:
-    "This is Next.js Recepient page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    `${appName} Recepient `,
   // other metadata
 };
 export default function page() {
