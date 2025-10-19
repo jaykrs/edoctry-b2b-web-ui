@@ -5,7 +5,7 @@ import React from "react";
 
 export const metadata: Metadata = {
   title: ` Blank Page | ${appName}`,
-  description: `${appName} Blank Page TailAdmin Dashboard Template",
+  description: `${appName} Blank Page TailAdmin Dashboard Template"`,
 };
 
 export default function BlankPage() {

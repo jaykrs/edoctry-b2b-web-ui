@@ -10,7 +10,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: ` Images | ${appName}`,
   description:
-    `${appName} Images page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    `${appName} Images page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template"`,
   // other metadata
 };
 
