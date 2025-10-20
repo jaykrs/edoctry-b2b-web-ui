@@ -11,9 +11,8 @@ export const metadata: Metadata = {
 
 
 
-export default function Page({ searchParams }: { searchParams: { pid?: string } }) {
-  const pageId = searchParams?.pid;
-
+export default function Page() {
+  
   return (
     <>
       <PageBreadcrumb pageTitle="Edit Pages" />

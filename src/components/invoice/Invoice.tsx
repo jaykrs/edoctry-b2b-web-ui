@@ -202,7 +202,7 @@ function Invoice() {
 
         // -------- Totals --------
         // ---- Totals Section ----
-        let finalY = (doc as any).lastAutoTable.finalY + 10;
+        const finalY = (doc as any).lastAutoTable.finalY + 10;
         doc.setFont("helvetica", "bold");
         doc.text(`Subtotal: ₹${invoice.invoiceamount || 0}`, 150, finalY);
         doc.text(`Tax: ₹${invoice.invoicetax || 0}`, 150, finalY + 6);

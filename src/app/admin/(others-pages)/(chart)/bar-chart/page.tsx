@@ -8,7 +8,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: ` Bar Chart | ${appName}`,
   description:
-    `${appName} Bar Chart page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    `${appName} Bar Chart page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template"`,
 };
 
 export default function page() {

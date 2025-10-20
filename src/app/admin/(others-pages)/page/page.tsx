@@ -41,7 +41,7 @@ const GrapesEditor: React.FC = () => {
     };
 
     useEffect(() => {
-        let temp = params.get('temp');
+        const temp = params.get('temp');
         setTempParams(temp ? temp : '<body></body>');
 
         editorRef.current = grapesjs.init({
@@ -209,7 +209,7 @@ const GrapesEditor: React.FC = () => {
             content = content.replace(/<head[^>]*>[\s\S]*?<\/head>/, '')
             content = content.replace(/<body[^>]*>([\s\S]*?)<\/body>/, '$1');
             content = content.replace(/\s+/g, ' ').trim();
-            let template = `
+            const template = `
             <!doctype html>
             <html>
             <head>

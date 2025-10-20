@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 
 
-export default function Page({ searchParams }: { searchParams: { hfid?: string } }) {
-  const headerFooterId = searchParams?.hfid;
+export default function Page() {
+  
 
   return (
     <>
