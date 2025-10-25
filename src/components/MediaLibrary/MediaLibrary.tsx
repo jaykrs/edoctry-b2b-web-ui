@@ -159,9 +159,19 @@ const MediaLibrary = () => {
                       className="w-24 h-24 object-cover rounded-lg"
                     />
                   ) : (
-                    <div className="w-24 h-24 flex items-center justify-center bg-blue-200 rounded-lg text-xs font-bold">
-                      {asset.type.toUpperCase()}
+                    <div
+                      className={`w-24 h-24 flex flex-col items-center justify-center rounded-lg text-xs font-bold relative overflow-hidden
+    ${asset.type === "js" ? "bg-yellow-300" : ""}
+    ${asset.type === "css" ? "bg-blue-200" : ""}`
+                      }
+                    >
+                      {/* Folder Top */}
+                      <div className="absolute top-0 left-0 w-3/5 h-4 bg-white/40 rounded-b-sm"></div>
+
+                      {/* Folder Label */}
+                      <span className="z-10">{asset.type.toUpperCase()}</span>
                     </div>
+
                   )}
                 </div>
 
