@@ -71,7 +71,15 @@ export default function VenderItem() {
   };
 
   useEffect(() => {
-    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendertype`)
+    const jwt = localStorage.getItem("jwt");
+    console.log("Fetching vendortype with JWT:", jwt);
+    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendoritemtype`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }
+    )
       .then((res) => res.json())
       .then((data) => {
         const vendortype = data.data?.[0]?.attributes?.json || [];
@@ -88,7 +96,14 @@ export default function VenderItem() {
   }, []);
 
   useEffect(() => {
-    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendercategory`)
+    const jwt = localStorage.getItem("jwt");
+    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendoritemcategory`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }
+    )
       .then((res) => res.json())
       .then((data) => {
         const vendorcategory = data.data?.[0]?.attributes?.json || [];
@@ -103,7 +118,6 @@ export default function VenderItem() {
       })
       .catch((err) => console.error(err));
   }, []);
-
 
 
   const handleSave = async () => {

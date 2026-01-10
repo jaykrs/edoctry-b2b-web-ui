@@ -6,7 +6,7 @@ import { CopyIcon } from "@/icons";
 
 interface FolderType {
   name: string;
-  assets: { name: string; url: string; type: "image" | "js" | "css" }[];
+  assets: { name: string; url: string; type: "image" | "js" | "css" | "scss" }[];
 }
 
 const MediaLibrary = () => {
@@ -58,13 +58,19 @@ const MediaLibrary = () => {
       const libs: FolderType = { name: "Web Resources List", assets: [] };
 
       for (const item of result) {
-        if (item.url.endsWith(".js") || item.url.endsWith(".css") || item.url.endsWith(".json")) {
+        if (
+          item.url.endsWith(".js") ||
+          item.url.endsWith(".css") ||
+          item.url.endsWith(".scss") ||
+          item.url.endsWith(".json")
+        ) {
           libs.assets.push({
             name: item.url.replace("/uploads/", ""),
             url: item.url,
-            type: item.url.endsWith(".css") ? "css" : "js",
+            type: item.url.endsWith(".scss") ? "scss" : item.url.endsWith(".css") ? "css" : "js",
           });
-        } else {
+        }
+        else {
           imgs.assets.push({ name: item.url.replace("/uploads/", ""), url: item.url, type: "image" });
         }
       }
@@ -91,16 +97,21 @@ const MediaLibrary = () => {
           secondbuttonprops={{
             buttonText: "+ Assets",
             title: "Add new assets",
-            content: "Here you can add new assets to the media library.",
+            content: (
+              <>
+                Upload assets including PNG, CSS, SCSS, and JS files{" "}
+                <span className="text-red-500 text-lg font-extrabold">*</span>
+              </>
+            ),
             onClick: () => {
               const fileInput = document.createElement("input");
-              fileInput.type = "file";
-              fileInput.accept = "*/*";
+        fileInput.type = "file";
+        fileInput.accept = "*/*";
               fileInput.onchange = (e: any) => {
                 const selectedFile = e.target.files[0];
-                if (selectedFile) uploadFile(selectedFile);
+        if (selectedFile) uploadFile(selectedFile);
               };
-              fileInput.click();
+        fileInput.click();
             },
           }}
         />
@@ -162,6 +173,7 @@ const MediaLibrary = () => {
                     <div
                       className={`w-24 h-24 flex flex-col items-center justify-center rounded-lg text-xs font-bold relative overflow-hidden
     ${asset.type === "js" ? "bg-yellow-300" : ""}
+    ${asset.type === "scss" ? "bg-pink-200" : ""}
     ${asset.type === "css" ? "bg-blue-200" : ""}`
                       }
                     >
@@ -174,7 +186,6 @@ const MediaLibrary = () => {
 
                   )}
                 </div>
-
                 <div className="mt-2 flex items-center justify-between text-xs text-gray-600 w-full">
                   <p className="truncate w-full">{asset.name}</p>
                   <CopyIcon className="w-4 h-4 ml-2 opacity-60 group-hover:opacity-100" />

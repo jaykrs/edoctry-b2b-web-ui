@@ -104,8 +104,8 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
       const blockManager = editor.BlockManager;
 
-      // Static blocks
-      [...generalBlocks, ...hero, ...footerBlocks].forEach((block: any) => {
+      // Static blocks ...footerBlocks
+      [...generalBlocks, ...hero].forEach((block: any) => {
         blockManager.add(block.id, block);
       });
 

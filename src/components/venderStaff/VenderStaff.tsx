@@ -22,7 +22,7 @@ function VendorStaff() {
       avatar?: string;
       active?: boolean;
       payroll?: string;
-      feedback?: any[];
+      feedback?: string;
       bankDetails?: string;
       rating?: string;
       biography?: string;
@@ -47,7 +47,7 @@ function VendorStaff() {
     avatar: string;
     active: boolean;
     payroll: string;
-    feedback: string[];
+    feedback: string;
     bankDetails: string;
     rating: string;
     biography: string;
@@ -65,7 +65,7 @@ function VendorStaff() {
     avatar: "",
     active: false,
     payroll: "",
-    feedback: [],
+    feedback: "",
     bankDetails: "",
     rating: "",
     biography: "",
@@ -170,7 +170,7 @@ function VendorStaff() {
           avatar: "",
           active: false,
           payroll: "",
-          feedback: [],
+          feedback: "",
           bankDetails: "",
           rating: "",
           biography: "",
@@ -229,7 +229,7 @@ function VendorStaff() {
                 avatar: "",
                 active: false,
                 payroll: "",
-                feedback: [],
+                feedback: "",
                 bankDetails: "",
                 rating: "",
                 biography: "",
@@ -603,16 +603,16 @@ function VendorStaff() {
                 />
               </div>
               {/* Feedback */}
-              <div>
+              {/* <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Feedback</h3>
                 <textarea
                   placeholder="Feedback"
                   className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"} rounded-xl p-2 mb-3`}
                   value={formData.feedback}
                   disabled={!isEditable}
-                  onChange={(e) => setFormData({ ...formData, feedback: e.target.value.split('\n') })}
+                  onChange={(e) => setFormData({ ...formData, feedback: e.target.value })}
                 />
-              </div>
+              </div> */}
               {/* Bank Details */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Bank Details</h3>
@@ -672,7 +672,7 @@ function VendorStaff() {
                     avatar: "",
                     active: false,
                     payroll: "",
-                    feedback: [],
+                    feedback: "",
                     bankDetails: "",
                     rating: "",
                     biography: "",

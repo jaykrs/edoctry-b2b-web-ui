@@ -123,126 +123,138 @@ function Invoice() {
         return () => document.body.classList.remove("hide-app-layout");
     }, [showModal]);
 
-    const generatePDF = (invoice: any) => {
-        const doc = new jsPDF();
-
-        // ---- LocalStorage se data fetch karo ----
-        const staffDataStr = localStorage.getItem("staffData");
-        let vendorName = "Name not provided";
-        let vendorEmail = "Email not provided";
-        let vendorPhone = "Phone not provided";
-        let vendorAddress = "Address not provided";
-        let vendorWebsite = "Website not provided";
 
 
-        if (staffDataStr) {
-            try {
-                const staffData = JSON.parse(staffDataStr);
-                if (staffData.data && staffData.data.length > 0) {
-                    const vendor = staffData.data[0].attributes;
-                    vendorName = vendor.name || vendorName;
-                    vendorEmail = vendor.email || vendorEmail;
-                    vendorPhone = vendor.phone || vendorPhone;
-                    vendorAddress = vendor.address || vendorAddress;
-                    vendorWebsite = vendor.website || vendorWebsite;
-                }
-            } catch (err) {
-                console.error("Error parsing staffData from localStorage", err);
-            }
-        }
+const generatePDF = (invoice: any) => {
+  const doc = new jsPDF();
 
-        // -------- Header --------
-        doc.setFontSize(14);
-        doc.setFont("helvetica", "bold");
-        doc.text(`${vendorName}`, 14, 20);
+  // ---------- Helpers ----------
+  const formatAmount = (value: number) =>
+    `Rs. ${Number(value || 0).toLocaleString("en-IN")}`;
 
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.text(`Address: ${vendorAddress}`, 14, 26);
-        doc.text(`Phone: ${vendorPhone}   Email: ${vendorEmail}`, 14, 32);
-        doc.text(`Website: ${vendorWebsite}`, 14, 38);
+  // ---------- Vendor Data ----------
+  const staffDataStr = localStorage.getItem("staffData");
 
-        doc.setFontSize(22);
-        doc.setTextColor(200, 70, 40);
-        doc.text("Invoice", 170, 20);
+  let vendorName = "Name not provided";
+  let vendorEmail = "Email not provided";
+  let vendorPhone = "Phone not provided";
+  let vendorAddress = "Address not provided";
+  let vendorWebsite = "Website not provided";
+  let vendorBankDetails = "Bank details not provided";
 
-        doc.setTextColor(0, 0, 0);
+  if (staffDataStr) {
+    try {
+      const staffData = JSON.parse(staffDataStr);
+      if (staffData?.data?.length > 0) {
+        const vendor = staffData.data[0].attributes;
+        vendorName = vendor.name || vendorName;
+        vendorEmail = vendor.email || vendorEmail;
+        vendorPhone = vendor.phone || vendorPhone;
+        vendorAddress = vendor.address || vendorAddress;
+        vendorWebsite = vendor.website || vendorWebsite;
+        vendorBankDetails = vendor.bankDetails || vendorBankDetails;
+      }
+    } catch (err) {
+      console.error("Error parsing staffData", err);
+    }
+  }
 
+  // ---------- Header ----------
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(vendorName, 14, 20);
 
-        // -------- Invoice Info --------
-        doc.setFontSize(11);
-        doc.setFont("helvetica", "bold");
-        doc.text(`Invoice Number: ${invoice.id || "01234"}`, 14, 50);
-        doc.text("BILL TO:", 120, 50);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.text(`Address: ${vendorAddress}`, 14, 26);
+  doc.text(`Phone: ${vendorPhone}   Email: ${vendorEmail}`, 14, 32);
+  doc.text(`Website: ${vendorWebsite}`, 14, 38);
 
-        doc.setFont("helvetica", "normal");
-        doc.text(`Date: ${invoice.invoicedate}`, 14, 60);
-        doc.text(`Due Date: ${invoice.paiddate}`, 14, 66);
+  doc.setFontSize(22);
+  doc.setTextColor(200, 70, 40);
+  doc.text("Invoice", 170, 20);
+  doc.setTextColor(0, 0, 0);
 
-        doc.text(`${invoice.customeremail}`, 120, 60);
-        doc.text("Ginyard International Co.", 120, 66);
+  // ---------- Invoice Info ----------
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text(`Invoice Number: ${invoice.id || "0001"}`, 14, 50);
+  doc.text("BILL TO:", 120, 50);
 
-        // -------- Table (Description of Services) --------
-        autoTable(doc, {
-            startY: 80,
-            head: [["Item", "Description", "Quantity", "Unit Price", "Total"]],
-            body: [
-                [
-                    "001",
-                    invoice.invoicedescription,
-                    "1",
-                    `₹${invoice.invoiceamount}`,
-                    `₹${invoice.invoiceamount}`,
-                ],
-            ],
-            theme: "grid",
-            styles: { fontSize: 10 },
-            headStyles: { fillColor: [255, 153, 51] }, // orange header
-        });
+  doc.setFont("helvetica", "normal");
+  doc.text(`Date: ${invoice.invoicedate || "-"}`, 14, 60);
+  doc.text(`Due Date: ${invoice.paiddate || "-"}`, 14, 66);
 
-        // -------- Totals --------
-        // ---- Totals Section ----
-        const finalY = (doc as any).lastAutoTable.finalY + 10;
-        doc.setFont("helvetica", "bold");
-        doc.text(`Subtotal: ₹${invoice.invoiceamount || 0}`, 150, finalY);
-        doc.text(`Tax: ₹${invoice.invoicetax || 0}`, 150, finalY + 6);
-        doc.text(`Discount: ₹${invoice.inovicediscount || 0}`, 150, finalY + 12);
-        doc.text(`Total Amount Due: ₹${invoice.invoicetotal || 0}`, 150, finalY + 18);
+  doc.text(invoice.customeremail || "-", 120, 60);
+  doc.text("Ginyard International Co.", 120, 66);
 
-        // ---- Footer ----
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        let vendorFooterName = "Vendor name not provided";
-        let vendorFooterAddress = "Vendor address not provided";
-        let vendorBankDetails = "Bank details not provided";
+  // ---------- Table ----------
+  autoTable(doc, {
+    startY: 80,
+    head: [["Item", "Description", "Qty", "Unit Price", "Total"]],
+    body: [
+      [
+        "001",
+        invoice.invoicedescription || "-",
+        "1",
+        formatAmount(invoice.invoiceamount),
+        formatAmount(invoice.invoiceamount),
+      ],
+    ],
+    theme: "grid",
+    styles: {
+      fontSize: 10,
+      cellPadding: 4,
+    },
+    headStyles: {
+      fillColor: [255, 153, 51],
+      halign: "center",
+    },
+    columnStyles: {
+      0: { halign: "center", cellWidth: 20 },
+      2: { halign: "center", cellWidth: 20 },
+      3: { halign: "right", cellWidth: 35 },
+      4: { halign: "right", cellWidth: 35 },
+    },
+  });
 
-        if (staffDataStr) {
-            try {
-                const staffData = JSON.parse(staffDataStr);
-                if (staffData.data && staffData.data.length > 0) {
-                    const vendor = staffData.data[0].attributes;
-                    vendorFooterName = vendor.name || vendorFooterName;
-                    vendorFooterAddress = vendor.address || vendorFooterAddress;
-                    vendorBankDetails = vendor.bankDetails || vendorBankDetails;
-                }
-            } catch (err) {
-                console.error("Error parsing staffData from localStorage", err);
-            }
-        }
+  // ---------- Totals ----------
+  const finalY = (doc as any).lastAutoTable.finalY + 10;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const rightX = pageWidth - 14;
 
-        doc.text("Please make checks payable to:", 14, finalY + 20);
-        doc.setFont("helvetica", "bold");
-        doc.text(vendorFooterName, 14, finalY + 26);
-        doc.setFont("helvetica", "normal");
-        doc.text(vendorFooterAddress, 14, finalY + 32);
-        doc.text(vendorBankDetails, 14, finalY + 42);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Subtotal: ${formatAmount(invoice.invoiceamount)}`, rightX, finalY, { align: "right" });
+  doc.text(`Tax: ${formatAmount(invoice.invoicetax)}`, rightX, finalY + 6, { align: "right" });
+  doc.text(`Discount: ${formatAmount(invoice.inovicediscount)}`, rightX, finalY + 12, { align: "right" });
+  doc.text(
+    `Total Amount Due: ${formatAmount(invoice.invoicetotal)}`,
+    rightX,
+    finalY + 18,
+    { align: "right" }
+  );
 
-        doc.setFont("helvetica", "bold");
-        doc.text(`Thank you for choosing ${vendorFooterName}!`, 120, finalY + 48);
+  // ---------- Footer ----------
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.text("Please make checks payable to:", 14, finalY + 22);
 
-        // -------- Save --------
-        doc.save(`Invoice_${invoice.id}.pdf`);
-    };
+  doc.setFont("helvetica", "bold");
+  doc.text(vendorName, 14, finalY + 28);
+
+  doc.setFont("helvetica", "normal");
+  doc.text(vendorAddress, 14, finalY + 34);
+  doc.text(vendorBankDetails, 14, finalY + 44);
+
+  doc.setFont("helvetica", "bold");
+  doc.text(`Thank you for choosing ${vendorName}!`, rightX, finalY + 50, {
+    align: "right",
+  });
+
+  // ---------- Save ----------
+  doc.save(`Invoice_${invoice.id}.pdf`);
+};
+
 
 
     return (
@@ -464,6 +476,14 @@ function Invoice() {
                                     );
                                 }
 
+                                // const isNumberField = [
+                                //     "invoiceamount",
+                                //     "invoicetax",
+                                //     "invoicetotal",
+                                //     "inovicediscount",
+                                // ].includes(key);
+
+
                                 const isNumberField = [
                                     "invoiceamount",
                                     "invoicetax",
@@ -471,23 +491,58 @@ function Invoice() {
                                     "inovicediscount",
                                 ].includes(key);
 
+                                const isDateField = key === "invoicedate" || key === "paiddate";
+
+                                const placeholderMap: Record<string, string> = {
+                                    invoicedate: "YYYY-MM-DD (Invoice Date)",
+                                    paiddate: "YYYY-MM-DD (Paid Date)",
+                                };
+
+
+
                                 return (
+                                    // <div>
+                                    //     <label className="text-gray-700 text-base font-bold pb-2 mb-1 capitalize">{key.replace(/_/g, " ")}</label>
+                                    //     <input
+                                    //         key={key}
+                                    //         type={isNumberField ? "number" : "text"}
+                                    //         placeholder={key}
+                                    //         value={typeof value === "boolean" ? String(value) : value ?? ""}
+                                    //         onChange={(e) =>
+                                    //             setFormData((prev) => ({
+                                    //                 ...prev,
+                                    //                 [key]: isNumberField ? parseFloat(e.target.value) || 0 : e.target.value,
+                                    //             }))
+                                    //         }
+                                    //         className="w-full border-2 bg-white rounded-xl p-2 mb-3"
+                                    //     />
+                                    // </div>
                                     <div>
-                                        <label className="text-gray-700 text-base font-bold pb-2 mb-1 capitalize">{key.replace(/_/g, " ")}</label>
+                                        <label className="text-gray-700 text-base font-bold pb-2 mb-1 capitalize">
+                                            {key === "invoicedate"
+                                                ? "Invoice Date"
+                                                : key === "paiddate"
+                                                    ? "Paid Date"
+                                                    : key.replace(/_/g, " ")}
+                                        </label>
+
                                         <input
                                             key={key}
-                                            type={isNumberField ? "number" : "text"}
-                                            placeholder={key}
+                                            type={isDateField ? "date" : isNumberField ? "number" : "text"}
+                                            placeholder={placeholderMap[key] || key}
                                             value={typeof value === "boolean" ? String(value) : value ?? ""}
                                             onChange={(e) =>
                                                 setFormData((prev) => ({
                                                     ...prev,
-                                                    [key]: isNumberField ? parseFloat(e.target.value) || 0 : e.target.value,
+                                                    [key]: isNumberField
+                                                        ? parseFloat(e.target.value) || 0
+                                                        : e.target.value,
                                                 }))
                                             }
                                             className="w-full border-2 bg-white rounded-xl p-2 mb-3"
                                         />
                                     </div>
+
                                 );
                             })}
                         </div>

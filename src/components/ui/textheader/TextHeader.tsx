@@ -9,13 +9,13 @@ interface TextHeadingProps {
   buttonprops?: {
     buttonText: string;
     title: string;
-    content: string;
+    content?: React.ReactNode;
     onClick?: () => void;
   };
   secondbuttonprops?: {
     buttonText: string;
     title: string;
-    content: string;
+    content?: React.ReactNode;
     onClick?: () => void;
   };
 }

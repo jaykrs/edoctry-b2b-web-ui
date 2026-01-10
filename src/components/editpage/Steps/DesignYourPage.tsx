@@ -103,8 +103,8 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
 
     const blockManager = editor.BlockManager;
 
-    // Add static blocks
-    [...generalBlocks, ...hero, ...footerBlocks].forEach(
+    // Add static blocks ...footerBlocks
+    [...generalBlocks, ...hero ].forEach(
       (block: any) => blockManager.add(block.id, block)
     );
 
