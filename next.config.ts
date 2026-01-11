@@ -21,6 +21,14 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*', // Match requests starting with /api/
+        destination: 'http://edgeadmin.teqtoeducation.com*', // Proxy to your HTTP API
+      },
+    ];
+  }
 };
 
 module.exports = nextConfig;
