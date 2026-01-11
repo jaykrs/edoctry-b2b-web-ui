@@ -1,5 +1,5 @@
 {
-  "name": "free-nextjs-admin-dashboard",
+  "name": "edge-web-app",
   "version": "2.0.2",
   "private": true,
   "scripts": {
@@ -29,7 +29,7 @@
     "grapesjs": "^0.22.11",
     "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
-    "next": "15.2.3",
+    "next": "15.2.8",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
     "react-datepicker": "^8.7.0",
