@@ -11,6 +11,13 @@ import { apiUrl } from "@/utils/config";
 import { appName } from "@/utils/config";
 
 
+type InputProps = {
+  placeholder: string;
+  type: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required: boolean;
+};
 
 
 
@@ -21,6 +28,7 @@ export default function SignInForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
