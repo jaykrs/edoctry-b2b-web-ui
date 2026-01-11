@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["api.edoctry.com", "plus.unsplash.com", "via.placeholder.com", "images.unsplash.com"],
+    domains: ["edgeadmin.teqtoeducation.com", "plus.unsplash.com", "via.placeholder.com", "images.unsplash.com"],
   },
   webpack(config : any) {
     config.module.rules.push({
