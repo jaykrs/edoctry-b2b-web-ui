@@ -25,7 +25,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*', // Match requests starting with /api/
-        destination: 'http://edgeadmin.teqtoeducation.com*', // Proxy to your HTTP API
+        destination: 'https://edgeadmin.teqtoeducation.com*', // Proxy to your HTTP API
       },
     ];
   }
