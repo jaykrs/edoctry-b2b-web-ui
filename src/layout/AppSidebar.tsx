@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
@@ -99,6 +98,11 @@ const othersItems: NavItem[] = [
 ];
 
 const updateItems: NavItem[] = [
+    {
+    icon: <PageIcon />,
+    name: "Customers",
+    path: "/admin/customers",
+  },
   {
     icon: <StudentIcon />,
     name: "Student",
@@ -141,14 +145,15 @@ const updateItems: NavItem[] = [
   },
   {
     icon: <PageIcon />,
-    name: "Pages",
-    path: "/admin/pages",
-  },
-  {
-    icon: <PageIcon />,
     name: "HeaderFooter",
     path: "/admin/headerfooter",
   },
+  {
+    icon: <PageIcon />,
+    name: "Pages",
+    path: "/admin/pages",
+  },
+
 
 ];
 
@@ -158,7 +163,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main"  | "others" | "update"
+    menuType: "main" | "others" | "update"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -408,7 +413,7 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
-{/* 
+            {/* 
             <div className="">
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
