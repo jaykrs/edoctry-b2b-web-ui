@@ -26,6 +26,18 @@ interface Order {
     smedia: string;
     paymentSummery: string;
     subscribeDomain: string;
+    alternatephone: string;
+    idnumber: string;
+    idtype: string;
+    lockerdetails: string;
+    monthfee: string;
+    parentdetails: string;
+    regfee: string;
+    registrationdt: string;
+    reregistrationdt: string;
+    shifttime: string;
+    studentid: string;
+
   };
   projectName: string;
   team: {
@@ -59,6 +71,17 @@ export default function Student() {
     smedia: "",
     paymentSummery: "",
     subscribeDomain: "",
+    alternatephone: "",
+    idnumber: "",
+    idtype: "",
+    lockerdetails: "",
+    monthfee: "",
+    parentdetails: "",
+    regfee: "",
+    registrationdt: "",
+    reregistrationdt: "",
+    shifttime: "",
+    studentid: "",
   });
 
   useEffect(() => {
@@ -103,6 +126,7 @@ export default function Student() {
         );
 
         const data = await res.json();
+        console.log("Fetched student data:", data);
         const studentList: Order[] = data.data.map((item: any, index: number) => ({
           id: item.id || index + 1,
           user: {
@@ -122,6 +146,17 @@ export default function Student() {
             smedia: item.attributes.smedia || "",
             paymentSummery: item.attributes.paymentSummery || "",
             subscribeDomain: item.attributes.subscribeDomain || "",
+            alternatephone: item.attributes.alternatephone || "",
+            idnumber: item.attributes.idnumber || "",
+            idtype: item.attributes.idtype || "",
+            lockerdetails: item.attributes.lockerdetails || "",
+            monthfee: item.attributes.monthfee || "",
+            parentdetails: item.attributes.parentdetails || "",
+            regfee: item.attributes.regfee || "",
+            registrationdt: item.attributes.registrationdt || "",
+            reregistrationdt: item.attributes.reregistrationdt || "",
+            shifttime: item.attributes.shifttime || "",
+            studentid: item.attributes.studentid || "",
           },
           projectName: item.attributes.website || "N/A",
           team: {
@@ -160,6 +195,17 @@ export default function Student() {
       smedia: "",
       paymentSummery: "",
       subscribeDomain: "",
+      alternatephone: "",
+      idnumber: "",
+      idtype: "",
+      lockerdetails: "",
+      monthfee: "",
+      parentdetails: "",
+      regfee: "",
+      registrationdt: "",
+      reregistrationdt: "",
+      shifttime: "",
+      studentid: "",
     });
     setShowModal(true);
   };
@@ -186,6 +232,17 @@ export default function Student() {
       smedia: student.user.smedia,
       paymentSummery: student.user.paymentSummery,
       subscribeDomain: student.user.subscribeDomain,
+      alternatephone: student.user.alternatephone,
+      idnumber: student.user.idnumber,
+      idtype: student.user.idtype,
+      lockerdetails: student.user.lockerdetails,
+      monthfee: student.user.monthfee,
+      parentdetails: student.user.parentdetails,
+      regfee: student.user.regfee,
+      registrationdt: student.user.registrationdt,
+      reregistrationdt: student.user.reregistrationdt,
+      shifttime: student.user.shifttime,
+      studentid: student.user.studentid,
     });
     setShowModal(true);
   };
@@ -234,6 +291,17 @@ export default function Student() {
             smedia: formData.smedia,
             paymentSummery: formData.paymentSummery,
             subscribeDomain: formData.subscribeDomain,
+            alternatephone: formData.alternatephone,
+            idnumber: formData.idnumber,
+            idtype: formData.idtype,
+            lockerdetails: formData.lockerdetails,
+            monthfee: formData.monthfee,
+            parentdetails: formData.parentdetails,
+            regfee: formData.regfee,
+            registrationdt: formData.registrationdt,
+            reregistrationdt: formData.reregistrationdt,
+            shifttime: formData.shifttime,
+            studentid: formData.studentid,
           },
         }),
       });
@@ -278,7 +346,7 @@ export default function Student() {
         </div>
       )} */}
 
-      
+
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -317,6 +385,22 @@ export default function Student() {
                   >
                     Address
                   </TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
+                    Registration Date & Locker Details
+                  </TableCell>
+
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
+                    ID Type & ID Number
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs"
+                  >
+                    Status
+                  </TableCell>
+                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
+                    Reg Fee, Month Fee & Shift Time
+                  </TableCell>
                   <TableCell
                     isHeader
                     className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
@@ -332,19 +416,19 @@ export default function Student() {
                   <TableRow key={order.id}>
                     <TableCell className="px-5 py-6 sm:px-6 text-start">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 overflow-hidden rounded-lg">
+                        <div className="min-w-10 min-h-10  rounded-lg">
                           <img
                             src={`https://ui-avatars.com/api/?name=${order.user.name}&background=random`}
                             alt={order.user.name}
-                            className=""
+                            className="w-10 h-10 rounded-lg object-cover"
                           />
                         </div>
                         <div>
                           <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
                             {order.user.name}
                           </span>
-                          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                            {order.user.role}
+                          <span >
+                            {order.user.studentid || "-"}
                           </span>
                         </div>
                       </div>
@@ -369,6 +453,45 @@ export default function Student() {
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                       <span>{order.user.address}</span>
                     </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                      <div className="flex flex-col">
+                        <span>
+                          {order.user.registrationdt || "-"}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {order.user.lockerdetails || "-"}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                      <div className="flex flex-col">
+                        <span className="font-medium">
+                          {order.user.idtype || "-"}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {order.user.idnumber || "-"}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-theme-sm">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${order.user.active
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                          }`}
+                      >
+                        {order.user.active ? "Active" : "Inactive"}
+                      </span>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                      <div className="flex flex-col">
+                        <span>Reg Fee: {order.user.regfee || "-"}</span>
+                        <span>Month Fee: {order.user.monthfee || "-"}</span>
+                        <span className="text-xs text-gray-400">
+                          {order.user.shifttime || "-"}
+                        </span>
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <button
                         onClick={() => openEditModal(order)}
@@ -391,26 +514,7 @@ export default function Student() {
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto   ">
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
-              <div className=" text-gray-500 rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl font-semibold mb-2">{editingStudentId ? "Edit Student Information ?" : "Add Student Details ?"}</h2>
-                <p className="text-sm text-gray-700 mb-6">
-                  {editingStudentId ? "Update Student Details to keep your Profile Accurate" : "Stay organized by keeping all student information in one place."}
 
-                </p>
-
-                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                  <input
-                    type="email"
-                    placeholder="youremail@address.com"
-                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                  />
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                    ➜
-                  </button>
-                </div>
-              </div>
-            </div>
             {/* end */}
             <div className="flex justify-end items-center mt-6">
               {editingStudentId !== null && !isEditable ? (
@@ -602,7 +706,135 @@ export default function Student() {
                   onChange={(e) => setFormData({ ...formData, subscribeDomain: e.target.value })}
                 />
               </div>
-
+              {/* Alternate Phone */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Alternate Phone</h3>
+                <input
+                  type="tel"
+                  placeholder="Alternate Phone"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.alternatephone}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, alternatephone: e.target.value })}
+                />
+              </div>
+              {/* Student Id */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Student ID</h3>
+                <input
+                  type="text"
+                  placeholder="Student ID"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.studentid}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, studentid: e.target.value })}
+                />
+              </div>
+              {/* Idtype */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">ID Type</h3>
+                <input
+                  type="text"
+                  placeholder="Adhar / PAN / etc"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.idtype}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, idtype: e.target.value })}
+                />
+              </div>
+              {/* Id number */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">ID Number</h3>
+                <input
+                  type="text"
+                  placeholder="ID Number"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.idnumber}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, idnumber: e.target.value })}
+                />
+              </div>
+              {/* Locker Details */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Locker Details</h3>
+                <input
+                  type="text"
+                  placeholder="Locker Details"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.lockerdetails}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, lockerdetails: e.target.value })}
+                />
+              </div>
+              {/* Registration fee*/}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Registration Fee</h3>
+                <input
+                  type="text"
+                  placeholder="Registration Fee"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.regfee}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, regfee: e.target.value })}
+                />
+              </div>
+              {/* Monthly Fee */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Monthly Fee</h3>
+                <input
+                  type="text"
+                  placeholder="Monthly Fee"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.monthfee}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, monthfee: e.target.value })}
+                />
+              </div>
+              {/* Registration date */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Registration Date</h3>
+                <input
+                  type="date"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.registrationdt}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, registrationdt: e.target.value })}
+                />
+              </div>
+              {/* Re-Registration Date */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Re-Registration Date</h3>
+                <input
+                  type="date"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.reregistrationdt}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, reregistrationdt: e.target.value })}
+                />
+              </div>
+              {/* Swift Time */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Shift Time</h3>
+                <input
+                  type="text"
+                  placeholder="Shift Time"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.shifttime}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, shifttime: e.target.value })}
+                />
+              </div>
+              {/* Parent Details */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Parent Details</h3>
+                <textarea
+                  placeholder="Parent Details"
+                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
+                  value={formData.parentdetails}
+                  disabled={!isEditable}
+                  onChange={(e) => setFormData({ ...formData, parentdetails: e.target.value })}
+                />
+              </div>
               {/* DOB */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Date of Birth</h3>

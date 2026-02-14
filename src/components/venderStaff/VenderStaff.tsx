@@ -90,7 +90,6 @@ function VendorStaff() {
           }
         );
         const data = await res.json();
-        console.log("Vendor Staff Data:", data);
         if (!res.ok) {
           throw new Error(data.error?.message || "Failed to fetch vendor staff list");
         }
@@ -402,26 +401,7 @@ function VendorStaff() {
         <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
             {/* Header with gradient */}
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
-              <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl text-gray-500 font-semibold mb-2">
-                  {editingStaffId ? "Edit Staff Details ?" : "Add Staff Details ?"}
-                </h2>
-                <p className="text-sm text-gray-700 mb-6">
-                  {editingStaffId ? "Update staff information to keep records accurate." : "Keep your staff info updated and organized."}
-                </p>
-                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                  <input
-                    type="email"
-                    placeholder="youremail@address.com"
-                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                  />
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                    ➜
-                  </button>
-                </div>
-              </div>
-            </div>
+
 
             {/* Edit/Save button top right */}
             <div className="flex justify-end items-center mt-6">

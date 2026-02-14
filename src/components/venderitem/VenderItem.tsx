@@ -72,8 +72,7 @@ export default function VenderItem() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    console.log("Fetching vendortype with JWT:", jwt);
-    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendoritemtype`, {
+    fetch(`${apiUrl}/api/templates?filters[type][$eq]=vendoritemtype`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
@@ -97,7 +96,7 @@ export default function VenderItem() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    fetch(`${apiUrl}/api/templates?filters[template][$eq]=vendoritemcategory`, {
+    fetch(`${apiUrl}/api/templates?filters[type][$eq]=vendoritemcategory`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
@@ -125,7 +124,6 @@ export default function VenderItem() {
     const staffDataString = localStorage.getItem("staffData");
     const staffData = staffDataString ? JSON.parse(staffDataString) : null;
     const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
-    console.log("Saving formData: ", formData);
     const method = editingItemId ? "PUT" : "POST";
     const endpoint = editingItemId
       ? `${apiUrl}/api/vendoritems/${editingItemId}`
@@ -341,27 +339,6 @@ export default function VenderItem() {
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
-            {/* Gradient Header */}
-            <div className="flex flex-col items-center justify-center min-h-[250px] bg-[#DDE6FA] px-4 rounded-3xl">
-              <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl font-semibold mb-2 text-gray-500">
-                  {editingItemId ? "Edit Item Details ?" : "Add Item Details ?"}
-                </h2>
-                <p className="text-sm text-gray-500 mb-6">
-                  {editingItemId ? "Update item info to keep inventory accurate." : "Keep your item details up to date and categorized properly."}
-                </p>
-                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                  <input
-                    type="text"
-                    placeholder="youremail@address.com"
-                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                  />
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                    ➜
-                  </button>
-                </div>
-              </div>
-            </div>
 
             {/* Edit/Save Top Right */}
             <div className="flex justify-end items-center mt-6">

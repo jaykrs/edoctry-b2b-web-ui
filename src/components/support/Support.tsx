@@ -113,7 +113,6 @@ function Support() {
             });
 
             const data = await res.json();
-            console.log("Save Response:", data);
 
             if (editingStudentId) {
                 setComplaintData((prev) =>

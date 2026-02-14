@@ -2,11 +2,26 @@
 import React, { useState } from "react";
 import { apiUrl } from "@/utils/config";
 import TextHeading from "../ui/textheader/TextHeader";
+import {
+    Editor,
+    EditorProvider,
+    Toolbar,
+    BtnBold,
+    BtnItalic,
+    BtnUnderline,
+    BtnLink,
+    BtnBulletList,
+    BtnNumberedList,
+    BtnUndo,
+    BtnRedo
+} from "react-simple-wysiwyg";
+
 
 export function Templates() {
     const [templateName, setTemplateName] = useState("");
     const [jsonData, setJsonData] = useState("");
     const [htmlElement, setHtmlElement] = useState("");
+    const [template, setTemplate] = useState("");
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [savedTemplate, setSavedTemplate] = useState<any>(null);
 
@@ -26,7 +41,8 @@ export function Templates() {
                 body: JSON.stringify({
                     data: {
                         name: templateName,
-                        template: "grapesjs",
+                        template: template,
+                        type: "page-templates",
                         json: jsonData,
                         html_element: htmlElement,
                     },
@@ -40,6 +56,7 @@ export function Templates() {
             const data = await response.json();
             setSavedTemplate(data.data);
             setTemplateName("");
+            setTemplate("");
             setJsonData("");
             setHtmlElement("");
             setStatus("success");
@@ -47,6 +64,11 @@ export function Templates() {
             console.error("Error posting templates:", error);
             setStatus("error");
         }
+    };
+    const decodeHtml = (html: string) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     };
 
     return (
@@ -73,17 +95,31 @@ export function Templates() {
                         />
                     </div>
 
-                    {/* Templates (readonly) */}
+                    {/* Type (readonly) */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-800 mb-1">
-                            Templates
+                            Type
                         </label>
                         <input
                             type="text"
-                            value="grapesjs"
+                            value="page-templates"
                             readOnly
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
                         />
+                    </div>
+
+                    {/* templates */}
+
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-semibold text-gray-800 mb-1">
+                            Template Details
+                        </label>
+                        <textarea
+                            rows={4}
+                            value={template}
+                            onChange={(e) => setTemplate(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        ></textarea>
                     </div>
 
                     {/* JSON */}
@@ -102,19 +138,54 @@ export function Templates() {
                     {/* HTML Element */}
                     <div className="md:col-span-2">
                         <label className="block text-sm font-semibold text-gray-800 mb-1">
-                            Html Element<span className="text-red-500">*</span>
+                            Html Element <span className="text-red-500">*</span>
                         </label>
-                        <textarea
-                            rows={4}
-                            value={htmlElement}
-                            onChange={(e) => setHtmlElement(e.target.value)}
-                            placeholder={`<style>..</style>\n<div>..</div>\n<script>..</script>`}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                        ></textarea>
+
+                        <EditorProvider>
+                            <div className="border rounded-lg bg-white overflow-hidden">
+                                <Toolbar>
+                                    <BtnBold />
+                                    <BtnItalic />
+                                    <BtnUnderline />
+                                    <BtnLink />
+                                    <BtnBulletList />
+                                    <BtnNumberedList />
+                                    <BtnUndo />
+                                    <BtnRedo />
+                                </Toolbar>
+
+                                <Editor
+                                    value={htmlElement}
+                                    onChange={(e) => setHtmlElement(e.target.value)}
+                                    className="min-h-[200px] px-3 py-2"
+                                />
+                            </div>
+                        </EditorProvider>
+                    </div>
+
+                    {/* Live Preview */}
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                            Live Preview
+                        </label>
+
+                        <div className="border rounded-lg bg-white p-4 min-h-[200px]">
+                            {htmlElement ? (
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: decodeHtml(htmlElement),
+                                    }}
+                                />
+                            ) : (
+                                <p className="text-gray-400 text-sm">
+                                    Start typing to see preview...
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                {/* Footer with Submit */}
+                {/* Footer  */}
                 <div className="fixed bottom-0 left-0 right-0 bg-white border-t px-6 py-4 flex justify-end items-center shadow-md">
                     <button
                         type="submit"

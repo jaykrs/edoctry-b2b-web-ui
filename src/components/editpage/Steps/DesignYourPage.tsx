@@ -9,7 +9,7 @@ import { apiUrl } from "@/utils/config";
 
 interface Props {
   pageId?: string | null;
-  onNext?: (data: { page_html_body: string; pagecss: string; headerfooterid: string | null; name: string }) => void;
+  onNext?: (data: { page_html_body: string;  headerfooterid: string | null; name: string }) => void;
 }
 
 export default function DesignYourPage({ pageId, onNext }: Props) {
@@ -26,7 +26,7 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
       const token = localStorage.getItem("jwt");
       try {
         const response = await fetch(
-          `${apiUrl}/api/templates?filters[template][$eq]=grapesjs`,
+          `${apiUrl}/api/templates?filters[type][$eq]=page-templates`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -120,7 +120,6 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
         if (res.ok) {
           const { data } = await res.json();
           const html = data?.attributes?.page_html_body || "";
-          const css = data?.attributes?.pagecss || "";
           setHeaderFooterId(data?.attributes?.headerfooterid || null);
           setPageName(data?.attributes?.name || "Untitled");
 
@@ -129,7 +128,6 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
           editor.CssComposer.clear();
 
           editor.setComponents(`<body>${html}</body>`);
-          editor.setStyle(css);
         }
       } catch (err) {
         console.error("❌ Error loading page data:", err);
@@ -152,7 +150,6 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
     if (!editorRef.current || !pageId) return alert("Editor not ready!");
 
     const html = editorRef.current.getHtml();
-    const css = editorRef.current.getCss();
     const token = localStorage.getItem("jwt");
 
     try {
@@ -163,7 +160,7 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: { page_html_body: html, pagecss: css },
+          data: { page_html_body: html },
         }),
       });
 
@@ -179,12 +176,10 @@ const handleSaveAndNext = async () => {
   if (!editorRef.current) return;
   await handleSave();
   const html = editorRef.current.getHtml();
-  const css = editorRef.current.getCss();
 
   if (onNext) {
     onNext({
       page_html_body: html,
-      pagecss: css,
       headerfooterid: headerFooterId,
       name: pageName,
     });

@@ -55,7 +55,6 @@ function Invoice() {
                 },
             });
             const data = await res.json();
-            console.log("Fetched Invoices:", data);
             const formatted = data.data.map((item: any) => ({
                 id: item.id,
                 ...item.attributes,
@@ -432,33 +431,6 @@ const generatePDF = (invoice: any) => {
             {showModal && (
                 <div className="fixed inset-0 bg-gray-300 bg-opacity-80 z-[9999] flex items-center justify-center">
                     <div className="bg-white p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto relative">
-                        <button
-                            onClick={() => setShowModal(false)}
-                            className="absolute top-2 right-2 text-xl font-bold text-gray-500 hover:text-black"
-                        >
-                            ×
-                        </button>
-
-                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
-                            <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                                <h2 className="text-2xl font-semibold text-gray-500 mb-2">{editInvoiceId ? "Edit Invoice" : "Add Invoice"}</h2>
-                                <p className="text-sm text-gray-700 mb-6">
-                                    {editInvoiceId ? "Update Invoice Details to keep your Profile Accurate" : "Stay organized by keeping all invoice information in one place."}
-                                </p>
-
-                                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                                    <input
-                                        type="email"
-                                        placeholder="youremail@address.com"
-                                        className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                                    />
-                                    <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                                        ➜
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* end */}
 
 
                         <div className="bg-[#DDE6FA] p-10 rounded-3xl mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">

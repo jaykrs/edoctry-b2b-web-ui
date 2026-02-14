@@ -854,12 +854,7 @@ body.hide-app-layout footer {
   max-width: 100%;
   height: auto;
 }
-/* Category title style (Layout, Typography) */
-/* .gjs-block-category .gjs-title {
-  /* background: #2563eb !important; blue */
-  /* color: #fff !important; */
-  /* font-size: 14px;
-  font-weight: bold;
-  border-radius: 6px;
-  padding: 8px 12px;
-} */ 
+.show-date-icon::-webkit-calendar-picker-indicator {
+  display: block !important;
+  opacity: 1 !important;
+}

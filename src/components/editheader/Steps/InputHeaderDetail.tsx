@@ -75,7 +75,6 @@ function InputHeaderDetail({ data, onChange, onNext }: InputHeaderDetailProps) {
                 value={data.name}
                 onChange={(e) => {
                   onChange({ name: e.target.value });
-                  console.log("Updated data:", { ...data, name: e.target.value });
                 }}
                 placeholder="Enter Header name"
                 required
