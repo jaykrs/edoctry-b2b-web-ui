@@ -45,7 +45,6 @@ export default function UserInfoCard() {
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
       const jwt = localStorage.getItem("jwt");
       const vendorid = staffData?.data?.[0]?.id;
-      console.log("Vendor ID:", vendorid);
 
       if (!vendorid || !jwt) {
         console.error("Vendor ID or JWT missing");

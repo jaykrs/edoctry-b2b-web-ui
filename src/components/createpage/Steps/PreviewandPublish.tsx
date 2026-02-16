@@ -10,12 +10,15 @@ interface PreviewAndPublishProps {
   data: any;
 }
 
+
 const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, data }) => {
   const [headerHtml, setHeaderHtml] = useState('');
   const [footerHtml, setFooterHtml] = useState('');
   const [clientsideLibs, setClientsideLibs] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [previewWidth, setPreviewWidth] = useState('100%');
+
 
   // 🔹 Fetch header/footer HTML
   useEffect(() => {
@@ -79,20 +82,86 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${data?.name || 'Web Page'}</title>
+
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  ${cssTags}
+
+  <!-- External CSS Libraries -->
+${cssTags}
+
+  
   <style>${data?.pagecss || ''}</style>
 </head>
 <body>
+
   ${headerHtml}
   ${data?.page_html_body || ''}
   ${footerHtml}
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   ${jsTags}
+
+  
 </body>
 </html>
 `;
+
+  // Publish to FTP server
+
+
+
+
+
+  const publishToFtp = async () => {
+    const token = localStorage.getItem("jwt");
+    const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
+    const ftpUser = staffData?.data?.[0]?.attributes?.ftp;
+
+    try {
+
+      // 🔹 1. Save to database first
+      const dbRes = await fetch(`${apiUrl}/api/pages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ data })
+      });
+
+      if (!dbRes.ok) {
+        alert("Database save failed");
+        return;
+      }
+
+      // 🔹 2. Then publish to FTP
+      const ftpRes = await fetch("/api/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          htmlContent: finalHtml,
+          ftpUser,
+          pageName: data?.name
+        })
+      });
+
+      if (!ftpRes.ok) {
+        alert("FTP publish failed");
+        return;
+      }
+
+      // 🔹 3. Go to finish page
+      onNext();
+
+    } catch (err) {
+      console.error("Publish error:", err);
+    }
+  };
+
+
 
   // 🔹 Save HTML file
   const saveFile = async () => {
@@ -142,8 +211,25 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
       {/* Preview Section */}
       <div className="flex-1 overflow-x-hidden p-4">
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-          <div className="flex justify-between">
-            <h3 className="text-lg font-semibold mb-2">Preview</h3>
+          <div className="flex justify-end  ">
+            <HoverPopover
+              buttonText="📱"
+              title="Mobile Preview"
+              content="Click to see a live preview of your page in mobile view."
+              onClick={() => setPreviewWidth('375px')}
+            />
+            <HoverPopover
+              buttonText="📲"
+              title="Tablet Preview"
+              content="Click to see a live preview of your page."
+              onClick={() => setPreviewWidth('768px')}
+            />
+            <HoverPopover
+              buttonText="🖥"
+              title="Desktop Preview"
+              content="Click to see a live preview of your page in desktop view."
+              onClick={() => setPreviewWidth('100%')}
+            />
             <HoverPopover
               buttonText="⛶"
               title="Preview your changes"
@@ -155,7 +241,13 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
           {loading ? (
             <p className="text-gray-600">Loading header/footer...</p>
           ) : finalHtml.trim() ? (
-            <div className="border rounded-md p-3 bg-gray-50" dangerouslySetInnerHTML={{ __html: finalHtml }} />
+            <div className="w-full h-80vh flex justify-center items-start bg-black">
+              <iframe
+                style={{ width: previewWidth, height: '100vh' }}
+                className="h-full bg-white border rounded-md shadow-xl"
+                srcDoc={finalHtml}
+              />
+            </div>
           ) : (
             <p className="text-gray-600">No preview available. Please design your page first.</p>
           )}
@@ -175,13 +267,7 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
             ← Back
           </button>
           <button
-            onClick={saveFile}
-            className="px-6 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition shadow"
-          >
-            Save File 💾
-          </button>
-          <button
-            onClick={onNext}
+            onClick={publishToFtp}
             className="px-6 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition shadow"
           >
             Publish 🚀
@@ -193,10 +279,41 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
       {showModal && (
         <div
           id="preview-container"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          className="fixed inset-0 z-50 bg-black bg-opacity-80"
         >
-          <div className="w-full h-full overflow-auto">
-            <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: finalHtml }} />
+          <div className="w-full h-full relative">
+
+            {/* 👉 Perfect Fullscreen Center */}
+            <div className="w-full h-full flex justify-center items-center overflow-hidden">
+              <iframe
+                style={{ width: previewWidth, height: '100%' }}
+                className="bg-white border rounded-lg shadow-2xl"
+                srcDoc={finalHtml}
+              />
+            </div>
+
+            {/* 👉 Bottom Controls */}
+            <div className="flex justify-center gap-4 bg-white/20 backdrop-blur absolute bottom-4 w-full p-4">
+              <button
+                onClick={() => setPreviewWidth('375px')}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                📱 Mobile
+              </button>
+              <button
+                onClick={() => setPreviewWidth('768px')}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                📲 Tablet
+              </button>
+              <button
+                onClick={() => setPreviewWidth('100%')}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                🖥 Desktop
+              </button>
+            </div>
+
           </div>
         </div>
       )}

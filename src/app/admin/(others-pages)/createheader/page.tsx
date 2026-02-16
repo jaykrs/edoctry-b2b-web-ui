@@ -5,9 +5,9 @@ import React from "react";
 import CreateHeader from "@/components/createheader/Createheader";
 
 export const metadata: Metadata = {
-  title: ` Create Pages | ${appName}`,
+  title: ` Create HeaderFooter | ${appName}`,
   description:
-    `${appName} Create Pages `,
+    `${appName} Create HeaderFooter `,
   // other metadata
 };
 export default function page() {

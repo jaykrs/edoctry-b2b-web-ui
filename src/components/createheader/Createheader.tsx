@@ -51,7 +51,6 @@ function CreateHeader() {
       if (!response.ok) throw new Error("Failed to create header");
 
       const data = await response.json();
-      console.log("✅ Header created successfully:", data);
 
       setStep(4);
       setIsPublished(true);

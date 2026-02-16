@@ -19,6 +19,7 @@ import {
   GroupIcon,
   DollarLineIcon,
   FolderIcon,
+  MailIcon,
 } from "../icons/index";
 
 type NavItem = {
@@ -44,6 +45,16 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     name: "User Profile",
     path: "/admin/profile",
+  },
+  {
+    icon: <GroupIcon />,
+    name: "Contact List",
+    path: "/admin/contactus",
+  },
+  {
+    icon: <MailIcon />,
+    name: "Email Workflow ",
+    path: "/admin/email-workflow ",
   },
 
   // {
@@ -98,7 +109,7 @@ const othersItems: NavItem[] = [
 ];
 
 const updateItems: NavItem[] = [
-    {
+  {
     icon: <PageIcon />,
     name: "Customers",
     path: "/admin/customers",
@@ -129,9 +140,9 @@ const updateItems: NavItem[] = [
     path: "/admin/invoice",
   },
   {
-    icon: <DollarLineIcon />,
-    name: "Order",
-    path: "#",
+    icon: <FolderIcon />,
+    name: "Website Images",
+    path: "/admin/upload-img",
   },
   {
     icon: <FolderIcon />,
@@ -140,7 +151,7 @@ const updateItems: NavItem[] = [
   },
   {
     icon: <FolderIcon />,
-    name: "Templates",
+    name: "Page Templates",
     path: "/admin/templates",
   },
   {
@@ -153,8 +164,11 @@ const updateItems: NavItem[] = [
     name: "Pages",
     path: "/admin/pages",
   },
-
-
+  {
+    icon: <MailIcon />,
+    name: "Email Templates",
+    path: "/admin/email-templates",
+  },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -395,7 +409,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>

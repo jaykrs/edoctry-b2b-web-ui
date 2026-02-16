@@ -10,6 +10,7 @@ import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 import { useRouter } from "next/navigation";
+import AdminLinks from "@/components/ecommerce/AdminLinks";
 
 export default function Ecommerce() {
   const [user, setUser] = useState<any>(null);
@@ -50,8 +51,12 @@ export default function Ecommerce() {
         <MonthlyTarget />
       </div>
       <div className="col-span-12">
+        <AdminLinks />
+      </div>
+      <div className="col-span-12">
         <StatisticsChart />
       </div>
+
     </div>
   );
 }

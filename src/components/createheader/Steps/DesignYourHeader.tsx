@@ -31,17 +31,18 @@ function DesignYourHeader({ data, onChange, onNext, onBack }: DesignYourHeaderPr
       blockManager: {
         appendTo: '#blocks',
       },
-        canvas: {
-    styles: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    ],
-    scripts: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    ]
-  }
+      canvas: {
+        styles: [
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        ],
+        scripts: [
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        ]
+      }
     });
 
-// Add custom blocks
+    // Add custom blocks
     const blockManager = editor.BlockManager;
     [...generalBlocks, ...headerBlocks].forEach((block: any) => {
       blockManager.add(block.id, block);
@@ -63,19 +64,19 @@ function DesignYourHeader({ data, onChange, onNext, onBack }: DesignYourHeaderPr
     };
   }, [data.header_html_element]);
 
-const handleNextClick = () => {
-  if (gjsInstanceRef.current) {
-    const wrapper = gjsInstanceRef.current.getWrapper();
-    const html = wrapper
-      ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
-      : '';
-    const css = gjsInstanceRef.current.getCss();
+  const handleNextClick = () => {
+    if (gjsInstanceRef.current) {
+      const wrapper = gjsInstanceRef.current.getWrapper();
+      const html = wrapper
+        ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
+        : '';
+      const css = gjsInstanceRef.current.getCss();
 
-    onChange({ header_html_element: `${html}<style>${css}</style>` });
-  }
+      onChange({ header_html_element: `${html}<style>${css}</style>` });
+    }
 
-  onNext();
-};
+    onNext();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

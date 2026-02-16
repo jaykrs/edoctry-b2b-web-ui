@@ -18,9 +18,20 @@ interface TextHeadingProps {
     content?: React.ReactNode;
     onClick?: () => void;
   };
+  savebuttonprops?: {
+    buttonTitle: string;
+    icon: string;
+    onClick?: () => void;
+  };
+  thirdbuttonprops?: {
+    buttonTitle: string;
+    icon: string;
+    onClick?: () => void;
+  };
+
 }
 
-const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonprops, secondbuttonprops }) => {
+const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonprops, secondbuttonprops, savebuttonprops, thirdbuttonprops }) => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -60,6 +71,34 @@ const TextHeading: React.FC<TextHeadingProps> = ({ title, icon, icon2, buttonpro
                 onClick={secondbuttonprops.onClick}
               />
             </div>
+          )}
+        </div>
+        <div>
+          {savebuttonprops && (
+            <button
+              onClick={savebuttonprops.onClick}
+              className="ml-2 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
+               bg-green-300 text-gray-700 ring-1 ring-inset ring-gray-300
+               hover:bg-green-500 transition"
+              title={savebuttonprops.buttonTitle}
+            >
+              <span className="text-base">{savebuttonprops.icon}</span>
+              <span>{savebuttonprops.buttonTitle}</span>
+            </button>
+          )}
+        </div>
+        <div>
+          {thirdbuttonprops && (
+            <button
+              onClick={thirdbuttonprops.onClick}
+              className="ml-2 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
+               bg-white text-gray-700 ring-1 ring-inset ring-gray-300
+               hover:bg-gray-50 transition"
+              title={thirdbuttonprops.buttonTitle}
+            >
+              <span className="text-base">{thirdbuttonprops.icon}</span>
+              <span>{thirdbuttonprops.buttonTitle}</span>
+            </button>
           )}
         </div>
       </div>

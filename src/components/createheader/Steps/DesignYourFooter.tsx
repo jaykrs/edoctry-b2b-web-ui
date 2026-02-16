@@ -32,14 +32,15 @@ function DesignYourFooter({ data, onChange, onNext, onBack }: DesignYourFooterPr
       blockManager: {
         appendTo: '#blocks',
       },
-        canvas: {
-    styles: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    ],
-    scripts: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    ]
-  }
+      canvas: {
+        styles: [
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        ],
+        scripts: [
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        ]
+      }
     });
 
     // Add blocks dynamically
@@ -65,20 +66,20 @@ function DesignYourFooter({ data, onChange, onNext, onBack }: DesignYourFooterPr
   }, [data.footer_html_element]);
 
   const handleSaveAndNext = () => {
-  if (gjsInstanceRef.current) {
-    const wrapper = gjsInstanceRef.current.getWrapper();
-    // Sirf children ka HTML collect karo (body skip)
-    const html = wrapper
-      ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
-      : '';
-    const css = gjsInstanceRef.current.getCss();
+    if (gjsInstanceRef.current) {
+      const wrapper = gjsInstanceRef.current.getWrapper();
+      // Sirf children ka HTML collect karo (body skip)
+      const html = wrapper
+        ? wrapper.components().map((cmp: any) => cmp.toHTML()).join('')
+        : '';
+      const css = gjsInstanceRef.current.getCss();
 
       onChange({ footer_html_element: `${html}<style>${css}</style>` });
       onNext();
     }
   };
 
-  
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}

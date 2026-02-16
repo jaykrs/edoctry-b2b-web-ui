@@ -22,16 +22,6 @@ function Recepient() {
   const [collection, setCollection] = useState<string>("");
   const [ownerName, setOwnerName] = useState("");
 
-  // const options = [
-  //   { value: 'Books', label: 'Books' },
-  //   { value: 'Movies', label: 'Movies, Music & Games' },
-  //   { value: 'Electronics', label: 'Electronics & Computers' },
-  //   { value: 'Home', label: 'Home, Garden & Tools' },
-  //   { value: 'Health', label: 'Health & Beauty' },
-  //   { value: 'Toys', label: 'Toys, Kids & Baby' },
-  //   { value: 'Clothing', label: 'Clothing & Jewelry' },
-  //   { value: 'Sports', label: 'Sports & Outdoors' },
-  // ];
 
  useEffect(() => {
     fetchStudentList();
@@ -66,8 +56,8 @@ function Recepient() {
 
 
     const options = students.map((s: any) => ({
-    value: s.attributes?.email, // email ko value
-    label: s.attributes?.name,  // name ko label
+    value: s.attributes?.email,
+    label: s.attributes?.name,
   }));
 
   const fetchRecepientList = async (jwt: string, vendoruuid: string) => {
@@ -262,27 +252,8 @@ function Recepient() {
 
       {showModal && (
         <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
-            <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
-              <div className="bg-gradient-to-r from-[#506edb] to-[#2042BD] text-white rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                <h2 className="text-2xl text-gray-500 font-semibold mb-2">
-                  {isEditing ? "Edit Recepient Information" : "Add Recepient Information"}
-                </h2>
-                <p className="text-sm text-gray-700 mb-6">
-                  {isEditing ? "Update Recepient Details to keep your Profile Accurate" : "Add Recepient Details to keep your Profile Accurate"}
-                </p>
-                                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                  <input
-                    type="email"
-                    placeholder="youremail@address.com"
-                    className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                  />
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                    ➜
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%]  overflow-y-auto">
+
 
             {/* buttn */}
             <div className="flex justify-end mt-6 items-center">

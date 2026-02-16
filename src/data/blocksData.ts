@@ -116,7 +116,9 @@ export const generalBlocks: BlockProperties[] = [
     content: `
     <div class="social-media-pack" style="display:flex; gap:20px; justify-content:center; font-size:22px;">
       <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
     </div>
   `,
@@ -126,7 +128,380 @@ export const generalBlocks: BlockProperties[] = [
 ];
 
 export const headerBlocks: BlockProperties[] = [
+  {
+    id: 'Readers Library Header',
+    label: `            
+    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Readers Library Header           
+    </div>`,
+    content: `        <header
+            class="top-header d-none d-md-flex  justify-content-between align-items-center px-4 bg-danger">
+            <div class="contact-info d-flex align-items-center">
 
+                <!-- Phone Link -->
+                <i class="fa fa-phone-alt me-2 text-light"></i>
+                <a href="tel:+919334339046"
+                    class="text-light text-decoration-none me-3">
+                    +91 9334339046
+                </a>
+
+                <!-- Email Link -->
+                <i class="fa fa-envelope mx-2 text-light"></i>
+                <a href="mailto:info@readersrejoice.com"
+                    class="text-light text-decoration-none">
+                    info@readersrejoice.com
+                </a>
+
+            </div>
+
+            <div class="social-links d-flex align-items-center">
+                <a href="#" class="me-3"><i
+                        class="fab fa-facebook-f text-light"></i></a>
+                <a href="#" class="me-3"><i
+                        class="fab fa-twitter text-light"></i></a>
+                <a href="#" class="me-3"><i
+                        class="fab fa-instagram text-light"></i></a>
+                <a href="#"><i
+                        class="fab fa-linkedin-in text-light hover:text-success"></i></a>
+            </div>
+        </header>`,
+    category: 'Readers Library Navbar'
+  },
+  {
+    id: 'Readers Library NAVBAR',
+    label: `            
+    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Readers Library navbar          
+    </div>`,
+    content: `        <nav id="navbar" class="bg-light">
+            <div class="nav-container">
+                <div class="logo d-flex align-items-center">
+                    <img
+                        src="https://edgeadmin.teqtoeducation.com/uploads/Screenshot_2026_01_24_142644_0b74380d73.png"
+                        alt="Logo"
+                        style="height: 60px;">
+                    <h1 class="d-none d-md-block">Reader's Rejoice</h1>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#portfolio">Our Facilities</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+
+                <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <div class="hamburger"></div>
+                    <div class="hamburger"></div>
+                    <div class="hamburger"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#portfolio">Our Facilities</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </div>`,
+    category: 'Readers Library Navbar'
+  },
+  {
+    id: 'gallery-preview-navbar',
+    label: `
+    <div style="padding:10px;border:1px solid #ddd;border-radius:4px;text-align:center;">
+      Gallery Preview Navbar
+    </div>
+  `,
+    category: 'Readers Library Navbar',
+    content: `
+    <nav class="bg-dark py-3">
+      <div class="container d-flex align-items-center justify-content-between">
+
+        <div class="text-white fw-semibold">
+          Gallery Preview
+        </div>
+
+        <div class="text-center flex-grow-1">
+          <img 
+            src="/images/img1.JPG"
+            alt="Logo"
+            style="height:60px; cursor:pointer;"
+            data-gjs-editable="true"
+            data-gjs-resizable="true"
+            data-gjs-removable="true"
+          >
+        </div>
+
+<div class="text-center "><a href="index.html" class="btn btn-secondary">Back To Home</a></div>
+
+      </div>
+    </nav>
+  `
+  },
+  {
+    id: 'Library Header',
+    label: `            
+    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Library Top Navbar           
+    </div>`,
+    content: `<div class="top-info-bar">
+  <div class="container-fluid px-5">
+    <div class="row align-items-center">
+
+      <!-- LEFT -->
+      <div class="col-lg-6 d-flex gap-4">
+        <div class="info-item">
+          <span class="icon-wrap"><i class="fa-solid fa-location-dot"></i></span>
+          <span>123 Street, New York, USA</span>
+        </div>
+        <div class="info-item">
+          <span class="icon-wrap"><i class="fa-regular fa-clock"></i></span>
+          <span>Mon - Fri : 09.00 AM - 09.00 PM</span>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-6 d-flex justify-content-end align-items-center gap-4">
+        <div class="info-item">
+          <span class="icon-wrap"><i class="fa-solid fa-phone"></i></span>
+          <span>+012 345 6789</span>
+        </div>
+
+        <div class="social-wrap">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+  `,
+    category: 'Readers Library Header'
+  },
+  {
+    id: 'Library Navbar',
+    label: `  
+    <style>
+.top-info-bar {
+  background: #f5f5f5;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+}
+
+.icon-wrap {
+  width: 26px;
+  height: 26px;
+  background: #dc3545;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+.social-wrap a {
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  color: #dc3545;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 13px;
+  margin-left: 6px;
+  text-decoration: none;
+}
+
+.main-navbar {
+  height: 80px;
+}
+
+.logo-icon {
+  font-size: 34px;
+  color: #dc3545;
+}
+
+.logo-text {
+  font-size: 28px;
+  font-weight: 800;
+  color: #dc3545;
+}
+
+.nav-link {
+  font-weight: 600;
+  font-size: 15px;
+  color: #111 !important;
+}
+
+.nav-link.active {
+  color: #dc3545 !important;
+}
+
+.quote-btn {
+  background: #dc3545;
+  color: #fff;
+  padding: 22px 40px;
+  font-weight: 700;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+</style>
+          
+    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Library Navbar           
+    </div>`,
+    content: `    <div class="container-fluid sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light border-bottom border-2 border-white">
+                <a href="index.html" class="navbar-brand">
+                    <h1>iSTUDIO</h1>
+                </a>
+                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="service.html" class="nav-item nav-link">Services</a>
+                        <a href="project.html" class="nav-item nav-link">Projects</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu bg-light mt-2">
+                                <a href="feature.html" class="dropdown-item">Features</a>
+                                <a href="team.html" class="dropdown-item">Our Team</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+  `,
+    category: 'Library Navbar'
+  },
+  {
+    id: 'Dance class',
+    label: `            
+    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Dance Class Navbar           
+    </div>`,
+    content: `
+           
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+       
+
+
+       
+        <div class="container-fluid bg-secondary px-5 d-none d-lg-block">
+            <div class="row gx-0 align-items-center" style="height: 45px;">
+                <div class="col-lg-8 text-center text-lg-start mb-lg-0">
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="text-light me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
+                        <a href="#" class="text-light me-4"><i class="fas fa-phone-alt text-primary me-2"></i>+01234567890</a>
+                        <a href="#" class="text-light me-0"><i class="fas fa-envelope text-primary me-2"></i>Example@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <div class="d-flex justify-content-end">
+                        <div class="border-end border-start py-1">
+                            <a href="#" class="btn text-primary"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="border-end py-1">
+                            <a href="#" class="btn text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <div class="border-end py-1">
+                            <a href="#" class="btn text-primary"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="border-end py-1">
+                            <a href="#" class="btn text-primary"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+
+        
+        <div class="container-fluid position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0">
+                <a href="#" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><i class="fas fa-biohazard me-3"></i>JustDance</h1>
+                    <!-- <img src="img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="event.html" class="nav-item nav-link">Events</a>
+                        <a href="blog.html" class="nav-item nav-link">Blogs</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="classes.html" class="dropdown-item">Our classes</a>
+                                <a href="training.html" class="dropdown-item">Dance Training</a>
+                                <a href="team.html" class="dropdown-item">Our Team</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="gallery.html" class="dropdown-item">Dance Gallery</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                    </div>
+                    <a href="#" class="btn btn-primary rounded-pill text-white py-2 px-4 flex-wrap flex-sm-shrink-0">Register Now</a>
+                </div>
+            </nav>
+        </div>
+       
+  `,
+    category: 'Zay Navbar'
+  },
   // 2 - Logo + Links
   {
     id: 'nav-logo',
@@ -1816,6 +2191,221 @@ Zay NavBar            </div>`,
 
 export const footerBlocks: BlockProperties[] = [
   {
+    id: 'footer-dance',
+    label: `
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Dance Footer
+            </div>
+  `,
+    content: `        <footer class="footer">
+            <div class="footer-container">
+
+                <!-- Column 1 -->
+                <div class="footer-col">
+                    <img
+                        src="https://edgeadmin.teqtoeducation.com/uploads/Screenshot_2026_01_24_142644_0b74380d73.png"
+                        alt>
+                    <h2 class="footer-logo text-danger">Reader’s Rejoice</h2>
+                    <p>
+                        Reader’s Rejoice Library provides a peaceful study
+                        environment with AC,
+                        WiFi, lockers and separate cabins for students.
+                    </p>
+
+                </div>
+
+                <!-- Column 2 -->
+                <div class="footer-col">
+                    <h3>Get In Touch</h3>
+
+                    <p><i class="fa fa-map-marker-alt me-3"></i> Kankarbagh,
+                        Patna, Bihar</p>
+                    <p><i class="fa fa-phone-alt me-3"></i> +91 9334339046</p>
+                    <p><i class="fa fa-envelope me-3"></i>
+                        info@readersrejoice.co.in</p>
+
+                    <div class="d-flex pt-2">
+                        <a
+                            class="btn btn-outline-danger btn-square border-2 me-2"
+                            href><i class="fa-brands fa-x-twitter"></i></a>
+                        <a
+                            class="btn btn-outline-danger btn-square border-2 me-2"
+                            href><i class="fab fa-facebook-f"></i></a>
+                        <a
+                            class="btn btn-outline-danger btn-square border-2 me-2"
+                            href><i class="fab fa-youtube"></i></a>
+                        <a
+                            class="btn btn-outline-danger btn-square border-2 me-2"
+                            href><i class="fab fa-instagram"></i></a>
+                        <a
+                            class="btn btn-outline-danger btn-square border-2 me-2"
+                            href><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="footer-col">
+                    <h3>Popular Link</h3>
+                    <ul>
+                        <li><a href="#home">› Home</a></li>
+                        <li><a href="#about">› About Us</a></li>
+                        <li><a href="#contact">› Contact Us</a></li>
+                        <li><a href="#blog">› Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="footer-col">
+                    <h3>Our Facilities</h3>
+                    <ul>
+                        <li><a href="#portfolio">› Separate Cabins</a></li>
+                        <li><a href="#portfolio">› AC Study Zone</a></li>
+                        <li><a href="#portfolio">› Locker Facility</a></li>
+                        <li><a href="#portfolio">› 200 Mbps WiFi</a></li>
+                        <li><a href="#portfolio">› 24×7 Service</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer-bottom">
+                <p>
+                    © Reader’s Rejoice Library, All Rights Reserved.
+                    Designed By <a href="https://www.teqtoeducation.com/">Teqto
+                        Education</a>
+                </p>
+            </div>
+        </footer>
+  `,
+    category: 'Readers Footers'
+  },
+  {
+    id: 'footer-dance',
+    label: `
+            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Dance Footer
+            </div>
+  `,
+    content: `
+        <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <div class="footer-item">
+                                <h4 class="text-white mb-4">JustDanc</h4>
+                                <p class="text-white mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
+                                <div class="d-flex">
+                                    <a class="btn btn-lg-square btn-primary rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-white mb-4">Address</h4>
+                            <div class="d-flex align-items-center mb-3">
+                                <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fas fa-map-marker-alt"></i></a>
+                                <div class="text-white ms-2">
+                                    <p class="mb-0">0123.. Street, New York, USA</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fa fa-phone-alt"></i></a>
+                                <div class="text-white ms-2">
+                                    <p class="mb-0">+012 345 67890</p>
+                                    <p class="mb-0">+012 345 67890</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-lg-square btn-primary rounded-circle mx-2" href=""><i class="fas fa-envelope"></i></a>
+                                <div class="text-white ms-2">
+                                    <p class="mb-0">info@example.com</p>
+                                    <p class="mb-0">info@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-white mb-4">Quick Links</h4>
+                            <a href="#" class="footer-link"> About Us</a>
+                            <a href="#" class="footer-link"> Classes</a>
+                            <a href="#" class="footer-link"> Privacy Policy</a>
+                            <a href="#" class="footer-link"> Terms & Conditions</a>
+                            <a href="#" class="footer-link"> Schedule</a>
+                            <a href="#" class="footer-link"> FAQ</a>
+                            <a href="#" class="footer-link"> Contact Us</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <div class="footer-item">
+                                <h4 class="text-white mb-4">Newsletter</h4>
+                                <p class="text-white mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
+                                <div class="position-relative mx-auto rounded-pill">
+                                    <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
+                                    <button type="button" class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">SignUp</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright py-4">
+            <div class="container">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-md-0">
+                        <span class="text-white"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end text-white">
+                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                        Designed By <a class="border-bottom text-white" href="https://htmlcodex.com">HTML Codex</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+  `,
+    category: 'Footers'
+  },
+  {
     id: 'footer-bae',
     label: `
             <div style="width:100%;height:60px;border:1px solid #ddd;
@@ -2338,3 +2928,730 @@ Zay Footer            </div>`,
   },
 
 ]
+
+export const emailBlocks: BlockProperties[] = [
+  {
+    id: "email-template-1",
+    label: `
+      <div style="
+        border:1px solid #ddd;
+        border-radius:4px;
+        padding:10px;
+        font-size:12px;
+        text-align:center;
+        background:#fafafa;">
+        📧 Email Template 1
+      </div>
+    `,
+    content: `
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding:20px;font-family:Arial;">
+            <h2>Hello 👋</h2>
+            <p>This is your email template.</p>
+            <a href="#" style="
+              background:#2563eb;
+              color:#fff;
+              padding:10px 16px;
+              text-decoration:none;
+              border-radius:4px;
+              display:inline-block;
+            ">
+              Call To Action
+            </a>
+          </td>
+        </tr>
+      </table>
+    `,
+    category: "Emails",
+  },
+  {
+    id: "email-header-logo-nav",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🔝 Header · Logo + Links
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding:20px;font-family:Arial;text-align:center">
+          <img src="https://via.placeholder.com/120x40?text=Logo" width="120" />
+          <div style="margin-top:10px">
+            <a href="#" style="margin:0 8px;color:#2563eb;text-decoration:none">Home</a>
+            <a href="#" style="margin:0 8px;color:#2563eb;text-decoration:none">About</a>
+            <a href="#" style="margin:0 8px;color:#2563eb;text-decoration:none">Contact</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-hero-image-cta",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🖼 Hero · Image + CTA
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="text-align:center;font-family:Arial">
+          <img src="https://via.placeholder.com/600x250" width="100%" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:20px;text-align:center;font-family:Arial">
+          <h2>Some title here</h2>
+          <p>Lorem ipsum dolor sit amet consectetur.</p>
+          <a href="#" style="
+            background:#2563eb;
+            color:#fff;
+            padding:10px 18px;
+            text-decoration:none;
+            border-radius:4px;
+            display:inline-block;
+          ">
+            Call to action
+          </a>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-product-card",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🛒 Product · Card
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding:20px;font-family:Arial;text-align:center">
+          <img src="https://via.placeholder.com/200" width="200" />
+          <h3>Product Name</h3>
+          <p><strong>₹999</strong></p>
+          <a href="#" style="
+            background:#000;
+            color:#fff;
+            padding:8px 14px;
+            text-decoration:none;
+            border-radius:4px;
+            display:inline-block;
+          ">
+            Buy Now
+          </a>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-two-column-image-text",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      📐 Layout · 2 Column
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="50%" style="padding:15px;text-align:center">
+          <img src="https://via.placeholder.com/250" width="100%" />
+        </td>
+        <td width="50%" style="padding:15px;font-family:Arial">
+          <h3>Section title</h3>
+          <p>Description text goes here.</p>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-social-icons",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🌐 Social · Icons
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td style="padding:20px;text-align:center">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="24" /></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" width="24" /></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" width="24" /></a>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-footer-basic",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🔻 Footer · Simple
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td style="padding:20px;text-align:center;font-family:Arial;color:#666;font-size:12px">
+          © 2026 Your Company. All rights reserved.<br/>
+          <a href="#" style="color:#2563eb">Unsubscribe</a>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  /* ===================== 17. MULTI PURPOSE CARD ===================== */
+  {
+    id: "email-card-multipurpose",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🧩 Card · Multi Purpose
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="max-width:520px;border:1px solid #e5e7eb;border-radius:6px">
+            <tr>
+              <td style="padding:20px;font-family:Arial">
+                <h3 style="margin-top:0">Card Title</h3>
+                <p style="color:#555">
+                  This card can be used for announcements, updates or content blocks.
+                </p>
+                <a href="#" style="
+                  background:#2563eb;
+                  color:#fff;
+                  padding:8px 16px;
+                  border-radius:4px;
+                  text-decoration:none;
+                  display:inline-block;
+                ">
+                  Learn More
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+
+  /* ===================== 18. PRODUCT CARD ===================== */
+  {
+    id: "email-card-product",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🛒 Card · Product
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="max-width:300px;border:1px solid #e5e7eb;border-radius:6px">
+            <tr>
+              <td align="center">
+                <img src="https://via.placeholder.com/300x200" width="100%" />
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px;font-family:Arial;text-align:center">
+                <h4 style="margin:0">Product Name</h4>
+                <p style="margin:8px 0;color:#555">Short product description</p>
+                <p style="font-size:18px;font-weight:bold">₹999</p>
+                <a href="#" style="
+                  background:#000;
+                  color:#fff;
+                  padding:8px 14px;
+                  border-radius:4px;
+                  text-decoration:none;
+                  display:inline-block;
+                ">
+                  Buy Now
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+
+  /* ===================== 19. PROMOTION CARD ===================== */
+  {
+    id: "email-card-promotion",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🎯 Card · Promotion
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="max-width:520px;background:#fef3c7;border-radius:6px">
+            <tr>
+              <td style="padding:20px;font-family:Arial;text-align:center">
+                <h3 style="margin-top:0;color:#92400e">
+                  🎉 Limited Time Offer
+                </h3>
+                <p style="color:#78350f">
+                  Get flat <strong>30% OFF</strong> on all products.
+                </p>
+                <a href="#" style="
+                  background:#f59e0b;
+                  color:#000;
+                  padding:10px 18px;
+                  border-radius:4px;
+                  text-decoration:none;
+                  display:inline-block;
+                  font-weight:bold;
+                ">
+                  Shop Now
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+
+  /* ===================== 20. PRODUCT CARD HORIZONTAL ===================== */
+  {
+    id: "email-card-product-horizontal",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🛍 Card · Product Horizontal
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="max-width:520px;border:1px solid #e5e7eb;border-radius:6px">
+            <tr>
+              <td width="40%">
+                <img src="https://via.placeholder.com/200" width="100%" />
+              </td>
+              <td width="60%" style="padding:16px;font-family:Arial">
+                <h4 style="margin-top:0">Product Name</h4>
+                <p style="color:#555">Short description for the product.</p>
+                <p style="font-weight:bold">₹1,299</p>
+                <a href="#" style="
+                  background:#2563eb;
+                  color:#fff;
+                  padding:8px 14px;
+                  border-radius:4px;
+                  text-decoration:none;
+                  display:inline-block;
+                ">
+                  View Product
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+
+  /* ===================== 21. DISCOUNT COUPON CARD ===================== */
+  {
+    id: "email-card-coupon",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🎟 Card · Coupon
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="max-width:420px;border:2px dashed #2563eb;border-radius:6px">
+            <tr>
+              <td style="padding:20px;font-family:Arial;text-align:center">
+                <h3>Use Code</h3>
+                <p style="font-size:20px;font-weight:bold;letter-spacing:2px">
+                  SAVE20
+                </p>
+                <p style="color:#555">Valid till 31 Dec</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  /* ===================== 22. CAR CARD ===================== */
+  {
+    id: "email-card-car",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🚗 Card · Car Listing
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%">
+      <tr>
+        <td align="center" style="padding:20px">
+          <table width="100%" style="
+            max-width:520px;
+            border:1px solid #e5e7eb;
+            border-radius:6px;
+            background:#ffffff;
+          ">
+            
+            <!-- Car Image -->
+            <tr>
+              <td>
+                <img 
+                  src="https://via.placeholder.com/520x280?text=Car+Image"
+                  width="100%"
+                  style="border-top-left-radius:6px;border-top-right-radius:6px"
+                />
+              </td>
+            </tr>
+
+            <!-- Car Details -->
+            <tr>
+              <td style="padding:16px;font-family:Arial">
+                <h3 style="margin:0 0 6px 0">
+                  Hyundai Creta 2024
+                </h3>
+
+                <p style="margin:0 0 10px 0;color:#555;font-size:14px">
+                  Petrol • Automatic • 12,000 km
+                </p>
+
+                <table width="100%" style="font-size:14px;color:#333">
+                  <tr>
+                    <td>📍 Location</td>
+                    <td align="right"><strong>Delhi</strong></td>
+                  </tr>
+                  <tr>
+                    <td>💰 Price</td>
+                    <td align="right"><strong>₹12,50,000</strong></td>
+                  </tr>
+                </table>
+
+                <div style="margin-top:14px;text-align:center">
+                  <a href="#" style="
+                    background:#2563eb;
+                    color:#fff;
+                    padding:10px 18px;
+                    border-radius:4px;
+                    text-decoration:none;
+                    display:inline-block;
+                    font-weight:bold;
+                  ">
+                    View Car
+                  </a>
+                </div>
+
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  /* ===================== 22. CARD GRID · 4 IN A ROW ===================== */
+  {
+    id: "email-card-grid-4",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🧱 Cards · 4 in a Row
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center" style="padding:20px">
+
+          <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">
+            <tr>
+
+              <!-- CARD 1 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td style="padding:14px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 8px">Card 1</h4>
+                      <p style="font-size:13px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 2 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td style="padding:14px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 8px">Card 2</h4>
+                      <p style="font-size:13px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 3 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td style="padding:14px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 8px">Card 3</h4>
+                      <p style="font-size:13px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 4 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td style="padding:14px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 8px">Card 4</h4>
+                      <p style="font-size:13px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+  {
+    id: "email-card-grid-4-image",
+    label: `
+    <div style="border:1px solid #ddd;padding:10px;text-align:center">
+      🧱 Cards · 4 Image Cards
+    </div>
+  `,
+    category: "Emails",
+    content: `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center" style="padding:20px">
+
+          <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">
+            <tr>
+
+              <!-- CARD 1 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td align="center">
+                      <img src="https://via.placeholder.com/150" width="100%" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 6px;font-size:14px">Product 1</h4>
+                      <p style="margin:0 0 8px;font-size:12px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 2 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td align="center">
+                      <img src="https://via.placeholder.com/150" width="100%" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 6px;font-size:14px">Product 2</h4>
+                      <p style="margin:0 0 8px;font-size:12px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 3 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td align="center">
+                      <img src="https://via.placeholder.com/150" width="100%" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 6px;font-size:14px">Product 3</h4>
+                      <p style="margin:0 0 8px;font-size:12px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <!-- CARD 4 -->
+              <td width="25%" valign="top" style="padding:6px">
+                <table width="100%" style="border:1px solid #e5e7eb;border-radius:6px">
+                  <tr>
+                    <td align="center">
+                      <img src="https://via.placeholder.com/150" width="100%" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px;font-family:Arial;text-align:center">
+                      <h4 style="margin:0 0 6px;font-size:14px">Product 4</h4>
+                      <p style="margin:0 0 8px;font-size:12px;color:#555">
+                        Short description
+                      </p>
+                      <a href="#" style="
+                        background:#2563eb;
+                        color:#fff;
+                        padding:6px 12px;
+                        border-radius:4px;
+                        text-decoration:none;
+                        display:inline-block;
+                        font-size:12px;
+                      ">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  `,
+  },
+
+];
+

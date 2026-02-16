@@ -31,6 +31,7 @@ function Customers() {
     const [selectedCallLogs, setSelectedCallLogs] = useState<CallLog[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [isEditable, setIsEditable] = useState(true);
+    const [city, setCity] = useState<{ label: string; value: string }[]>([]);
     const [editingCustomerId, setEditingCustomerId] = useState<number | null>(null);
     const [newCallLog, setNewCallLog] = useState({
         date: "",
@@ -52,13 +53,13 @@ function Customers() {
 
 
     useEffect(() => {
-        if (showCallLogModal) {
+        if (showCallLogModal || showModal) {
             document.body.classList.add("hide-app-layout");
         } else {
             document.body.classList.remove("hide-app-layout");
         }
         return () => document.body.classList.remove("hide-app-layout");
-    }, [showCallLogModal]);
+    }, [showCallLogModal, showModal]);
 
     useEffect(() => {
         fetchCustomersList();
@@ -84,8 +85,8 @@ function Customers() {
     // edit customer
 
     const openEditCustomerModal = (customer: Customer) => {
-        setEditingCustomerId(customer.id);   // 👈 EDIT MODE
-        setIsEditable(false);                // pehle readonly
+        setEditingCustomerId(customer.id);
+        setIsEditable(false);
         setFormData({
             name: customer.name,
             email: customer.email,
@@ -212,7 +213,6 @@ function Customers() {
             const staffData = staffDataString ? JSON.parse(staffDataString) : null;
             const jwt = localStorage.getItem("jwt");
             const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
-
             if (!vendorid || !jwt) return;
 
             const res = await fetch(
@@ -247,6 +247,40 @@ function Customers() {
     const getTodayDate = () => {
         return new Date().toISOString().split("T")[0];
     };
+
+    useEffect(() => {
+        const jwt = localStorage.getItem("jwt");
+        if (!jwt) return;
+
+        fetch(`${apiUrl}/api/templates?filters[type][$eq]=city`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let rawCity = data.data?.[0]?.attributes?.json || [];
+                let cityArray: any[] = [];
+
+                if (typeof rawCity === "string") {
+                    cityArray = JSON.parse(rawCity);
+                } else if (Array.isArray(rawCity)) {
+                    cityArray = rawCity;
+                }
+
+                const formattedCity = cityArray.map((item: any) =>
+                    item.label && item.value
+                        ? item
+                        : { label: item.name, value: item.name }
+                );
+
+                setCity(formattedCity);
+            })
+            .catch((err) => console.error("City fetch error:", err));
+    }, []);
+
+
 
     return (
         <div>
@@ -530,33 +564,7 @@ function Customers() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%] h-screen overflow-y-auto">
-
-                        {/* TOP INFO SECTION */}
-                        <div className="flex flex-col items-center justify-center min-h-[300px] bg-[#DDE6FA] px-4 rounded-3xl">
-                            <div className="text-gray-500 rounded-3xl px-8 py-10 w-full max-w-3xl text-center shadow-xl relative">
-                                <h2 className="text-2xl font-semibold mb-2">
-                                    {editingCustomerId ? "Edit Student Information ?" : "Add Student Details ?"}
-                                </h2>
-                                <p className="text-sm text-gray-700 mb-6">
-                                    {editingCustomerId
-                                        ? "Update Student Details to keep your Profile Accurate"
-                                        : "Stay organized by keeping all student information in one place."}
-                                </p>
-
-                                <div className="flex items-center justify-center max-w-md mx-auto bg-white rounded-full p-1 shadow-md">
-                                    <input
-                                        type="email"
-                                        placeholder="youremail@address.com"
-                                        className="flex-grow px-4 py-2 rounded-full text-gray-700 outline-none"
-                                    />
-                                    <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition">
-                                        ➜
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%]  overflow-y-auto">
                         {/* EDIT / SAVE ICON */}
                         <div className="flex justify-end items-center mt-6">
                             {editingCustomerId !== null && !isEditable ? (
@@ -620,22 +628,28 @@ function Customers() {
 
                             {/* CITY */}
                             <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">City</h3>
-                                <input
-                                    type="text"
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
+                                <label className="block text-gray-700 font-bold mb-2">City</label>
+                                <select
+                                    className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
                                     value={formData.city}
                                     disabled={!isEditable}
                                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                />
+                                >
+                                    <option value="">Select City</option>
+
+                                    {city.map((item) => (
+                                        <option key={item.value} value={item.value}>
+                                            {item.label}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
+
 
                             {/* REQUIREMENT */}
                             <div>
                                 <h3 className="text-gray-700 text-base font-bold pb-2">Requirement</h3>
-                                <input
-                                    type="text"
+                                <textarea
                                     className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
                                         } rounded-xl p-2 mb-3`}
                                     value={formData.requirement}

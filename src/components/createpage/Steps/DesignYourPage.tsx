@@ -20,14 +20,67 @@ type DesignYourPageProps = {
 function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const gjsInstanceRef = useRef<any>(null);
+  const [clientsideLibs, setClientsideLibs] = useState<string>('');
   const [apiBlocks, setApiBlocks] = useState<any[]>([]);
+
+
+
+  useEffect(() => {
+    const fetchClientLibs = async () => {
+      if (!data?.headerfooterid) return;
+
+      try {
+        const token = localStorage.getItem("jwt");
+
+        const res = await fetch(
+          `${apiUrl}/api/headerfooters/${data.headerfooterid}?fields=clientsidelibs`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const result = await res.json();
+        const libs =
+          result?.data?.attributes?.clientsidelibs || "";
+
+        setClientsideLibs(libs);
+      } catch (err) {
+        console.error("Client libs error:", err);
+      }
+    };
+
+    fetchClientLibs();
+  }, [data?.headerfooterid]);
+
+  const parsedLibs = React.useMemo(() => {
+    let libs: string[] = [];
+
+    try {
+      if (typeof clientsideLibs === "string") {
+        if (clientsideLibs.trim().startsWith("[")) {
+          libs = JSON.parse(clientsideLibs);
+        } else {
+          libs = clientsideLibs.split(",").map((l) => l.trim());
+        }
+      }
+    } catch (e) {
+      console.error("Lib parse error:", e);
+    }
+
+    return libs;
+  }, [clientsideLibs]);
+
+  const cssLibs = parsedLibs.filter((lib) => lib.endsWith(".css"));
+  const jsLibs = parsedLibs.filter((lib) => lib.endsWith(".js"));
+
+
 
   useEffect(() => {
     const fetchTemplates = async () => {
       const token = localStorage.getItem("jwt");
       try {
         const response = await fetch(
-          `${apiUrl}/api/templates?filters[template][$eq]=grapesjs`,
+          `${apiUrl}/api/templates?filters[type][$eq]=page-templates`,
           {
             method: "GET",
             headers: {
@@ -37,8 +90,6 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
           }
         );
         const result = await response.json();
-        console.log("Fetched templates:", result);
-
         const mappedBlocks = result.data.map((tpl: any, index: number) => ({
           id: `tpl-${tpl.id}-${index}`,
           label: `
@@ -74,9 +125,12 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
           styles: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
+            ...cssLibs,
           ],
           scripts: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+            "https://code.jquery.com/jquery-3.6.0.min.js",
+            ...jsLibs
           ],
         },
       });
@@ -104,6 +158,7 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
       const blockManager = editor.BlockManager;
 
+
       // Static blocks ...footerBlocks
       [...generalBlocks, ...hero].forEach((block: any) => {
         blockManager.add(block.id, block);
@@ -113,8 +168,9 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
       if (data.page_html_body) {
         editor.setComponents(data.page_html_body);
       }
+
     }
-  }, [data.page_html_body]);
+  }, [cssLibs.length, jsLibs.length]);
 
   // 🔹 Inject API blocks once they are fetched
   useEffect(() => {
@@ -141,7 +197,6 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
   return (
     <div className="flex flex-col min-h-screen">
       <TextHeading title="🎨 Design Your Page" />
-
       <div className="flex flex-row flex-1 overflow-hidden">
         {/* Blocks Panel */}
         <div

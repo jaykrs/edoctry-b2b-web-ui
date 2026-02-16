@@ -4,20 +4,22 @@ import TextHeading from '@/components/ui/textheader/TextHeader';
 import { apiUrl } from '@/utils/config';
 import HoverPopover from '@/components/ui/popupbutton/HoverPopover';
 
-interface PreviewAndPublishProps {
-  onNext: () => void;
-  onBack: () => void;
+interface Props {
   data: any;
+  onBack: () => void;
+  onPublish: () => void;
 }
 
-const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, data }) => {
+
+const PreviewAndPublish: React.FC<Props> = ({ data, onBack, onPublish }) => {
   const [headerHtml, setHeaderHtml] = useState('');
   const [footerHtml, setFooterHtml] = useState('');
   const [clientsideLibs, setClientsideLibs] = useState<string>('');
-  const [loading, setLoading] = useState(true); // 👈 default true
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [previewWidth, setPreviewWidth] = useState("100%");
 
-  // 🔹 Fetch header/footer HTML (with async/await)
+
   useEffect(() => {
     const fetchHeaderFooter = async () => {
       if (!data?.headerfooterid) {
@@ -25,7 +27,6 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
         return;
       }
 
-      console.log("Fetching header/footer for ID:", data.headerfooterid);
       setLoading(true);
 
       try {
@@ -43,14 +44,13 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
       } catch (err) {
         console.error('❌ Error fetching header/footer:', err);
       } finally {
-        setLoading(false); // ✅ only stop loading after async call completes
+        setLoading(false);
       }
     };
 
     fetchHeaderFooter();
   }, [data?.headerfooterid]);
 
-  // 🔹 Parse external libs
   let libs: string[] = [];
   try {
     if (typeof clientsideLibs === 'string') {
@@ -97,6 +97,34 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
 </html>
 `;
 
+  // publish to FTP
+  const publishToFtp = async () => {
+    const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
+    const ftpUser = staffData?.data?.[0]?.attributes?.ftp;
+    if (!ftpUser) {
+      alert("Missing FTP info");
+      return;
+    }
+
+    const res = await fetch("/api/publish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        htmlContent: finalHtml,
+        ftpUser,
+        pageName: data?.name
+      })
+    });
+
+    if (!res.ok) {
+      alert("FTP failed");
+      return;
+    }
+
+    onPublish();
+  };
+
+
   // 🔹 Save HTML file
   const saveFile = async () => {
     try {
@@ -137,30 +165,54 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
 
   return (
     <div className="w-full">
+      {/* Header */}
       <div className="border-b bg-gradient-to-r from-blue-50 to-purple-50 px-6 py-4">
         <TextHeading title="🚀 Preview & Publish" />
       </div>
 
+      {/* Preview Section */}
       <div className="flex-1 overflow-x-hidden p-4">
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-          <div className="flex justify-between">
-            <h3 className="text-lg font-semibold mb-2">Preview</h3>
+
+          {/* 🔥 Device Buttons */}
+          <div className="flex justify-end gap-2 mb-3">
+            <HoverPopover
+              buttonText="📱"
+              title="Mobile Preview"
+              content="Preview in mobile view"
+              onClick={() => setPreviewWidth("375px")}
+            />
+            <HoverPopover
+              buttonText="📲"
+              title="Tablet Preview"
+              content="Preview in tablet view"
+              onClick={() => setPreviewWidth("768px")}
+            />
+            <HoverPopover
+              buttonText="🖥"
+              title="Desktop Preview"
+              content="Preview in desktop view"
+              onClick={() => setPreviewWidth("100%")}
+            />
             <HoverPopover
               buttonText="⛶"
-              title="Preview your changes"
-              content="Click to see a live preview of your page."
+              title="Fullscreen Preview"
+              content="Open fullscreen preview"
               onClick={setFullscreen}
             />
           </div>
 
-          {/* 👇 Condition added here */}
+          {/* 🔥 Preview Area */}
           {loading ? (
             <p className="text-gray-600">⏳ Loading header/footer...</p>
-          ) : headerHtml || footerHtml ? (
-            <div
-              className="border rounded-md p-3 bg-gray-50"
-              dangerouslySetInnerHTML={{ __html: finalHtml }}
-            />
+          ) : finalHtml.trim() ? (
+            <div className="w-full flex justify-center items-start bg-black rounded-md">
+              <iframe
+                style={{ width: previewWidth, height: "90vh" }}
+                className="bg-white border rounded-md shadow-xl transition-all duration-300"
+                srcDoc={finalHtml}
+              />
+            </div>
           ) : (
             <p className="text-gray-600">
               No preview available. Please design your page first.
@@ -169,25 +221,22 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
         </div>
       </div>
 
+      {/* Action Section */}
       <div className="my-6 p-6 rounded-xl border shadow bg-white text-center space-y-4">
-        <h2 className="text-2xl font-semibold text-gray-800">You're ready to go!</h2>
-        <p className="text-gray-600">Click the button below to publish your page or go back to make changes.</p>
+        <h2 className="text-2xl font-semibold text-gray-800">
+          You're ready to go!
+        </h2>
 
         <div className="flex justify-center gap-4 pt-4">
           <button
             onClick={onBack}
-            className="px-5 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+            className="px-5 py-2 rounded-md bg-gray-200 hover:bg-gray-300 transition"
           >
             ← Back
           </button>
+
           <button
-            onClick={saveFile}
-            className="px-6 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition shadow"
-          >
-            Save File 💾
-          </button>
-          <button
-            onClick={onNext}
+            onClick={publishToFtp}
             className="px-6 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition shadow"
           >
             Publish 🚀
@@ -195,18 +244,47 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
         </div>
       </div>
 
+      {/* 🔥 Fullscreen Modal */}
       {showModal && (
         <div
           id="preview-container"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          className="fixed inset-0 z-50 bg-black bg-opacity-80"
         >
-          <div className="w-full h-full overflow-auto">
-            <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: finalHtml }} />
+          <div className="w-full h-full relative">
+
+            <div className="w-full h-full flex justify-center items-center overflow-hidden">
+              <iframe
+                style={{ width: previewWidth, height: "100%" }}
+                className="bg-white border rounded-lg shadow-2xl"
+                srcDoc={finalHtml}
+              />
+            </div>
+
+            {/* Bottom device controls */}
+            <div className="flex justify-center gap-4 bg-white/20 backdrop-blur absolute bottom-4 w-full p-4">
+              <button
+                onClick={() => setPreviewWidth("375px")}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                📱 Mobile
+              </button>
+              <button
+                onClick={() => setPreviewWidth("768px")}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                📲 Tablet
+              </button>
+              <button
+                onClick={() => setPreviewWidth("100%")}
+                className="px-3 py-1 bg-gray-200 rounded-md"
+              >
+                🖥 Desktop
+              </button>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
-};
-
+}
 export default PreviewAndPublish;

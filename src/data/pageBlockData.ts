@@ -2,6 +2,507 @@ import type { BlockProperties } from 'grapesjs';
 
 export const hero: BlockProperties[] = [
   {
+    id: 'Readers INDEX',
+    label: `
+    <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Readers INDEX
+    </div>
+  `,
+    content: `
+        <section id="home" class="hero ">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+                <div class="shape shape-6"></div>
+            </div>
+
+            <div class="hero-content">
+                <div class="hero-subtitle">Reader’s Rejoice Library</div>
+
+                <h1>A Peaceful & Modern Study Space in Patna</h1>
+
+                <p class="subtitle">
+                    Separate cabins, AC facility, lockers, 200 Mbps WiFi and
+                    24×7 service —
+                    the perfect environment for focused study.
+                </p>
+
+                <a href="#portfolio" class="cta-button">Explore Facilities</a>
+            </div>
+
+            <div class="scroll-indicator"
+                onclick="document.getElementById('about').scrollIntoView()"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title fade-in">About Us</h2>
+
+                <div class="about-content">
+                    <div class="about-image slide-in-left"></div>
+
+                    <div class="about-text slide-in-right">
+                        <h3>Reader’s Rejoice Library – Study With Comfort &
+                            Discipline</h3>
+
+                        <p>
+                            Reader’s Rejoice Library provides the best study
+                            atmosphere in Patna.
+                            Our library is designed for students preparing for
+                            competitive exams,
+                            academics, and career growth.
+                        </p>
+
+                        <p>
+                            We offer separate cabins for each student, fully
+                            air-conditioned
+                            halls, and separate study zones for boys and girls.
+                        </p>
+
+                        <p>
+                            With modern facilities like power backup, lockers,
+                            free WiFi,
+                            newspapers, and RO water — you can focus only on
+                            your success.
+                        </p>
+
+                        <div class="skills">
+                            <span class="skill-tag">Separate Cabins</span>
+                            <span class="skill-tag">Fully AC Facility</span>
+                            <span class="skill-tag">Locker Available</span>
+                            <span class="skill-tag">200 Mbps WiFi</span>
+                            <span class="skill-tag">RO Water</span>
+                            <span class="skill-tag">24×7 Service</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section id="portfolio" class="portfolio">
+            <div class="container">
+                <h2 class="section-title fade-in">Our Facilities</h2>
+
+                <div class="portfolio-grid">
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/cabin2.jpeg" alt="Cabin">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>Separate Cabin for Each Student</h4>
+                            <p>Enjoy personal cabins designed for complete focus
+                                and distraction-free study.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Private Desk</span>
+                                <span class="tech-tag">Silent Zone</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/img21.jpg" alt="AC">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>Fully Air-Conditioned Library</h4>
+                            <p>Comfortable AC environment for long study hours
+                                in every season.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">AC Facility</span>
+                                <span class="tech-tag">Comfort Seating</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/wifihigh.png" alt="WiFi">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>High-Speed WiFi (200 Mbps+)</h4>
+                            <p>Stay connected with superfast internet for online
+                                classes and research.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">WiFi</span>
+                                <span class="tech-tag">Online Study</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/img24.jpg" alt="Locker">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>Locker Facility & Full Shift Plan</h4>
+                            <p>Full shift membership with locker available at
+                                just ₹749/month.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">₹749/month</span>
+                                <span class="tech-tag">Locker Included</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/img6.jpg"
+                                alt="Power Backup">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>24×7 Service & Power Backup</h4>
+                            <p>Study anytime with uninterrupted electricity and
+                                genset backup.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Power Backup</span>
+                                <span class="tech-tag">24 Hours Open</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img class="portfolio-img" src="images/Demo.png" alt="Demo">
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>15 Days Free Demo Available</h4>
+                            <p>Try our library free for 15 days and experience
+                                the best study environment.</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Free Trial</span>
+                                <span class="tech-tag">Limited Offer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="blog-section">
+            <div class="container">
+
+                <h2 class="section-title fade-in pb-4">Our Blog</h2>
+
+                <div
+                    class="blog-plate row g-0 align-items-stretch overflow-hidden">
+
+                    <!-- ================= LEFT Carousel ================= -->
+                    <div class="col-lg-8">
+
+                        <div id="blogCarousel"
+                            class="carousel slide h-100"
+                            data-bs-ride="carousel">
+
+                            <div class="carousel-inner h-100">
+
+                                <!-- Slide 1 -->
+                                <div class="carousel-item active h-100"
+                                    data-title="Silent Study Cabins"
+                                    data-desc="Experience distraction-free study in personal cabins designed for deep focus.">
+
+                                    <img
+                                        src="https://plus.unsplash.com/premium_photo-1750530064487-5e979173d281?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxpYnJhcnklMjBzdHVkeSUyMHJvb20lMjBzaWxlbnR8ZW58MHx8MHx8fDA%3D"
+                                        class="d-block w-100 h-100"
+                                        alt="Cabin">
+                                </div>
+
+                                <!-- Slide 2 -->
+                                <div class="carousel-item h-100"
+                                    data-title="Modern Study Hall"
+                                    data-desc="Spacious halls with AC comfort and peaceful seating for long study hours.">
+
+                                    <img
+                                        src="https://plus.unsplash.com/premium_photo-1683135203198-9104af9b7aac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGxpYnJhcnklMjBzdHVkeSUyMGhhbGx8ZW58MHx8MHx8fDA%3D"
+                                        class="d-block w-100 h-100"
+                                        alt="Hall">
+                                </div>
+
+                                <!-- Slide 3 -->
+                                <div class="carousel-item h-100"
+                                    data-title="High-Speed WiFi Zone"
+                                    data-desc="Superfast 200 Mbps WiFi for online classes, research and productivity.">
+
+                                    <img
+                                        src="https://plus.unsplash.com/premium_photo-1661963922072-b32afe6248d4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8SGlnaC1TcGVlZCUyMFdpRmklMjBab25lJTIwaW4lMjBzdHVkeSUyMGhhbGx8ZW58MHx8MHx8fDA%3D"
+                                        class="d-block w-100 h-100"
+                                        alt="WiFi">
+                                </div>
+
+                                <!-- Slide 4 -->
+                                <div class="carousel-item h-100"
+                                    data-title="Peaceful Library Environment"
+                                    data-desc="A calm and inspiring atmosphere that keeps students consistent and motivated.">
+
+                                    <img
+                                        src="https://images.unsplash.com/photo-1763890965393-1cea435581ab?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFBlYWNlZnVsJTIwTGlicmFyeSUyMEVudmlyb25tZW50fGVufDB8fDB8fHww"
+                                        class="d-block w-100 h-100"
+                                        alt="Library">
+                                </div>
+
+                            </div>
+
+                            <!-- Controls -->
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#blogCarousel"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#blogCarousel"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- ================= RIGHT Info Box ================= -->
+                    <div class="col-lg-4">
+
+                        <div class="blog-info h-100">
+                            <h1 class="font-size-2xl"><i
+                                    class="fa-solid fa-quote-left fa-3x text-danger"></i>
+                            </h1>
+                            <h3 id="blogTitle">Silent Study Cabins</h3>
+
+                            <p id="blogDesc">
+                                Experience distraction-free study in personal
+                                cabins designed for deep focus.
+                            </p>
+
+                            <a href="#contact" class="blog-btn">
+                                Visit Library
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section End -->
+                <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="section-title fade-in pb-4">Our Gallery</h2>
+                <div class="row g-4">
+
+                    <!-- Image 1 -->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="overflow-hidden rounded shadow-sm"
+                            style="height:250px;">
+                            <img src="/images/img24.jpg"
+                                class="w-100 h-100 object-fit-cover"
+                                alt>
+                        </div>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="overflow-hidden rounded shadow-sm"
+                            style="height:250px;">
+                            <img src="/images/img12.jpg"
+                                class="w-100 h-100 object-fit-cover"
+                                alt>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="overflow-hidden rounded shadow-sm"
+                            style="height:250px;">
+                            <img src="/images/img13.jpg"
+                                class="w-100 h-100 object-fit-cover"
+                                alt>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="gallery.html" class="blog-btn">
+                        Visit Library
+                    </a>
+                </div>
+
+            </div>
+        </section>
+        <! -- Gallery Section End -->
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="contact-floating-shapes">
+                <div class="contact-shape contact-shape-1"></div>
+                <div class="contact-shape contact-shape-2"></div>
+                <div class="contact-shape contact-shape-3"></div>
+                <div class="contact-shape contact-shape-4"></div>
+                <div class="contact-shape contact-shape-5"></div>
+                <div class="contact-shape contact-shape-6"></div>
+            </div>
+
+            <div class="container">
+
+                <!-- Contact Grid -->
+                <div class="contact-grid">
+
+                    <!-- LEFT SIDE -->
+                    <div class="contact-left fade-in">
+
+                        <h1 class="font-size-2xl"><i
+                                class="fa-solid fa-quote-left fa-3x text-danger"></i>
+                        </h1>
+
+                        <!-- Info -->
+                        <h2>Contact Reader’s Rejoice Library</h2>
+
+                        <p>
+                            Join Patna’s best study library with modern
+                            facilities, peaceful cabins,
+                            and 24×7 service.
+                        </p>
+
+                        <p>
+                            <i class="fa fa-phone-alt me-2"></i>
+                            <b>9334339046</b>, <b>9431615655</b>
+                        </p>
+
+                        <p>
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Branch 01: 2M/77, M.L. Nagar, Near Mediverse
+                            Hospital, Patna – 26
+                        </p>
+
+                        <p>
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Branch 02: 2nd Floor, IndusInd Bank, Kanti Factory
+                            Road, Patna
+                        </p>
+
+                        <p>
+                            <i class="fa fa-map-marker-alt me-2"></i>
+                            Branch 03: G-106, PC Colony Road, Opp. Domino’s
+                            Pizza, Kankarbagh, Patna
+                        </p>
+
+                    </div>
+
+                    <!-- RIGHT SIDE FORM -->
+                    <div class="contact-right fade-in">
+
+                        <h2>Send Us a Message</h2>
+
+                        <form class="contact-form">
+                            <div class="form-row">
+
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name"
+                                        placeholder="Your full name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email"
+                                        placeholder="your.email@example.com"
+                                        required>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone"
+                                    placeholder="Your phone number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject"
+                                    placeholder="Library Inquiry" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" rows="6"
+                                    placeholder="Write your query here..."
+                                    required></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Send
+                                Message</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+  `,
+    category: 'Readers'
+  },
+  {
+    id: 'Readers Gallery',
+    label: `
+    <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Readers Gallery
+    </div>
+  `,
+    content: `<section class="py-5 smart-gallery">
+            <div class="container">
+
+                <h2 class="section-title pb-4  text-center">Our Gallery</h2>
+                <div class="row g-4 gallery-row">
+
+                    <div class="col-md-3 col-sm-6 gallery-item"
+                        data-gjs-draggable=".gallery-row">
+                        <div class="img-wrapper">
+                            <img src="/images/img1.JPG" alt>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- GLOBAL PREVIEW BOX -->
+            <div class="image-preview-box">
+                <img src alt>
+            </div>
+            <div class="text-center mt-4">
+                <a href="index.html" class="btn btn-secondary">Back</a>
+            </div>
+        </section>
+        `,
+    category: 'Readers'
+  },
+  {
+    id: 'Gallery Image Item',
+    label: 'Gallery Image',
+    content: `
+                    <div class="col-md-3 col-sm-6 gallery-item"
+                        data-gjs-draggable=".gallery-row">
+                        <div class="img-wrapper">
+                            <img src="/images/img1.JPG" alt>
+                        </div>
+                    </div>`,
+    category: 'Readers'
+  },
+  {
     id: 'hero-without-img',
     label: `
     <div style="width:100%;height:60px;overflow:hidden;

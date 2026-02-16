@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputPageDetail from './Steps/InputPageDetail';
 import DesignYourPage from './Steps/DesignYourPage';
 import PreviewAndPublish from './Steps/PreviewandPublish';
@@ -9,6 +9,7 @@ import { apiUrl } from '@/utils/config';
 function CreatePage() {
     const [step, setStep] = useState(1);
     const [isPublished, setIsPublished] = useState(false);
+    const [pageName, setPageName] = useState("");
     const [formData, setFormData] = useState({
         name: "",
         vendoruuid: "",
@@ -30,10 +31,17 @@ function CreatePage() {
     });
 
 
-
     const updateFormData = (newData: any) => {
+        if (newData.name !== undefined) {
+            setPageName(newData.name);   
+        }
+
         setFormData((prev) => ({ ...prev, ...newData }));
     };
+
+    // const updateFormData = (newData: any) => {
+    //     setFormData((prev) => ({ ...prev, ...newData }));
+    // };
 
     const handleSubmit = async () => {
         const token = localStorage.getItem('jwt');
@@ -54,7 +62,6 @@ function CreatePage() {
             }
 
             const data = await response.json();
-            console.log('Page created successfully:', data);
             setStep(4);
             setIsPublished(true);
         } catch (error) {
@@ -72,6 +79,8 @@ function CreatePage() {
         { id: 4, label: "Finish", subtext: "Complete the setup of your page" }
     ];
 
+
+
     return (
         <div className="createpage-container ">
             <div className="stepper-container mb-4" style={{ userSelect: 'none' }}>
@@ -85,7 +94,7 @@ function CreatePage() {
 
                     return (
                         // onClick={() => setStep(s.id)} for future
-                        <div key={s.id}  className={className} >
+                        <div key={s.id} className={className} >
                             <div className="step-label">{s.label}</div>
                             <div className="step-subtext">{s.subtext}</div>
                         </div>
@@ -112,12 +121,18 @@ function CreatePage() {
                 {step === 3 && (
                     <PreviewAndPublish
                         data={formData}
-                        onNext={handleSubmit}
+                        onNext={() => {
+                            setIsPublished(true);
+                            setStep(4);
+                        }}
                         onBack={handleBack}
                     />
                 )}
                 {step === 4 && (
-                    <FinishPage />
+                    <FinishPage
+                        data={formData}
+                        pageName={pageName}
+                    />
                 )}
             </div>
         </div>
