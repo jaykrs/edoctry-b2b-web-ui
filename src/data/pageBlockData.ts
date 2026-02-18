@@ -457,49 +457,49 @@ export const hero: BlockProperties[] = [
     label: `
     <div style="width:100%;height:60px;overflow:hidden;
                 border:1px solid #ddd;border-radius:4px;
-                background:#f9f9f9;display:flex;
+                background:#111;display:flex;
                 align-items:center;justify-content:center;
-                font-size:11px;font-weight:bold;color:#555;">
+                font-size:11px;font-weight:bold;color:#fff;">
       Readers Gallery
     </div>
   `,
-    content: `<section class="py-5 smart-gallery">
-            <div class="container">
+    content: `
 
-                <h2 class="section-title pb-4  text-center">Our Gallery</h2>
-                <div class="row g-4 gallery-row">
+    <section class="smart-gallery">
 
-                    <div class="col-md-3 col-sm-6 gallery-item"
-                        data-gjs-draggable=".gallery-row">
-                        <div class="img-wrapper">
-                            <img src="/images/img1.JPG" alt>
-                        </div>
-                    </div>
+        <div class="gallery-container">
+
+
+            <div class="gallery-grid">
+
+                <!-- Default Image -->
+                <div class="img-wrapper" data-gjs-draggable=".gallery-grid">
+                    <img src="/images/img.JPG" alt="">
                 </div>
 
             </div>
 
-            <!-- GLOBAL PREVIEW BOX -->
-            <div class="image-preview-box">
-                <img src alt>
-            </div>
-            <div class="text-center mt-4">
-                <a href="index.html" class="btn btn-secondary">Back</a>
-            </div>
-        </section>
-        `,
+        </div>
+
+    </section>
+
+    <!-- GLOBAL PREVIEW BOX (Only One Required) -->
+    <div class="image-preview-box">
+        <span class="close-preview">&times;</span>
+        <img src="" alt="Preview">
+    </div>
+
+  `,
     category: 'Readers'
   },
   {
     id: 'Gallery Image Item',
     label: 'Gallery Image',
     content: `
-                    <div class="col-md-3 col-sm-6 gallery-item"
-                        data-gjs-draggable=".gallery-row">
-                        <div class="img-wrapper">
-                            <img src="/images/img1.JPG" alt>
-                        </div>
-                    </div>`,
+    <div class="img-wrapper" data-gjs-draggable=".gallery-grid">
+        <img src="https://edgeadmin.teqtoeducation.com/uploads/gallery_image_2_0a31a33bbf.jpg" alt="">
+    </div>
+  `,
     category: 'Readers'
   },
   {
