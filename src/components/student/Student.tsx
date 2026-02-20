@@ -37,7 +37,8 @@ interface Order {
     reregistrationdt: string;
     shifttime: string;
     studentid: string;
-
+    seatdetails: string;
+    dam: string;
   };
   projectName: string;
   team: {
@@ -52,6 +53,8 @@ export default function Student() {
   const [showModal, setShowModal] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
     role: "",
@@ -82,11 +85,13 @@ export default function Student() {
     reregistrationdt: "",
     shifttime: "",
     studentid: "",
+    seatdetails: "",
+    dam: "",
   });
 
   useEffect(() => {
-    fetchStudentList();
-  }, []);
+    fetchStudentList(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     if (showModal) {
@@ -107,7 +112,7 @@ export default function Student() {
   };
 
 
-  const fetchStudentList = async () => {
+  const fetchStudentList = async (page = 1) => {
     try {
       const staffDataString = localStorage.getItem("staffData");
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
@@ -116,7 +121,7 @@ export default function Student() {
 
       if (vendorid && jwt) {
         const res = await fetch(
-          `${apiUrl}/api/students?filters[vendoruuid][$eq]=${vendorid}`,
+          `${apiUrl}/api/students?filters[vendoruuid][$eq]=${vendorid}&pagination[page]=${page}&pagination[pageSize]=25`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -126,7 +131,9 @@ export default function Student() {
         );
 
         const data = await res.json();
-        console.log("Fetched student data:", data);
+
+        setPageCount(data.meta.pagination.pageCount);
+        setCurrentPage(data.meta.pagination.page);
         const studentList: Order[] = data.data.map((item: any, index: number) => ({
           id: item.id || index + 1,
           user: {
@@ -157,6 +164,8 @@ export default function Student() {
             reregistrationdt: item.attributes.reregistrationdt || "",
             shifttime: item.attributes.shifttime || "",
             studentid: item.attributes.studentid || "",
+            seatdetails: item.attributes.seatdetails || "",
+            dam: item.attributes.dam || "",
           },
           projectName: item.attributes.website || "N/A",
           team: {
@@ -206,6 +215,8 @@ export default function Student() {
       reregistrationdt: "",
       shifttime: "",
       studentid: "",
+      seatdetails: "",
+      dam: "",
     });
     setShowModal(true);
   };
@@ -243,6 +254,8 @@ export default function Student() {
       reregistrationdt: student.user.reregistrationdt,
       shifttime: student.user.shifttime,
       studentid: student.user.studentid,
+      seatdetails: student.user.seatdetails,
+      dam: student.user.dam,
     });
     setShowModal(true);
   };
@@ -261,6 +274,12 @@ export default function Student() {
         editingStudentId === null
           ? `${apiUrl}/api/students`
           : `${apiUrl}/api/students/${editingStudentId}`;
+
+      const finalReRegistrationDate =
+        formData.reregistrationdt && formData.reregistrationdt.trim() !== ""
+          ? formData.reregistrationdt
+          : formData.registrationdt;
+
 
       const method = editingStudentId === null ? "POST" : "PUT";
 
@@ -299,9 +318,11 @@ export default function Student() {
             parentdetails: formData.parentdetails,
             regfee: formData.regfee,
             registrationdt: formData.registrationdt,
-            reregistrationdt: formData.reregistrationdt,
+            reregistrationdt: finalReRegistrationDate,
             shifttime: formData.shifttime,
             studentid: formData.studentid,
+            seatdetails: formData.seatdetails,
+            dam: formData.dam,
           },
         }),
       });
@@ -505,6 +526,52 @@ export default function Student() {
               </TableBody>
             </Table>
           </div>
+          <div className="flex justify-center items-center mt-8">
+            <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+              {/* Previous Button */}
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => prev - 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all 
+        ${currentPage === 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                ←
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: pageCount }, (_, index) => {
+                const page = index + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+            ${currentPage === page
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              {/* Next Button */}
+              <button
+                disabled={currentPage === pageCount}
+                onClick={() => setCurrentPage(prev => prev + 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+        ${currentPage === pageCount
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                →
+              </button>
+
+            </div>
+          </div>
         </div>
       </div>
 
@@ -633,8 +700,7 @@ export default function Student() {
               {/* Remarks */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Remarks</h3>
-                <input
-                  type="text"
+                <textarea
                   placeholder="Remarks"
                   className={`w-full border-2 ${!isEditable ? 'bg-gray-100 rounded-xl p-2 mb-3' : 'bg-white rounded-xl p-2 mb-3'}`}
                   value={formData.remarks}
@@ -824,6 +890,23 @@ export default function Student() {
                   onChange={(e) => setFormData({ ...formData, shifttime: e.target.value })}
                 />
               </div>
+              {/* Seat No */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">Seat No</h3>
+                <input
+                  type="text"
+                  placeholder="Seat Number"
+                  className={`w-full border-2 ${!isEditable
+                    ? "bg-gray-100 rounded-xl p-2 mb-3"
+                    : "bg-white rounded-xl p-2 mb-3"
+                    }`}
+                  value={formData.seatdetails}
+                  disabled={!isEditable}
+                  onChange={(e) =>
+                    setFormData({ ...formData, seatdetails: e.target.value })
+                  }
+                />
+              </div>
               {/* Parent Details */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Parent Details</h3>
@@ -846,7 +929,24 @@ export default function Student() {
                   onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                 />
               </div>
-
+              {/* Dam (Extra Links) */}
+              <div>
+                <h3 className="text-gray-700 text-base font-bold pb-2">
+                  Dam (Comma Separated Links)
+                </h3>
+                <textarea
+                  placeholder="https://google.com, https://github.com/user"
+                  className={`w-full border-2 ${!isEditable
+                    ? "bg-gray-100 rounded-xl p-2 mb-3"
+                    : "bg-white rounded-xl p-2 mb-3"
+                    }`}
+                  value={formData.dam}
+                  disabled={!isEditable}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dam: e.target.value })
+                  }
+                />
+              </div>
               {/* Biography */}
               <div>
                 <h3 className="text-gray-700 text-base font-bold pb-2">Biography</h3>
