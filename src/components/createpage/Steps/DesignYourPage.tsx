@@ -71,9 +71,77 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
   }, [clientsideLibs]);
 
   const cssLibs = parsedLibs.filter((lib) => lib.endsWith(".css"));
+
   const jsLibs = parsedLibs.filter((lib) => lib.endsWith(".js"));
 
+  useEffect(() => {
 
+    if (!gjsInstanceRef.current) {
+      console.log("❌ GrapesJS editor not ready yet");
+      return;
+    }
+
+    const doc = gjsInstanceRef.current.Canvas.getDocument();
+
+    console.log("🎨 Injecting CSS libs:", cssLibs);
+
+    cssLibs.forEach((href: string) => {
+
+      const existing = doc.querySelector(`link[href="${href}"]`);
+
+      if (!existing) {
+
+        const link = doc.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+
+        doc.head.appendChild(link);
+
+        console.log("✅ CSS injected:", href);
+
+      } else {
+
+        console.log("⚠️ CSS already exists:", href);
+
+      }
+
+    });
+
+  }, [cssLibs]);
+
+  useEffect(() => {
+
+    if (!gjsInstanceRef.current) {
+      console.log("❌ GrapesJS editor not ready yet");
+      return;
+    }
+
+    const doc = gjsInstanceRef.current.Canvas.getDocument();
+
+    console.log("⚙️ Injecting JS libs:", jsLibs);
+
+    jsLibs.forEach((src: string) => {
+
+      const existing = doc.querySelector(`script[src="${src}"]`);
+
+      if (!existing) {
+
+        const script = doc.createElement("script");
+        script.src = src;
+
+        doc.body.appendChild(script);
+
+        console.log("✅ JS injected:", src);
+
+      } else {
+
+        console.log("⚠️ JS already exists:", src);
+
+      }
+
+    });
+
+  }, [jsLibs]);
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -115,6 +183,7 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
   useEffect(() => {
     if (editorRef.current && !gjsInstanceRef.current) {
+
       gjsInstanceRef.current = grapesjs.init({
         container: editorRef.current,
         fromElement: false,
@@ -158,8 +227,6 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
       const blockManager = editor.BlockManager;
 
-
-      // Static blocks ...footerBlocks
       [...generalBlocks, ...hero].forEach((block: any) => {
         blockManager.add(block.id, block);
       });
@@ -168,6 +235,31 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
       if (data.page_html_body) {
         editor.setComponents(data.page_html_body);
       }
+
+      // 🟢 Canvas loaded
+      editor.on("load", () => {
+
+        console.log("✅ GrapesJS canvas loaded");
+
+        const win = editor.Canvas.getWindow();
+
+        if (win && typeof win.initPageScripts === "function") {
+          console.log("🚀 Running page JS");
+          win.initPageScripts();
+        }
+
+      });
+
+      // 🟢 Component updated
+      editor.on("component:update", () => {
+
+        const win = editor.Canvas.getWindow();
+
+        if (win && typeof win.initPageScripts === "function") {
+          win.initPageScripts();
+        }
+
+      });
 
     }
   }, [cssLibs.length, jsLibs.length]);

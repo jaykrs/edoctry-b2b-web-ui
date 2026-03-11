@@ -12,7 +12,6 @@ function CreatePage() {
     const [pageName, setPageName] = useState("");
     const [formData, setFormData] = useState({
         name: "",
-        vendoruuid: "",
         pagepath: "",
         author: "",
         type: "",
@@ -33,39 +32,53 @@ function CreatePage() {
 
     const updateFormData = (newData: any) => {
         if (newData.name !== undefined) {
-            setPageName(newData.name);   
+            setPageName(newData.name);
         }
 
         setFormData((prev) => ({ ...prev, ...newData }));
     };
 
-    // const updateFormData = (newData: any) => {
-    //     setFormData((prev) => ({ ...prev, ...newData }));
-    // };
+
 
     const handleSubmit = async () => {
-        const token = localStorage.getItem('jwt');
+        const token = localStorage.getItem("jwt");
         if (!token) return;
+
+        const staffDataString = localStorage.getItem("staffData");
+        const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+        const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
+        console.log("Vendor UUID:", vendoruuid);
+        console.log("Payload:", {
+            ...formData,
+            vendoruuid: vendoruuid
+        });
 
         try {
             const response = await fetch(`${apiUrl}/api/pages`, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ data: formData })
+                body: JSON.stringify({
+                    data: {
+                        ...formData,
+                        vendoruuid: vendoruuid
+                    },
+                }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to create page');
+                throw new Error("Failed to create page");
             }
 
             const data = await response.json();
             setStep(4);
             setIsPublished(true);
+
         } catch (error) {
-            console.error('Error creating page:', error);
+            console.error("Error creating page:", error);
         }
     };
 

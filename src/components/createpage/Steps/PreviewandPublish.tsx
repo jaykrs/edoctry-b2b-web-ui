@@ -119,6 +119,7 @@ ${cssTags}
     const token = localStorage.getItem("jwt");
     const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
     const ftpUser = staffData?.data?.[0]?.attributes?.ftp;
+    const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
 
     try {
 
@@ -129,7 +130,12 @@ ${cssTags}
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ data })
+        body: JSON.stringify({
+          data: {
+            ...data,
+            vendoruuid: vendoruuid
+          }
+        })
       });
 
       if (!dbRes.ok) {

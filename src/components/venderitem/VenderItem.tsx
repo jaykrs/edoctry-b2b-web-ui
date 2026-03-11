@@ -24,6 +24,12 @@ type VendorItemType = {
   };
 };
 
+type TycatType = {
+  label: string;
+  value: string;
+  category: string;
+};
+
 export default function VenderItem() {
   const [vendorItem, setVendorItem] = useState<VendorItemType[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -34,6 +40,8 @@ export default function VenderItem() {
   const [isEditable, setIsEditable] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+  const [tycats, setTycats] = useState<TycatType[]>([]);
+  const [filteredTypes, setFilteredTypes] = useState<TycatType[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -123,6 +131,33 @@ export default function VenderItem() {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+
+    fetch(`${apiUrl}/api/templates?filters[type][$eq]=tycat`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const vendoritemtycat = data?.data?.[0]?.attributes?.json || [];
+        setTycats(vendoritemtycat);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  const handleCategoryChange = (value: string) => {
+
+    setFormData({ ...formData, category: value, type: "" });
+
+    const filtered = tycats.filter(
+      (item) => item.category === value
+    );
+
+    setFilteredTypes(filtered);
+  };
 
   const handleSave = async () => {
     const jwt = localStorage.getItem("jwt");
@@ -427,12 +462,12 @@ export default function VenderItem() {
 
               {/* Category */}
               <div>
-                <label className="block text-gray-700 font-bold mb-2">Type</label>
+                <label className="block text-gray-700 font-bold mb-2">Category</label>
                 <select
                   className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
                   value={formData.category}
                   disabled={!isEditable}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                 >
                   <option value="">Select category</option>
                   {categoryOptions.map((option: any) => (
@@ -442,17 +477,7 @@ export default function VenderItem() {
                   ))}
                 </select>
               </div>
-              {/* <div>
-                <h3 className="text-gray-700 text-base font-bold pb-2">Category</h3>
-                <input
-                  type="text"
-                  placeholder="Item Category"
-                  className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
-                  value={formData.category}
-                  disabled={!isEditable}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                />
-              </div> */}
+
               {/* Type Single-Select */}
               <div>
                 <label className="block text-gray-700 font-bold mb-2">Type</label>
@@ -463,7 +488,7 @@ export default function VenderItem() {
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                 >
                   <option value="">Select type</option>
-                  {options.map((option: any) => (
+                  {filteredTypes.map((option: any) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>

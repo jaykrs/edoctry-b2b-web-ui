@@ -25,7 +25,7 @@ function FinishPage({ pageName }: FinishPageProps) {
 
   const liveUrl =
     website && pageName
-      ? `${website}${pageName}.html`
+      ? `${website}/${pageName}.html`
       : "";
 
   return (
