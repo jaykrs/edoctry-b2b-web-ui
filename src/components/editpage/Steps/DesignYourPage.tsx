@@ -3,63 +3,163 @@ import "grapesjs/dist/css/grapes.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import grapesjs from "grapesjs";
 import TextHeading from "@/components/ui/textheader/TextHeader";
-import { headerBlocks, generalBlocks, footerBlocks } from "@/data/blocksData";
+import { generalBlocks } from "@/data/blocksData";
 import { hero } from "@/data/pageBlockData";
 import { apiUrl } from "@/utils/config";
 
 interface Props {
   pageId?: string | null;
-  onNext?: (data: { page_html_body: string;  headerfooterid: string | null; name: string }) => void;
+  data: any;
+  onChange: (data: any) => void;
+  onNext: () => void;
+  onBack: () => void;
 }
 
-export default function DesignYourPage({ pageId, onNext }: Props) {
+export default function DesignYourPage({
+  pageId,
+  data,
+  onChange,
+  onNext,
+  onBack,
+}: Props) {
+
   const editorRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [apiBlocks, setApiBlocks] = useState<any[]>([]);
-  const [headerFooterId, setHeaderFooterId] = useState<string | null>(null);
-  const [pageName, setPageName] = useState<string>("Untitled");
+  const [clientsideLibs, setClientsideLibs] = useState<string>("");
 
+  // parse client libs
+  const parsedLibs = React.useMemo(() => {
+    let libs: string[] = [];
+    try {
+      if (typeof clientsideLibs === "string") {
+        libs = clientsideLibs.trim().startsWith("[")
+          ? JSON.parse(clientsideLibs)
+          : clientsideLibs.split(",").map((l) => l.trim());
+      }
+    } catch (e) {
+      console.error("Lib parse error:", e);
+    }
 
-  //  Fetch custom template blocks
+    return libs;
+
+  }, [clientsideLibs]);
+
+  const cssLibs = parsedLibs.filter((lib) => lib.endsWith(".css"));
+  const jsLibs = parsedLibs.filter((lib) => lib.endsWith(".js"));
+
+  useEffect(() => {
+
+    if (!editorRef.current) {
+      console.log("❌ GrapesJS editor not ready yet");
+      return;
+    }
+
+    const doc = editorRef.current.Canvas.getDocument();
+
+    console.log("🎨 Injecting CSS libs:", cssLibs);
+
+    cssLibs.forEach((href: string) => {
+
+      const existing = doc.querySelector(`link[href="${href}"]`);
+
+      if (!existing) {
+
+        const link = doc.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+
+        doc.head.appendChild(link);
+
+        console.log("✅ CSS injected:", href);
+
+      } else {
+
+        console.log("⚠️ CSS already exists:", href);
+
+      }
+
+    });
+
+  }, [cssLibs]);
+
+  useEffect(() => {
+
+    if (!editorRef.current) {
+      console.log("❌ GrapesJS editor not ready yet");
+      return;
+    }
+
+    const doc = editorRef.current.Canvas.getDocument();
+
+    console.log("⚙️ Injecting JS libs:", jsLibs);
+
+    jsLibs.forEach((src: string) => {
+
+      const existing = doc.querySelector(`script[src="${src}"]`);
+
+      if (!existing) {
+
+        const script = doc.createElement("script");
+        script.src = src;
+
+        doc.body.appendChild(script);
+
+        console.log("✅ JS injected:", src);
+
+      } else {
+
+        console.log("⚠️ JS already exists:", src);
+
+      }
+
+    });
+
+  }, [jsLibs]);
+
+  // load template blocks
   useEffect(() => {
     const fetchTemplates = async () => {
-      const token = localStorage.getItem("jwt");
       try {
-        const response = await fetch(
+        const token = localStorage.getItem("jwt");
+        const res = await fetch(
           `${apiUrl}/api/templates?filters[type][$eq]=page-templates`,
           {
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        const result = await response.json();
+
+        const result = await res.json();
 
         const mappedBlocks = result.data.map((tpl: any, index: number) => ({
           id: `tpl-${tpl.id}-${index}`,
           label: `
-            <div style="width:100%;height:60px;border:1px solid #ddd;
-              border-radius:4px;background:#f9f9f9;display:flex;
-              align-items:center;justify-content:center;font-size:11px;
-              font-weight:bold;color:#555;">
-              ${tpl.attributes.name}
-            </div>
-          `,
+      <div style="width:100%;height:60px;border:1px solid #ddd;
+      border-radius:4px;background:#f9f9f9;display:flex;
+      align-items:center;justify-content:center;font-size:11px;
+      font-weight:bold;color:#555;">
+      ${tpl.attributes.name}
+      </div>
+      `,
           content: tpl.attributes.html_element,
           category: "Custom Templates",
         }));
 
         setApiBlocks(mappedBlocks);
-      } catch (error) {
-        console.error("❌ Error fetching templates:", error);
+
+      } catch (err) {
+        console.error("Template fetch error:", err);
       }
     };
 
     fetchTemplates();
+
   }, []);
 
-  //  Initialize GrapesJS editor
+  // load page data
   useEffect(() => {
     if (!containerRef.current || editorRef.current) return;
 
@@ -67,155 +167,130 @@ export default function DesignYourPage({ pageId, onNext }: Props) {
       container: containerRef.current,
       height: "90vh",
       storageManager: false,
-      fromElement: false,
       blockManager: { appendTo: "#gjs-blocks" },
+
       canvas: {
         styles: [
           "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
           "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
+          ...cssLibs,
         ],
         scripts: [
           "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+          ...jsLibs,
         ],
       },
     });
 
     const editor = editorRef.current;
-
-    // Custom traits for <a> links
-    editor.DomComponents.addType("link", {
-      model: {
-        defaults: {
-          traits: [
-            "href",
-            "title",
-            {
-              type: "checkbox",
-              name: "target",
-              label: "Open in new tab",
-              valueTrue: "_blank",
-              valueFalse: "_self",
-            },
-          ],
-        },
-      },
-    });
-
     const blockManager = editor.BlockManager;
 
-    // Add static blocks ...footerBlocks
-    [...generalBlocks, ...hero ].forEach(
-      (block: any) => blockManager.add(block.id, block)
+    [...generalBlocks, ...hero].forEach((block: any) =>
+      blockManager.add(block.id, block)
     );
 
-    //  Fetch and load HTML & CSS from page
-    const loadPageData = async () => {
-      if (!pageId) return;
-      try {
-        const token = localStorage.getItem("jwt");
-        const res = await fetch(`${apiUrl}/api/pages/${pageId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+    // restore HTML
+    if (data?.page_html_body) {
+      editor.setComponents(data.page_html_body);
+    }
+  }, [cssLibs.length, jsLibs.length]);
 
-        if (res.ok) {
-          const { data } = await res.json();
-          const html = data?.attributes?.page_html_body || "";
-          setHeaderFooterId(data?.attributes?.headerfooterid || null);
-          setPageName(data?.attributes?.name || "Untitled");
-
-
-          editor.DomComponents.clear();
-          editor.CssComposer.clear();
-
-          editor.setComponents(`<body>${html}</body>`);
-        }
-      } catch (err) {
-        console.error("❌ Error loading page data:", err);
-      }
-    };
-
-    loadPageData();
-  }, [pageId]);
-
-  //  Inject API blocks dynamically
+  // inject API blocks
   useEffect(() => {
     if (editorRef.current && apiBlocks.length > 0) {
       const blockManager = editorRef.current.BlockManager;
+
       apiBlocks.forEach((block) => blockManager.add(block.id, block));
     }
+
+
   }, [apiBlocks]);
 
-  //  Save page HTML + CSS
-  const handleSave = async () => {
-    if (!editorRef.current || !pageId) return alert("Editor not ready!");
+  // fetch headerfooter libs
+  useEffect(() => {
+    const fetchLibs = async () => {
+
+      if (!data?.headerfooterid) return;
+
+      try {
+        const token = localStorage.getItem("jwt");
+
+        const res = await fetch(
+          `${apiUrl}/api/headerfooters/${data.headerfooterid}?fields=clientsidelibs`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const result = await res.json();
+
+        setClientsideLibs(
+          result?.data?.attributes?.clientsidelibs || ""
+        );
+
+      } catch (err) {
+        console.error("Header libs error:", err);
+      }
+    };
+
+    fetchLibs();
+  }, [data?.headerfooterid]);
+
+  // save design
+  const handleNextClick = () => {
+    if (!editorRef.current) return;
 
     const html = editorRef.current.getHtml();
-    const token = localStorage.getItem("jwt");
+    const css = editorRef.current.getCss();
 
-    try {
-      const res = await fetch(`${apiUrl}/api/pages/${pageId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          data: { page_html_body: html },
-        }),
-      });
-
-      if (res.ok) console.log("✅ Page updated successfully!");
-      else console.error("❌ Failed to update page");
-    } catch (err) {
-      console.error("Save error:", err);
-      console.error("❌ Error saving page");
-    }
-  };
-
-const handleSaveAndNext = async () => {
-  if (!editorRef.current) return;
-  await handleSave();
-  const html = editorRef.current.getHtml();
-
-  if (onNext) {
-    onNext({
+    onChange({
       page_html_body: html,
-      headerfooterid: headerFooterId,
-      name: pageName,
+      pagecss: css,
     });
-  }
-};
 
+    onNext();
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       <TextHeading title="🎨 Design Your Page" />
 
       <div className="flex flex-row flex-1 overflow-hidden">
-        {/* Sidebar (Blocks) */}
+
+        {/* blocks */}
         <div
           id="gjs-blocks"
           className="w-1/4 bg-gray-50 max-h-screen border-r overflow-y-auto"
         ></div>
 
-        {/* Editor */}
+        {/* editor */}
         <div
           ref={containerRef}
-          id="gjs-editor"
           className="flex-1 overflow-y-auto bg-white"
-          style={{ height: "90vh", minHeight: "500px" }}
+          style={{ height: "90vh" }}
         ></div>
+
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-end p-4 border-t bg-white">
+      <div className="flex justify-between p-4 border-t bg-white">
+
         <button
-          onClick={handleSaveAndNext}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={onBack}
+          className="px-4 py-2 bg-gray-200 rounded"
+        >
+          Back
+        </button>
+
+        <button
+          onClick={handleNextClick}
+          className="px-4 py-2 bg-blue-600 text-white rounded"
         >
           Save & Next →
         </button>
+
       </div>
+
     </div>
+
   );
 }

@@ -417,31 +417,30 @@ function Customers() {
             {/*  Call Log Modal */}
             {showCallLogModal && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 overflow-y-auto p-4"
                     onClick={() => setShowCallLogModal(false)}
                 >
+                    {/* Modal Container */}
                     <div
-                        className="bg-white rounded-2xl w-[90%] max-w-4xl h-[70vh] shadow-xl overflow-hidden"
+                        className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] shadow-xl flex flex-col overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
 
-                        {/* Header */}
-                        <div className="flex justify-between items-center px-6 py-4 border-b">
-                            <h2 className="text-lg font-semibold text-gray-700">Call Logs</h2>
+                        {/* Header (Fixed) */}
+                        <div className="flex justify-between items-center px-6 py-4 border-b shrink-0">
+                            <h2 className="text-lg font-semibold text-gray-700">
+                                Call Logs
+                            </h2>
 
                             <div className="flex items-center gap-3">
-                                {/* Refresh */}
                                 <button
-                                    onClick={() => {
-                                        fetchCustomersList(); // same existing function
-                                    }}
+                                    onClick={() => fetchCustomersList()}
                                     className="text-gray-500 hover:text-blue-600"
                                     title="Refresh"
                                 >
                                     <RefreshCw size={16} />
                                 </button>
 
-                                {/* Close */}
                                 <button
                                     onClick={() => setShowCallLogModal(false)}
                                     className="text-gray-500 hover:text-red-500"
@@ -452,18 +451,16 @@ function Customers() {
                             </div>
                         </div>
 
-                        {/* Body */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                        {/* Body Scroll Area */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 flex-1 overflow-y-auto">
 
-                            {/* LEFT: Existing Call Logs */}
-                            <div className="border-r p-5 flex flex-col overflow-hidden pb-20">
-                                {/* Fixed header */}
+                            {/* LEFT SIDE */}
+                            <div className="border-r p-5 flex flex-col">
                                 <h3 className="text-sm font-semibold text-gray-600 mb-4">
                                     Previous Calls
                                 </h3>
 
-                                {/* Scroll area */}
-                                <div className="flex-1 overflow-y-auto pr-2 ">
+                                <div className="flex-1 overflow-y-auto pr-2">
                                     {selectedCallLogs.length === 0 ? (
                                         <div className="text-sm text-gray-400">
                                             No call logs found
@@ -488,7 +485,7 @@ function Customers() {
                                 </div>
                             </div>
 
-                            {/* RIGHT: Add Call Log UI (still UI only) */}
+                            {/* RIGHT SIDE */}
                             <div className="p-5">
                                 <h3 className="text-sm font-semibold text-gray-600 mb-4">
                                     Add New Call Log
@@ -496,8 +493,8 @@ function Customers() {
 
                                 <div className="space-y-4">
 
-                                    <div className="flex gap-4">
-                                        <div className="w-1/2">
+                                    <div className="flex flex-col md:flex-row gap-4">
+                                        <div className="w-full">
                                             <label className="block text-xs text-gray-500 mb-1">
                                                 Date
                                             </label>
@@ -511,7 +508,7 @@ function Customers() {
                                             />
                                         </div>
 
-                                        <div className="w-1/2">
+                                        <div className="w-full">
                                             <label className="block text-xs text-gray-500 mb-1">
                                                 Status
                                             </label>
@@ -554,6 +551,7 @@ function Customers() {
                                     >
                                         Save Call Log
                                     </button>
+
                                 </div>
                             </div>
 
@@ -562,145 +560,164 @@ function Customers() {
                 </div>
             )}
 
+
             {showModal && (
-                <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-[#ffffff] p-6 rounded-2xl shadow w-[90%]  overflow-y-auto">
-                        {/* EDIT / SAVE ICON */}
-                        <div className="flex justify-end items-center mt-6">
-                            {editingCustomerId !== null && !isEditable ? (
+                <div className="fixed inset-0 bg-gray-300 bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto p-4">
+
+                    {/* Modal Container */}
+                    <div className="bg-[#ffffff] rounded-2xl shadow w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+
+                        {/* Inner Padding Wrapper */}
+                        <div className="p-6">
+
+                            {/* EDIT / SAVE ICON */}
+                            <div className="flex justify-end items-center mt-6">
+                                {editingCustomerId !== null && !isEditable ? (
+                                    <button
+                                        onClick={() => setIsEditable(true)}
+                                        className="flex justify-center items-center w-20 px-4 py-2 bg-[#2143BE] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
+                                    >
+                                        <Pencil />
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handleSave}
+                                        className="hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
+                                    >
+                                        <DocsIcon />
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* FORM */}
+                            <div className="bg-[#DDE6FA] p-6 md:p-10 rounded-3xl mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+
+                                {/* NAME */}
+                                <div>
+                                    <h3 className="text-gray-700 text-base font-bold pb-2">Name</h3>
+                                    <input
+                                        type="text"
+                                        className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.name}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, name: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* EMAIL */}
+                                <div>
+                                    <h3 className="text-gray-700 text-base font-bold pb-2">Email</h3>
+                                    <input
+                                        type="email"
+                                        className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.email}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, email: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* PHONE */}
+                                <div>
+                                    <h3 className="text-gray-700 text-base font-bold pb-2">Phone</h3>
+                                    <input
+                                        type="tel"
+                                        className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.phone}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, phone: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* CITY */}
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2">City</label>
+                                    <select
+                                        className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.city}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, city: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Select City</option>
+                                        {city.map((item) => (
+                                            <option key={item.value} value={item.value}>
+                                                {item.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* REQUIREMENT */}
+                                <div>
+                                    <h3 className="text-gray-700 text-base font-bold pb-2">Requirement</h3>
+                                    <textarea
+                                        className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.requirement}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, requirement: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* ADDRESS */}
+                                <div>
+                                    <h3 className="text-gray-700 text-base font-bold pb-2">Address</h3>
+                                    <textarea
+                                        className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
+                                            } rounded-xl p-2 mb-3`}
+                                        value={formData.address}
+                                        disabled={!isEditable}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, address: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                            </div>
+
+                            {/* FOOTER */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">
                                 <button
-                                    onClick={() => setIsEditable(true)}
-                                    className="flex justify-center items-center w-20 px-4 py-2 bg-[#2143BE] text-white hover:bg-[#4E6CDA] rounded-2xl text-center"
+                                    onClick={() => {
+                                        setShowModal(false);
+                                        setEditingCustomerId(null);
+                                        setIsEditable(false);
+                                    }}
+                                    className="w-full px-4 py-2 bg-gray-400 hover:bg-red-700 hover:text-white rounded-2xl"
                                 >
-                                    <Pencil />
+                                    Cancel
                                 </button>
-                            ) : (
-                                <button
-                                    onClick={handleSave}
-                                    className="hidden justify-center items-center w-20 px-4 py-2 bg-[#4E6CDA] text-white hover:bg-[#2143BE] rounded-2xl text-center"
-                                >
-                                    <DocsIcon />
-                                </button>
-                            )}
-                        </div>
 
-                        {/* FORM */}
-                        <div className="bg-[#DDE6FA] p-10 rounded-3xl mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-
-                            {/* NAME */}
-                            <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">Name</h3>
-                                <input
-                                    type="text"
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
-                                    value={formData.name}
-                                    disabled={!isEditable}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                />
+                                {editingCustomerId !== null && !isEditable ? (
+                                    <button
+                                        onClick={() => setIsEditable(true)}
+                                        className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl"
+                                    >
+                                        Edit
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handleSave}
+                                        className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl"
+                                    >
+                                        Save
+                                    </button>
+                                )}
                             </div>
 
-                            {/* EMAIL */}
-                            <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">Email</h3>
-                                <input
-                                    type="email"
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
-                                    value={formData.email}
-                                    disabled={!isEditable}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                />
-                            </div>
-
-                            {/* PHONE */}
-                            <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">Phone</h3>
-                                <input
-                                    type="tel"
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
-                                    value={formData.phone}
-                                    disabled={!isEditable}
-                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                />
-                            </div>
-
-                            {/* CITY */}
-                            <div>
-                                <label className="block text-gray-700 font-bold mb-2">City</label>
-                                <select
-                                    className={`w-full border-2 ${!isEditable ? 'bg-gray-100' : 'bg-white'} rounded-xl p-2 mb-3`}
-                                    value={formData.city}
-                                    disabled={!isEditable}
-                                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                >
-                                    <option value="">Select City</option>
-
-                                    {city.map((item) => (
-                                        <option key={item.value} value={item.value}>
-                                            {item.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-
-                            {/* REQUIREMENT */}
-                            <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">Requirement</h3>
-                                <textarea
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
-                                    value={formData.requirement}
-                                    disabled={!isEditable}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, requirement: e.target.value })
-                                    }
-                                />
-                            </div>
-
-                            {/* ADDRESS */}
-                            <div>
-                                <h3 className="text-gray-700 text-base font-bold pb-2">Address</h3>
-                                <textarea
-                                    className={`w-full border-2 ${!isEditable ? "bg-gray-100" : "bg-white"
-                                        } rounded-xl p-2 mb-3`}
-                                    value={formData.address}
-                                    disabled={!isEditable}
-                                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                />
-                            </div>
-                        </div>
-
-                        {/* FOOTER */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#DDE6FA] p-4 rounded-3xl mt-6">
-                            <button
-                                onClick={() => {
-                                    setShowModal(false);
-                                    setEditingCustomerId(null);
-                                    setIsEditable(false);
-                                }}
-                                className="w-full px-4 py-2 bg-gray-400 hover:bg-red-700 hover:text-white rounded-2xl"
-                            >
-                                Cancel
-                            </button>
-
-                            {editingCustomerId !== null && !isEditable ? (
-                                <button
-                                    onClick={() => setIsEditable(true)}
-                                    className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl"
-                                >
-                                    Edit
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={handleSave}
-                                    className="w-full px-4 py-2 bg-[#1E40AF] text-white hover:bg-[#274bc1] rounded-2xl"
-                                >
-                                    Save
-                                </button>
-                            )}
                         </div>
                     </div>
                 </div>

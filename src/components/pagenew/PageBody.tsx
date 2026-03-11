@@ -30,22 +30,32 @@ function PageBody() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); 
+      setLoading(true);
+
       const token = localStorage.getItem('jwt');
+
+      const staffDataString = localStorage.getItem("staffData");
+      const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+      const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
       try {
-        const res = await fetch(`${apiUrl}/api/pages`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+        const res = await fetch(
+          `${apiUrl}/api/pages?filters[vendoruuid][$eq]=${vendoruuid}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
           }
-        });
+        );
 
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
         const json = await res.json();
+
         const formatted = json?.data?.map((item: any) => ({
           id: item.id,
           icon: '📄',
@@ -59,11 +69,12 @@ function PageBody() {
         }));
 
         setOptions(formatted);
+
       } catch (error) {
         console.error('Failed to fetch:', error);
       } finally {
         setLoading(false);
-      };
+      }
     };
     fetchData();
   }, []);
@@ -97,15 +108,12 @@ function PageBody() {
                       <div className="col-span-2 h-2 rounded bg-gray-200"></div>
                       <div className="col-span-1 h-2 rounded bg-gray-200"></div>
                     </div>
-                    {/* <div className="h-2 rounded bg-gray-200"></div> */}
                   </div>
                 </div>
               </div>
             </div>
           ))
-          // <div className="justify-center items-center flex h-64">
-          //     <RipleLoader />
-          // </div>
+
         ) : (
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">
@@ -201,18 +209,6 @@ function PageBody() {
               </div>
             </div>
           </div>
-          // <div className="space-y-10 w-full mb-10 mx-auto">
-          //   <PageDropdown options={options} tableNames={{
-          //     T1: "Page",
-          //     T2: "Page Path",
-          //     T3: "Author",
-          //     T4: "Type",
-          //     T5: "Published",
-          //     T6: "HF ID",
-          //     T7: "Edit"
-          //   }} />
-
-          // </div>
         )}
       </div>
     </div>

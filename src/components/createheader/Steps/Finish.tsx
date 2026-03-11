@@ -44,7 +44,7 @@ function FinishPage({ onPublish }: { onPublish: () => Promise<void> }) {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? "Publishing..." : "Publish Page"}
+            {loading ? "Publishing..." : "Publish Header Footer"}
           </button>
         </div>
       )}
@@ -53,7 +53,7 @@ function FinishPage({ onPublish }: { onPublish: () => Promise<void> }) {
       {published && (
         <div className="my-6 p-6 rounded-xl border shadow bg-white text-center space-y-4">
           <h2 className="text-2xl font-semibold text-green-700">
-            🎉 Your page is live!
+            🎉 Your Header Footer is live!
           </h2>
           <p className="text-gray-600">
             Congratulations! Your Header Footer has been successfully published.

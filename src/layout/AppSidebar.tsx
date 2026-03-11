@@ -20,7 +20,9 @@ import {
   DollarLineIcon,
   FolderIcon,
   MailIcon,
+  BoltIcon,
 } from "../icons/index";
+import { Bolt } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -47,6 +49,16 @@ const navItems: NavItem[] = [
     path: "/admin/profile",
   },
   {
+    icon: <BoxCubeIcon />,
+    name: "Projects",
+    path: "/admin/projects",
+  },
+  {
+    icon: <BoltIcon />,
+    name: "Tasks",
+    path: "/admin/tasks",
+  },
+  {
     icon: <GroupIcon />,
     name: "Contact List",
     path: "/admin/contactus",
@@ -56,6 +68,7 @@ const navItems: NavItem[] = [
     name: "Email Workflow ",
     path: "/admin/email-workflow ",
   },
+
 
   // {
   //   name: "Forms",
@@ -118,6 +131,11 @@ const updateItems: NavItem[] = [
     icon: <StudentIcon />,
     name: "Student",
     path: "/admin/student",
+  },
+  {
+    icon: <GroupIcon />,
+    name: "Attendance",
+    path: "/admin/attendance",
   },
   {
     icon: <GroupIcon />,

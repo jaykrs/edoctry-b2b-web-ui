@@ -29,21 +29,31 @@ function PageHeader() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
+
             const token = localStorage.getItem('jwt');
+
+            const staffDataString = localStorage.getItem("staffData");
+            const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+            const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
             try {
-                const res = await fetch(`${apiUrl}/api/headerfooters`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                const res = await fetch(
+                    `${apiUrl}/api/headerfooters?filters[vendoruuid][$eq]=${vendoruuid}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
                     }
-                });
+                );
 
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
 
                 const json = await res.json();
+
                 const formatted = json?.data?.map((item: any) => ({
                     icon: '📄',
                     headerfooterid: item.id,
@@ -56,10 +66,11 @@ function PageHeader() {
                 }));
 
                 setOptions(formatted);
+
             } catch (error) {
                 console.error('Failed to fetch:', error);
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false);
             }
         };
 

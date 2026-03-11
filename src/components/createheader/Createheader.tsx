@@ -8,7 +8,7 @@ import { apiUrl } from "@/utils/config";
 
 function CreateHeader() {
   const [step, setStep] = useState(1);
-  const [isPublished, setIsPublished] = useState(false); 
+  const [isPublished, setIsPublished] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -36,6 +36,10 @@ function CreateHeader() {
     const token = localStorage.getItem("jwt");
     if (!token) return;
 
+    const staffDataString = localStorage.getItem("staffData");
+    const staffData = staffDataString ? JSON.parse(staffDataString) : null;
+    const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
     try {
       const response = await fetch(`${apiUrl}/api/headerfooters`, {
         method: "POST",
@@ -44,7 +48,10 @@ function CreateHeader() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: formData,
+          data: {
+            ...formData,
+            vendoruuid: vendoruuid,
+          },
         }),
       });
 
@@ -75,14 +82,14 @@ function CreateHeader() {
         {steps.map((s) => {
           let className = "flex-col step-item ";
           if (step > s.id || (s.id === 4 && isPublished)) {
-            className += "completed-step"; 
+            className += "completed-step";
           } else if (step === s.id) {
             className += "active-step";
           }
 
           return (
             //onClick={() => setStep(s.id)}
-            <div key={s.id}  className={className} >
+            <div key={s.id} className={className} >
               <div className="step-label">{s.label}</div>
               <div className="step-subtext">{s.subtext}</div>
             </div>
