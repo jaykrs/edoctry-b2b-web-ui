@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { apiUrl } from "@/utils/config";
-import Button from "../ui/button/Button";
 import HoverPopover from "../ui/popupbutton/HoverPopover";
 
 function Attendance() {
@@ -72,16 +71,15 @@ function Attendance() {
                     d
                 ).getDay();
 
-                // Sunday skip
-                if (dayIndex === 0) continue;
+
 
                 total++;
 
-                const record = attendance.find((a: any) =>
-                    a.date.slice(0, 10) === date
+                const checkin = attendance.find(
+                    (a: any) => a.date === date && a.type === "checkin"
                 );
 
-                if (record) present++;
+                if (checkin) present++;
                 else absent++;
             }
 
@@ -270,17 +268,19 @@ function Attendance() {
                                 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
                                 const day = dayNames[dayIndex];
 
-                                const isSunday = dayIndex === 0;
 
                                 const record = attendanceData.find(
                                     (a: any) => a.date === fullDate
                                 );
 
-                                const status = isSunday
-                                    ? "holiday"
-                                    : record
-                                        ? "present"
-                                        : "absent";
+                                const dayRecords = attendanceData.filter(
+                                    (a: any) => a.date === fullDate
+                                );
+
+                                const checkin = dayRecords.find((r: any) => r.type === "checkin");
+                                const checkout = dayRecords.find((r: any) => r.type === "checkout");
+
+                                const status = checkin ? "present" : "absent";
 
                                 const time = record?.time;
 
@@ -308,9 +308,21 @@ function Attendance() {
                                             {date}
                                         </div>
 
-                                        {time && (
-                                            <div className="text-[10px] text-gray-500">
-                                                {time}
+                                        {checkin && (
+                                            <div className="text-[10px] text-green-600">
+                                                In: {checkin.time}
+                                            </div>
+                                        )}
+
+                                        {checkout && (
+                                            <div className="text-[10px] text-blue-600">
+                                                Out: {checkout.time}
+                                            </div>
+                                        )}
+
+                                        {checkout && checkout.time === "23:59:59" && (
+                                            <div className="text-[10px] text-yellow-600">
+                                                Auto Out
                                             </div>
                                         )}
 
@@ -319,11 +331,7 @@ function Attendance() {
                                         </div>
 
                                         <div className={`text-[10px] font-medium ${text}`}>
-                                            {status === "holiday"
-                                                ? "Holiday"
-                                                : status === "present"
-                                                    ? "Present"
-                                                    : "Absent"}
+                                            {status === "present" ? "Present" : "Absent"}
                                         </div>
 
                                     </div>
