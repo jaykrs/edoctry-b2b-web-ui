@@ -9,8 +9,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiUrl } from "@/utils/config";
 import { appName } from "@/utils/config";
-
-
+import { jwtDecode } from "jwt-decode";
 type InputProps = {
   placeholder: string;
   type: string;
@@ -31,12 +30,27 @@ export default function SignInForm() {
 
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      router.push("/admin");
+    const token = localStorage.getItem("jwt");
+
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+
+        const currentTime = Date.now() / 1000;
+
+        if (decoded.exp < currentTime) {
+          localStorage.removeItem("jwt");
+          localStorage.removeItem("user");
+          localStorage.removeItem("staffData");
+        } else {
+          router.push("/admin");
+        }
+
+      } catch (error) {
+        localStorage.removeItem("jwt");
+      }
     }
   }, [router]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
