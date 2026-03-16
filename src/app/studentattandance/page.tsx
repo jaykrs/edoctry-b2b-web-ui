@@ -1,13 +1,14 @@
 "use client";
 import CaptchaComponent from "@/components/captcha/Captchacomponent";
-import { useSearchParams } from "next/navigation";
+//import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { apiUrl } from "@/utils/config";
 export default function StudentAttendance() {
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [showInstructions, setShowInstructions] = useState(false);
-    const searchParams = useSearchParams();
-    const vendoruuid = searchParams.get("vendoruuid");
+//    const searchParams = useSearchParams();
+    const vendoruuid = "4r5345446456fgjggfkl645657657657";
+//        searchParams.get("vendoruuid");
     const [email, setEmail] = useState("");
     const [studentId, setStudentId] = useState("");
     const instituteName = "The Sakar Library";
