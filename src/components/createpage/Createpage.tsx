@@ -10,6 +10,7 @@ function CreatePage() {
     const [step, setStep] = useState(1);
     const [isPublished, setIsPublished] = useState(false);
     const [pageName, setPageName] = useState("");
+    const [pagePath, setPagePath] = useState("");
     const [formData, setFormData] = useState({
         name: "",
         pagepath: "",
@@ -34,6 +35,10 @@ function CreatePage() {
         if (newData.name !== undefined) {
             setPageName(newData.name);
         }
+        if (newData.pagepath !== undefined) {
+            setPagePath(newData.pagepath);
+        }
+
 
         setFormData((prev) => ({ ...prev, ...newData }));
     };
@@ -48,11 +53,7 @@ function CreatePage() {
         const staffData = staffDataString ? JSON.parse(staffDataString) : null;
         const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
 
-        console.log("Vendor UUID:", vendoruuid);
-        console.log("Payload:", {
-            ...formData,
-            vendoruuid: vendoruuid
-        });
+
 
         try {
             const response = await fetch(`${apiUrl}/api/pages`, {
@@ -145,6 +146,7 @@ function CreatePage() {
                     <FinishPage
                         data={formData}
                         pageName={pageName}
+                        pagePath={pagePath}
                     />
                 )}
             </div>

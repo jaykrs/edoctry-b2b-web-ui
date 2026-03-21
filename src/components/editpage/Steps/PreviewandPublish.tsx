@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import TextHeading from "@/components/ui/textheader/TextHeader";
 import HoverPopover from "@/components/ui/popupbutton/HoverPopover";
 import { apiUrl } from "@/utils/config";
+import path from "path";
 
 interface Props {
   data: any;
@@ -89,6 +90,33 @@ const PreviewAndPublish: React.FC<Props> = ({
     .map((src) => `<script src="${src}"></script>`)
     .join("\n");
 
+  // metadata
+
+  let metadata = {};
+
+  try {
+    metadata =
+      typeof data?.metadata === "string"
+        ? JSON.parse(data.metadata)
+        : data.metadata || {};
+  } catch (e) {
+    console.error("❌ Invalid metadata JSON");
+  }
+
+
+  const generateMetaTags = (metadata: any) => {
+    return Object.entries(metadata)
+      .map(([key, value]) => {
+        if (key.startsWith("og:")) {
+          return `<meta property="${key}" content="${value}" />`;
+        }
+        return `<meta name="${key}" content="${value}" />`;
+      })
+      .join("\n");
+  };
+
+  const metaTags = generateMetaTags(metadata);
+
   // build final HTML
   const finalHtml = `
 
@@ -99,7 +127,7 @@ const PreviewAndPublish: React.FC<Props> = ({
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>${data?.name || "Web Page"}</title>
-
+${metaTags}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
@@ -145,7 +173,8 @@ ${jsTags}
       body: JSON.stringify({
         htmlContent: finalHtml,
         ftpUser,
-        pageName: data?.name
+        pageName: data?.name,
+        path : data?.pagepath 
       })
     });
 

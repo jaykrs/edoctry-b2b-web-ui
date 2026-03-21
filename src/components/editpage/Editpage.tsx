@@ -131,6 +131,7 @@ export default function EditPage() {
       {step === 4 && (
         <Finish
           pageName={formData.name}
+          pagepath={formData.pagepath}
         />
       )}
 

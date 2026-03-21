@@ -5,9 +5,10 @@ import TextHeading from '@/components/ui/textheader/TextHeader';
 interface FinishPageProps {
   data: any;
   pageName: string;
+  pagePath: string;
 }
 
-function FinishPage({ pageName }: FinishPageProps) {
+function FinishPage({ pageName, pagePath }: FinishPageProps) {
 
   const [website, setWebsite] = useState("");
 
@@ -22,11 +23,12 @@ function FinishPage({ pageName }: FinishPageProps) {
       setWebsite(site);
     }
   }, []);
-
-  const liveUrl =
-    website && pageName
-      ? `${website}/${pageName}.html`
-      : "";
+const liveUrl =
+  website && pageName
+    ? pagePath
+      ? `${website}/${pagePath}/${pageName}.html`
+      : `${website}/${pageName}.html`
+    : "";
 
   return (
     <div className="w-full">

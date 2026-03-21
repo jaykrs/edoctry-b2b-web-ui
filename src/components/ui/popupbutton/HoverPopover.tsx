@@ -16,7 +16,7 @@ const HoverPopover = ({
   if (!buttonText) return null; 
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block z-1000">
       <button
         onClick={onClick}
         type="button"

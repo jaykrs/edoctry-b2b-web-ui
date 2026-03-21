@@ -6,7 +6,6 @@ import { apiUrl } from "@/utils/config";
 import Select from "react-select";
 import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 
-
 function EmailWorkflow() {
     const [showModal, setShowModal] = useState(false);
 
@@ -17,7 +16,6 @@ function EmailWorkflow() {
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
 
-
     const [newWorkflow, setNewWorkflow] = useState({
         name: "",
         trigger: "",
@@ -25,6 +23,7 @@ function EmailWorkflow() {
         audience: "[]",
         sendOption: "now",
     });
+
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -38,10 +37,12 @@ function EmailWorkflow() {
         })
             .then((res) => res.json())
             .then((res) => {
+
                 const mappedOptions =
                     res?.data?.map((item: any) => ({
                         id: item.id,
                         name: item.attributes?.name || "Untitled",
+                        html_element: item.attributes?.html_element || "",
                     })) || [];
 
                 setOptions(mappedOptions);
@@ -53,13 +54,17 @@ function EmailWorkflow() {
             });
     }, []);
 
+
     useEffect(() => {
         const fetchRecipients = async () => {
+
             const jwt = localStorage.getItem("jwt");
             const staffDataString = localStorage.getItem("staffData");
+
             if (!jwt || !staffDataString) return;
 
             const staffData = JSON.parse(staffDataString);
+
             const vendoruuid =
                 staffData?.data?.[0]?.attributes?.vendoruuid;
 
@@ -89,6 +94,7 @@ function EmailWorkflow() {
         fetchRecipients();
     }, []);
 
+
     useEffect(() => {
         if (showModal) {
             document.body.classList.add("hide-app-layout");
@@ -97,6 +103,8 @@ function EmailWorkflow() {
         }
         return () => document.body.classList.remove("hide-app-layout");
     }, [showModal]);
+
+
     const openEditModal = (workflow: any) => {
         setIsEditing(true);
         setEditId(workflow.id);
@@ -112,41 +120,9 @@ function EmailWorkflow() {
         setShowModal(true);
     };
 
-    const handleSaveWorkflow = () => {
-        const payload = {
-            id: isEditing ? editId : Date.now(),
-            name: newWorkflow.name,
-            trigger: newWorkflow.trigger,
-            template: newWorkflow.template,
-            audience: JSON.parse(newWorkflow.audience),
-            status: "Active",
-            updatedAt: new Date().toLocaleDateString(),
-        };
-
-        if (isEditing) {
-            // UPDATE
-            setWorkflowList((prev) =>
-                prev.map((item) => (item.id === editId ? payload : item))
-            );
-        } else {
-            // CREATE
-            setWorkflowList((prev) => [...prev, payload]);
-        }
-
-        // reset
-        setShowModal(false);
-        setIsEditing(false);
-        setEditId(null);
-        setNewWorkflow({
-            name: "",
-            trigger: "",
-            template: "",
-            audience: "[]",
-            sendOption: "now",
-        });
-    };
 
     const getTodayLocalDate = () => {
+
         const today = new Date();
 
         const offset = today.getTimezoneOffset();
@@ -158,6 +134,7 @@ function EmailWorkflow() {
 
     useEffect(() => {
         if (newWorkflow.sendOption === "now" && !newWorkflow.trigger) {
+
             setNewWorkflow((prev) => ({
                 ...prev,
                 trigger: getTodayLocalDate(),
@@ -165,6 +142,53 @@ function EmailWorkflow() {
         }
     }, [newWorkflow.sendOption]);
 
+
+    const handleSaveWorkflow = async () => {
+
+        try {
+
+            const jwt = localStorage.getItem("jwt");
+
+            const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
+
+            const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
+            const selectedTemplate = options.find(
+                (t) => t.id == newWorkflow.template
+            );
+
+            const payload = {
+
+                data: {
+                    name: newWorkflow.name,
+                    templateid: Number(newWorkflow.template),
+                    recepientlistid: JSON.parse(newWorkflow.audience),
+                    templatedata: selectedTemplate?.html_element || "",
+                    execute: false,
+                    executiondt:
+                        newWorkflow.sendOption === "now"
+                            ? getTodayLocalDate()
+                            : newWorkflow.trigger,
+                    vendorid: vendorid
+                }
+            };
+
+            await fetch(`${apiUrl}/api/emailworkflows`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            setShowModal(false);
+
+        } catch (error) {
+
+            console.error("Workflow create error:", error);
+        }
+    };
 
     return (
         <div>
@@ -190,70 +214,46 @@ function EmailWorkflow() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Workflow Name
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Trigger Event
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Selected Template
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Target Audience
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Status
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Last Updated
                                     </TableCell>
 
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
+                                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                         Actions
                                     </TableCell>
                                 </TableRow>
                             </TableHeader>
+
                             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                                 {workflowList.length === 0 ? (
                                     <TableRow>
-                                        <TableCell
-
-                                            className="px-5 py-6 text-center text-gray-400"
-                                        >
+                                        <TableCell className="px-5 py-6 text-center text-gray-400">
                                             No workflows created yet
                                         </TableCell>
                                     </TableRow>
                                 ) : (
                                     workflowList.map((wf) => (
                                         <TableRow key={wf.id}>
-                                            {/* Workflow Name (student name jaisa layout) */}
                                             <TableCell className="px-5 py-6 sm:px-6 text-start">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-10 h-10 overflow-hidden rounded-lg">
@@ -270,12 +270,10 @@ function EmailWorkflow() {
                                                 </div>
                                             </TableCell>
 
-                                            {/* Trigger Event (email & phone jaisa stacked text) */}
                                             <TableCell className="flex flex-col px-5 py-3 mt-5 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                                 <span>{wf.trigger}</span>
                                             </TableCell>
 
-                                            {/* Selected Template (skills & qualification jaisa) */}
                                             <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                                 <div className="flex flex-col">
                                                     <span className="text-blue-600 font font-bold">
@@ -284,24 +282,20 @@ function EmailWorkflow() {
                                                 </div>
                                             </TableCell>
 
-                                            {/* Target Audience */}
                                             <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                                                 <span>{wf.audience.length} Selected</span>
                                             </TableCell>
 
-                                            {/* Status */}
                                             <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                                                 <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
                                                     {wf.status}
                                                 </span>
                                             </TableCell>
 
-                                            {/* Last Updated */}
                                             <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                                                 <span>{wf.updatedAt}</span>
                                             </TableCell>
 
-                                            {/* Edit */}
                                             <TableCell>
                                                 <button
                                                     onClick={() => openEditModal(wf)}
@@ -319,7 +313,7 @@ function EmailWorkflow() {
                 </div>
             </div>
 
-            {/* ================= MODAL ================= */}
+            {/* MODAL (UNCHANGED UI) */}
             {showModal && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
@@ -329,11 +323,13 @@ function EmailWorkflow() {
                         className="bg-white rounded-2xl w-[90%] max-w-2xl shadow-xl overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* Header */}
+
+                        {/* header */}
                         <div className="flex justify-between items-center px-6 py-4 border-b">
                             <h2 className="text-lg font-semibold text-gray-700">
                                 Add Email Workflow
                             </h2>
+
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="text-gray-500 hover:text-red-500"
@@ -342,13 +338,14 @@ function EmailWorkflow() {
                             </button>
                         </div>
 
-                        {/* Body */}
+                        {/* body */}
                         <div className="p-6 space-y-5">
-                            {/* Workflow Name */}
+
                             <div>
                                 <label className="block text-xs text-gray-500 mb-1">
                                     Workflow Name
                                 </label>
+
                                 <input
                                     type="text"
                                     className="w-full border rounded-xl px-3 py-2 text-sm"
@@ -359,16 +356,16 @@ function EmailWorkflow() {
                                 />
                             </div>
 
-                            {/* Trigger */}
-                            {/* Send Time Dropdown */}
                             <div>
                                 <label className="block text-xs text-gray-500 mb-1">
                                     Send Time
                                 </label>
+
                                 <select
                                     className="w-full border rounded-xl px-3 py-2 text-sm"
                                     value={newWorkflow.sendOption}
                                     onChange={(e) => {
+
                                         const value = e.target.value;
 
                                         setNewWorkflow({
@@ -383,8 +380,8 @@ function EmailWorkflow() {
                                 </select>
                             </div>
 
-                            {/* Conditional Date Input */}
                             {newWorkflow.sendOption === "others" && (
+
                                 <div>
                                     <label className="block text-xs text-gray-500 mb-1">
                                         Trigger Date
@@ -401,12 +398,12 @@ function EmailWorkflow() {
                                 </div>
                             )}
 
-
-                            {/* Template */}
                             <div>
+
                                 <label className="block text-xs text-gray-500 mb-1">
                                     Selected Template
                                 </label>
+
                                 <select
                                     className="w-full border rounded-xl px-3 py-2 text-sm"
                                     value={newWorkflow.template}
@@ -417,8 +414,11 @@ function EmailWorkflow() {
                                         })
                                     }
                                 >
+
                                     <option value="">Choose Template</option>
+
                                     {options.map((t) => (
+
                                         <option key={t.id} value={t.id}>
                                             {t.name}
                                         </option>
@@ -426,17 +426,16 @@ function EmailWorkflow() {
                                 </select>
                             </div>
 
-                            {/* Target Audience (react-select) */}
                             <div>
                                 <label className="block text-xs text-gray-500 mb-1">
                                     Target Audience
                                 </label>
+
                                 <Select
                                     isMulti
                                     closeMenuOnSelect={false}
                                     options={recepientList}
 
-                                    /* 👇 IMPORTANT FIXES */
                                     menuPortalTarget={document.body}
                                     menuPosition="fixed"
                                     maxMenuHeight={180}
@@ -463,25 +462,30 @@ function EmailWorkflow() {
                                         })
                                     }
                                 />
-
                             </div>
+
                         </div>
 
-                        {/* Footer */}
+                        {/* footer */}
+
                         <div className="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50">
+
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="px-4 py-2 border rounded-xl"
                             >
                                 Cancel
                             </button>
+
                             <button
                                 onClick={handleSaveWorkflow}
                                 className="px-5 py-2 text-sm bg-blue-600 text-white rounded-xl hover:bg-blue-700"
                             >
                                 {isEditing ? "Update Workflow" : "Save Workflow"}
                             </button>
+
                         </div>
+
                     </div>
                 </div>
             )}
