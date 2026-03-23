@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import TextHeading from "@/components/ui/textheader/TextHeader";
 
-function Finish({ pageName }: { pageName: string }) {
+function Finish({ pageName, pagepath }: { pageName: string; pagepath: string }) {
 
 const [website, setWebsite] = useState("");
 
@@ -27,10 +27,13 @@ try {
 }
 }, []);
 
+
 const liveUrl =
-website && pageName
-? `${website}/${pageName}.html`
-: "";
+  website && pageName
+    ? pagepath
+      ? `${website}/${pagepath}/${pageName}.html`
+      : `${website}/${pageName}.html`
+    : "";
 
 return (
 <div className="w-full">

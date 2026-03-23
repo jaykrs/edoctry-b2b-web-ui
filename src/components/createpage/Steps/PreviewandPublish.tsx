@@ -74,6 +74,34 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
     .map((src) => `<script src="${src}"></script>`)
     .join('\n');
 
+
+  // metadata
+
+  let metadata = {};
+
+  try {
+    metadata =
+      typeof data?.metadata === "string"
+        ? JSON.parse(data.metadata)
+        : data.metadata || {};
+  } catch (e) {
+    console.error("❌ Invalid metadata JSON");
+  }
+
+
+  const generateMetaTags = (metadata: any) => {
+    return Object.entries(metadata)
+      .map(([key, value]) => {
+        if (key.startsWith("og:")) {
+          return `<meta property="${key}" content="${value}" />`;
+        }
+        return `<meta name="${key}" content="${value}" />`;
+      })
+      .join("\n");
+  };
+
+  const metaTags = generateMetaTags(metadata);
+
   // 🔹 Final HTML for preview
   const finalHtml = `
 <!DOCTYPE html>
@@ -81,8 +109,8 @@ const PreviewAndPublish: React.FC<PreviewAndPublishProps> = ({ onNext, onBack, d
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${data?.name || 'Web Page'}</title>
-
+<title>${data?.name || 'Web Page'}</title>
+${metaTags}
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -110,11 +138,6 @@ ${cssTags}
 `;
 
   // Publish to FTP server
-
-
-
-
-
   const publishToFtp = async () => {
     const token = localStorage.getItem("jwt");
     const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
@@ -123,7 +146,7 @@ ${cssTags}
 
     try {
 
-      // 🔹 1. Save to database first
+      // Save to database 
       const dbRes = await fetch(`${apiUrl}/api/pages`, {
         method: "POST",
         headers: {
@@ -143,14 +166,15 @@ ${cssTags}
         return;
       }
 
-      // 🔹 2. Then publish to FTP
+      //publish to FTP
       const ftpRes = await fetch("/api/publish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           htmlContent: finalHtml,
           ftpUser,
-          pageName: data?.name
+          pageName: data?.name,
+          path : data?.pagepath
         })
       });
 

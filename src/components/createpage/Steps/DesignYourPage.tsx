@@ -77,13 +77,11 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
   useEffect(() => {
 
     if (!gjsInstanceRef.current) {
-      console.log("❌ GrapesJS editor not ready yet");
       return;
     }
 
     const doc = gjsInstanceRef.current.Canvas.getDocument();
 
-    console.log("🎨 Injecting CSS libs:", cssLibs);
 
     cssLibs.forEach((href: string) => {
 
@@ -97,11 +95,9 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
         doc.head.appendChild(link);
 
-        console.log("✅ CSS injected:", href);
 
       } else {
 
-        console.log("⚠️ CSS already exists:", href);
 
       }
 
@@ -112,13 +108,11 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
   useEffect(() => {
 
     if (!gjsInstanceRef.current) {
-      console.log("❌ GrapesJS editor not ready yet");
       return;
     }
 
     const doc = gjsInstanceRef.current.Canvas.getDocument();
 
-    console.log("⚙️ Injecting JS libs:", jsLibs);
 
     jsLibs.forEach((src: string) => {
 
@@ -131,11 +125,9 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
         doc.body.appendChild(script);
 
-        console.log("✅ JS injected:", src);
 
       } else {
 
-        console.log("⚠️ JS already exists:", src);
 
       }
 
@@ -239,12 +231,10 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
       // 🟢 Canvas loaded
       editor.on("load", () => {
 
-        console.log("✅ GrapesJS canvas loaded");
 
         const win = editor.Canvas.getWindow();
 
         if (win && typeof win.initPageScripts === "function") {
-          console.log("🚀 Running page JS");
           win.initPageScripts();
         }
 

@@ -52,13 +52,11 @@ export default function DesignYourPage({
   useEffect(() => {
 
     if (!editorRef.current) {
-      console.log("❌ GrapesJS editor not ready yet");
       return;
     }
 
     const doc = editorRef.current.Canvas.getDocument();
 
-    console.log("🎨 Injecting CSS libs:", cssLibs);
 
     cssLibs.forEach((href: string) => {
 
@@ -72,11 +70,6 @@ export default function DesignYourPage({
 
         doc.head.appendChild(link);
 
-        console.log("✅ CSS injected:", href);
-
-      } else {
-
-        console.log("⚠️ CSS already exists:", href);
 
       }
 
@@ -87,13 +80,11 @@ export default function DesignYourPage({
   useEffect(() => {
 
     if (!editorRef.current) {
-      console.log("❌ GrapesJS editor not ready yet");
       return;
     }
 
     const doc = editorRef.current.Canvas.getDocument();
 
-    console.log("⚙️ Injecting JS libs:", jsLibs);
 
     jsLibs.forEach((src: string) => {
 
@@ -106,11 +97,9 @@ export default function DesignYourPage({
 
         doc.body.appendChild(script);
 
-        console.log("✅ JS injected:", src);
 
       } else {
 
-        console.log("⚠️ JS already exists:", src);
 
       }
 

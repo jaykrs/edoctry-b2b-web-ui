@@ -2,20 +2,18 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
 import { appName } from "@/utils/config";
 import React from "react";
-import { Templates } from "@/components/templates/Templates";
-
+import  PageComponents  from "@/components/page-components/Pagecomponents";
 export const metadata: Metadata = {
-  title: ` Templates | ${appName}`,
+  title: ` Page Components | ${appName}`,
   description:
-    `${appName} Templates `,
-  // other metadata
+    `${appName} Page Components `,
 };
 export default function page() {
     
   return (
     <>
-      <PageBreadcrumb pageTitle="Templates" />
-      <Templates />
+      <PageBreadcrumb pageTitle="Page Components" />
+      <PageComponents />
     </>
   );
 }

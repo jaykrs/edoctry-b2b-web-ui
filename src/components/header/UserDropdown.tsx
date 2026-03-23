@@ -35,7 +35,7 @@ export default function UserDropdown() {
           <img
             width={44}
             height={44}
-            src={staff?.logo}
+            src={staff?.logo || "https://edgeadmin.teqtoeducation.com/uploads/without_BG_2c5bf2036e.png"}
             alt={staff?.name|| "User Avatar"}
           />
         </span>

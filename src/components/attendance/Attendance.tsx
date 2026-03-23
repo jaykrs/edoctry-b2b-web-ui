@@ -90,7 +90,6 @@ function Attendance() {
             setShowSummary(true);
 
         } catch (error) {
-            console.log("Attendance fetch error", error);
         }
 
     };
@@ -122,7 +121,6 @@ function Attendance() {
             }
 
         } catch (error) {
-            console.log("Student fetch error", error);
         }
     };
 

@@ -169,8 +169,8 @@ const updateItems: NavItem[] = [
   },
   {
     icon: <FolderIcon />,
-    name: "Page Templates",
-    path: "/admin/templates",
+    name: "Page components",
+    path: "/admin/page-components",
   },
   {
     icon: <PageIcon />,
@@ -407,7 +407,7 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden h-20 w-20 rounded-2xl"
-                src={staff?.logo}
+                src={staff?.logo ||"https://edgeadmin.teqtoeducation.com/uploads/without_BG_2c5bf2036e.png"}
                 alt={staff?.name || "User Avatar"}
 
               />
