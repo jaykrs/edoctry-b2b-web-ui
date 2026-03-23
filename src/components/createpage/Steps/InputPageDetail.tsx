@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextHeading from '@/components/ui/textheader/TextHeader';
 import { apiUrl } from '@/utils/config';
-import InfoPopover from '@/components/ui/popupbutton/Info';
 type InputPageDetailProps = {
   onNext: () => void;
   data: any;
