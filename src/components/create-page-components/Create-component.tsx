@@ -17,6 +17,7 @@ import {
     BtnUndo,
     BtnRedo
 } from "react-simple-wysiwyg";
+import DOMPurify from "dompurify";
 export default function CreateComponent({ pid }: { pid?: string }) {
     const router = useRouter();
     const isEditMode = Boolean(pid);
@@ -91,11 +92,6 @@ export default function CreateComponent({ pid }: { pid?: string }) {
         return <div className="p-6">Loading...</div>;
     }
 
-    const decodeHtml = (html: string) => {
-        const txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    };
     return (
         <div className="min-h-screen">
             {/* Header */}
@@ -205,7 +201,7 @@ export default function CreateComponent({ pid }: { pid?: string }) {
                         {htmlElement ? (
                             <div
                                 dangerouslySetInnerHTML={{
-                                    __html: decodeHtml(htmlElement),
+                                    __html: DOMPurify.sanitize(htmlElement),
                                 }}
                             />
                         ) : (
