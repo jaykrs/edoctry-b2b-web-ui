@@ -4,6 +4,7 @@ import { appName } from "@/utils/config";
 import React from "react";
 import StudentAttendance from "@/components/studentattendance/StudentAttendance";
 
+
 export const metadata: Metadata = {
     title: ` Student Attendance | ${appName}`,
     description:
