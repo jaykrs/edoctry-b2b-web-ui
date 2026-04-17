@@ -129,6 +129,63 @@ export const generalBlocks: BlockProperties[] = [
 
 export const headerBlocks: BlockProperties[] = [
   {
+    id: 'Bajirao',
+    label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Bajirao Library Header (Double stack)          
+    </div>`,
+    category: 'Bajirao Library Header',
+    content: `
+        <header class="main-header fixed-top transition-all">
+        <!-- Top Bar (Header 1) -->
+        <div class="top-bar d-none d-lg-block">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="contact-info">
+                    <span class="me-4"><a href="tel:+919525298482" class="text-white text-decoration-none"><i
+                                class="fas fa-phone-alt"></i> +91 9525298482</a></span>
+                    <span><a href="mailto:bajiraosir1993@gmail.com" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> bajiraosir1993@gmail.com</a></span>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/919525298482" target="_blank" class="text-white"><i
+                            class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navbar (Header 2) -->
+        <nav id="main-nav" class="navbar navbar-expand-lg transition-all">
+            <div class="container">
+                <a class="navbar-brand serif fw-bold" href="#home">
+                    <img src="images/logo.png" alt="Bajirao Library Logo" class="navbar-logo">
+                    <span class="d-none d-md-inline text-nowrap"><span class="text-gold">B</span>AJIRAO <span
+                            class="text-gold">L</span>IBRARY</span>
+                </a>
+                <button class="navbar-toggler border-0 bg-gold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto text-uppercase small fw-bold tracking-wider">
+                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#facilities">Facilities</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#pricing">Plans</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#testimonials">Voices</a></li>
+                        <li class="nav-item"><a class="nav-link btn-gold-outline ms-lg-3 px-4"
+                                href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    `
+  },
+  {
     id: 'Readers Library Header',
     label: `            
     <div style="width:100%;height:60px;border:1px solid #ddd;
@@ -2190,6 +2247,93 @@ Zay NavBar            </div>`,
 ];
 
 export const footerBlocks: BlockProperties[] = [
+  {
+id: 'Bajirao Footer',
+label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Bajirao Footer with copyright
+            </div>
+  `,
+    content: `
+        <footer class="footer-main">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-brand mb-4">
+                        <img src="images/logo.png" alt="Bajirao Library Logo" class="footer-logo mb-3">
+                        <h5 class="footer-heading serif">BAJIRAO LIBRARY</h5>
+                    </div>
+                    <p class="small leading-relaxed mb-4">The most trusted self-study center in Rajendra Nagar, Patna.
+                        Providing a sanctuary of silence and comfort for dedicated students.</p>
+                    <div class="social-links mt-4">
+                        <a href="#" class="me-3 fs-5"><i class="fab fa-facebook-f text-gold"></i></a>
+                        <a href="#" class="me-3 fs-5"><i class="fab fa-instagram text-gold"></i></a>
+                        <a href="https://wa.me/919525298482" target="_blank" class="fs-5"><i
+                                class="fab fa-whatsapp text-gold"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading serif">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right me-2 small"></i> Home</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right me-2 small"></i> About Us</a></li>
+                        <li><a href="#facilities"><i class="fas fa-chevron-right me-2 small"></i> Facilities</a></li>
+                        <li><a href="#pricing"><i class="fas fa-chevron-right me-2 small"></i> Membership</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading serif">Our Features</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i> 24/7 AC Zone</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i> High-Speed WiFi</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i> Wide Desk Spaces</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i> Girls Only Rows</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading serif">Get In Touch</h5>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Add - Rajendra Nagar Bahadurpur gumati,near raj fresh, Patna 16</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span><a href="tel:+919525298482" class="text-white text-decoration-none">+91
+                                9525298482</a></span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span><a href="tel:+919199701015" class="text-white text-decoration-none">+91
+                                9199701015</a></span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span><a href="mailto:bajiraosir1993@gmail.com"
+                                class="text-white text-decoration-none">bajiraosir1993@gmail.com</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="footer-bottom text-center">
+        <div class="container">
+            <p class="mb-0 poppins">
+                &copy; 2026 BAJIRAO LIBRARY. All Rights Reserved. |
+                <span>Designed By
+                    <a href="https://www.teqtoeducation.com/" target="_blank"
+                        style="text-decoration: none; color: #ffc107; font-weight: 400;">
+                        Teqto Edge
+                    </a>
+                </span>
+            </p>
+        </div>
+    </div>
+  `,
+    category: 'Bajirao Footer'
+
+  },
   {
     id: 'footer-dance',
     label: `

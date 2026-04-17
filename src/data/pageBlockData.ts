@@ -2,6 +2,503 @@ import type { BlockProperties } from 'grapesjs';
 
 export const hero: BlockProperties[] = [
   {
+    id: 'Hero',
+    label:`
+        <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Bajirao INDEX
+    </div>
+    `,
+    category: "Bajirao",
+    content: `
+       <header id="home" class="hero-section">
+        <div class="container text-center z-index-1">
+            <h1 class="display-3 serif fw-700 mb-4 reveal active hero-text-shadow">Your Ultimate <br><span
+                    class="text-gold">Self-Study Haven in Patna</span></h1>
+            <p class="lead poppins fw-300 mb-5 tracking-wide reveal active delay-100 mx-auto hero-text-shadow"
+                style="max-width: 800px;">Experience a peaceful, 24/7 air-conditioned environment with high-speed WiFi
+                and spacious desks &mdash; designed entirely for your success.</p>
+            <div class="d-flex justify-content-center gap-3 reveal active delay-200">
+                <a href="#about" class="btn btn-gold btn-lg text-uppercase fw-bold tracking-wider">Explore Features</a>
+                <a href="#contact" class="btn btn-gold-outline btn-lg text-uppercase fw-bold tracking-wider">Join
+                    Now</a>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </header>
+
+    <section id="about" class="py-10 bg-white">
+        <div class="container">
+            <div class="row align-items-center gx-5">
+                <div class="col-md-6 mb-5 mb-md-0 reveal">
+                    <div class="image-reveal">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                            class="img-fluid rounded shadow" alt="Bajirao Library Study Zone">
+                    </div>
+                </div>
+                <div class="col-md-6 ps-md-5 reveal delay-100">
+                    <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Welcome to Bajirao Library
+                    </h6>
+                    <h2 class="display-5 serif fw-700 mb-4">A Legacy of Focus & Excellence</h2>
+                    <p class="text-muted poppins leading-relaxed mb-4">Bajirao Library is more than just a place to sit;
+                        it's a dedicated ecosystem for serious aspirants. Located in the heart of Rajendra Nagar, we
+                        offer a sanctuary of silence for individual study.</p>
+                    <p class="text-muted poppins leading-relaxed mb-5">Our mission is to provide the most comfortable
+                        and distraction-free environment in Patna, equipped with modern amenities that allow students to
+                        study for long hours without fatigue.</p>
+                    <a href="#contact" class="btn btn-gold text-uppercase fw-bold tracking-wider">Visit Us Today</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FACILITIES SECTION -->
+    <section id="facilities" class="py-10 bg-soft">
+        <div class="container">
+            <div class="text-center mb-10 reveal">
+                <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Our Facilities</h6>
+                <h2 class="display-5 serif fw-700">Optimized for Deep Work</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-snowflake"></i></div>
+                        <h5 class="serif fw-bold mb-3">24/7 Air-Conditioned</h5>
+                        <p class="small text-muted">A perfectly cool environment to keep you fresh during the longest
+                            study sessions.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-100">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-table"></i></div>
+                        <h5 class="serif fw-bold mb-3">Wide Desk Space</h5>
+                        <p class="small text-muted">Spacious seating with extra-wide desks for all your books and
+                            equipment.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-200">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-wifi"></i></div>
+                        <h5 class="serif fw-bold mb-3">High-Speed WiFi</h5>
+                        <p class="small text-muted">Blazing fast internet connectivity for online lectures and digital
+                            research.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-300">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-venus"></i></div>
+                        <h5 class="serif fw-bold mb-3">Safe & Secure</h5>
+                        <p class="small text-muted">Separate rows and dedicated washrooms for female students' comfort.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-clock"></i></div>
+                        <h5 class="serif fw-bold mb-3">24&times;7 Service</h5>
+                        <p class="small text-muted">Whether it's early morning or late night, we are open whenever
+                            inspiration strikes.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-100">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-bolt"></i></div>
+                        <h5 class="serif fw-bold mb-3">Full Power Backup</h5>
+                        <p class="small text-muted">Uninterrupted electricity support ensuring no breaks in your
+                            preparation.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-200">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-tint"></i></div>
+                        <h5 class="serif fw-bold mb-3">RO Drinking Water</h5>
+                        <p class="small text-muted">Clean and chilled RO water available to keep you hydrated and
+                            healthy.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal delay-300">
+                    <div class="facility-card">
+                        <div class="facility-icon"><i class="fas fa-newspaper"></i></div>
+                        <h5 class="serif fw-bold mb-3">Newspaper & More</h5>
+                        <p class="small text-muted">Daily newspapers and magazines to keep you updated with current
+                            affairs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="py-10 bg-white">
+        <div class="container">
+            <div class="text-center mb-10 reveal">
+                <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Membership Plans</h6>
+                <h2 class="display-5 serif fw-700">Simple & Transparent</h2>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 reveal">
+                    <div class="pricing-card">
+                        <h4 class="serif mb-1">5-Hour Shift</h4>
+                        <div class="price-tag">₹400<span>/mo</span></div>
+                        <ul class="list-unstyled mb-5">
+                            <li class="check-item"><i class="fas fa-check"></i> Standard Desk Assignment</li>
+                            <li class="check-item"><i class="fas fa-check"></i> High Speed WiFi & AC</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Clean Environment</li>
+                        </ul>
+                        <a href="#contact"
+                            class="btn btn-gold-outline w-100 text-uppercase fw-bold tracking-wider">Select Slot</a>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal delay-100">
+                    <div class="pricing-card featured">
+                        <div class="badge bg-gold position-absolute top-0 end-0 m-4 px-3 py-2 text-dark fw-bold small">
+                            POPULAR</div>
+                        <h4 class="serif mb-1">Full-Day (15H)</h4>
+                        <div class="price-tag">₹900<span>/mo</span></div>
+                        <ul class="list-unstyled mb-5">
+                            <li class="check-item"><i class="fas fa-check"></i> Dedicated Wide Desk</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Power Sockets at Seat</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Priority Reservations</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Unlimited WiFi & AC</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-gold w-100 text-uppercase fw-bold tracking-wider">Register
+                            Now</a>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal delay-200">
+                    <div class="pricing-card">
+                        <h4 class="serif mb-1">Round-the-Clock</h4>
+                        <div class="price-tag">₹1100<span>/mo</span></div>
+                        <ul class="list-unstyled mb-5">
+                            <li class="check-item"><i class="fas fa-check"></i> 24&times;7 Full Access</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Permanent Desk Lock</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Preferred Seating Selection</li>
+                            <li class="check-item"><i class="fas fa-check"></i> Concierge Support</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-gold-outline w-100 text-uppercase fw-bold tracking-wider">Go
+                            Unlimited</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="gallery-section bg-soft">
+        <div class="container">
+            <div class="text-center mb-10 reveal">
+                <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Visual Tour</h6>
+                <h2 class="display-5 serif fw-700">A Glimpse of Our Sanctuary</h2>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item reveal">
+                    <img src="images/library_entrance_6.png" class="gallery-img" alt="Library Entrance">
+                    <div class="gallery-info">
+                        <h5 class="serif">The Entrance</h5>
+                        <p>Step into focus</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-100">
+                    <img src="images/library_zone_2.png" class="gallery-img" alt="Main Study Zone">
+                    <div class="gallery-info">
+                        <h5 class="serif">Study Zone</h5>
+                        <p>Spacious and serene</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-200">
+                    <img src="images/library_desk_1.png" class="gallery-img" alt="Premium Desk">
+                    <div class="gallery-info">
+                        <h5 class="serif">Premium Desk</h5>
+                        <p>Dedicated to excellence</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="images/library_female_zone_4.png" class="gallery-img" alt="Girls Section">
+                    <div class="gallery-info">
+                        <h5 class="serif">Safe Space</h5>
+                        <p>Dedicated zones for female students</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-100">
+                    <img src="images/library_quiet_corner_3.png" class="gallery-img" alt="Quiet Corner">
+                    <div class="gallery-info">
+                        <h5 class="serif">Quiet Corner</h5>
+                        <p>Perfect for long reads</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-200">
+                    <img src="images/library_focus_5.png" class="gallery-img" alt="Student Focus">
+                    <div class="gallery-info">
+                        <h5 class="serif">Deep Work</h5>
+                        <p>Where focus becomes achievement</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center reveal">
+                <a href="gallery.html" class="btn btn-gold btn-lg text-uppercase fw-bold tracking-wider">Show More
+                    Gallery</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="testimonials" class="py-10 bg-soft">
+        <div class="container">
+            <div class="text-center mb-10 reveal">
+                <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Testimonials</h6>
+                <h2 class="display-5 serif fw-700">Voice of Our Aspirants</h2>
+            </div>
+            <div class="row gx-5">
+                <div class="col-md-4 mb-5 mb-md-0 reveal">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"The best self-study center in Rajendra Nagar. The 24/7 AC and
+                            peaceful atmosphere are perfect for UPSC preparation."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="Amit Verma">
+                            <div>
+                                <h6 class="mb-1 fw-bold">Amit Verma</h6>
+                                <p>UPSC Candidate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5 mb-md-0 reveal delay-100">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Wide desks and comfortable chairs help me study for 10 hours
+                            straight. Highly recommend Bajirao Library for serious students."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Roshni Kumari">
+                            <div>
+                                <h6 class="mb-1 fw-bold">Roshni Kumari</h6>
+                                <p>CAT Aspirant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal delay-200">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Very safe and comfortable for girls. The dedicated rows and
+                            peaceful environment make it a top choice in Patna."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/24.jpg" alt="Shikha Singh">
+                            <div>
+                                <h6 class="mb-1 fw-bold">Shikha Singh</h6>
+                                <p>BPSC Aspirant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-10 bg-white">
+        <div class="container">
+            <div class="row gx-lg-5">
+                <!-- Info Column -->
+                <div class="col-lg-5 mb-5 mb-lg-0 reveal">
+                    <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Contact Us</h6>
+                    <h2 class="display-5 serif fw-700 mb-5">Start Your Journey with <br>Bajirao Library</h2>
+
+                    <div class="contact-info">
+                        <div class="d-flex mb-4">
+                            <div class="icon-box me-4"><i class="fas fa-map-marker-alt text-gold fs-4"></i></div>
+                            <div>
+                                <h6 class="serif fw-bold mb-1">Visit Us</h6>
+                                <p class="poppins text-muted small leading-relaxed">Bahadurpur Gumati, Rajendra Nagar,
+                                    Patna, Bihar 800016</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box me-4"><i class="fas fa-phone text-gold fs-4"></i></div>
+                            <div>
+                                <h6 class="serif fw-bold mb-1">Call Us</h6>
+                                <p class="poppins text-muted small leading-relaxed"><a href="tel:+919525298482"
+                                        class="text-muted text-decoration-none">+91 9525298482</a></p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box me-4"><i class="fas fa-mobile-alt text-gold fs-4"></i></div>
+                            <div>
+                                <h6 class="serif fw-bold mb-1">Office</h6>
+                                <p class="poppins text-muted small leading-relaxed"><a href="tel:+919199701015"
+                                        class="text-muted text-decoration-none">+91 9199701015</a></p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-5">
+                            <div class="icon-box me-4"><i class="fas fa-envelope text-gold fs-4"></i></div>
+                            <div>
+                                <h6 class="serif fw-bold mb-1">Email Us</h6>
+                                <p class="poppins text-muted small leading-relaxed"><a
+                                        href="mailto:bajiraosir1993@gmail.com"
+                                        class="text-muted text-decoration-none">bajiraosir1993@gmail.com</a></p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-3 border bg-soft">
+                            <h6 class="text-uppercase tracking-widest fw-bold x-small text-gold mb-2">Operating Hours
+                            </h6>
+                            <p class="poppins text-dark mb-0 fw-bold">Open 7 Days a Week</p>
+                            <p class="poppins text-muted small mb-0">24x7 Full Accessibility</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="col-lg-7 reveal delay-100">
+                    <div class="contact-card">
+                        <form id="contactForm" class="premium-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Full Name</label>
+                                        <input type="text" id="name" class="form-control" placeholder="Enter your name"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Email Address</label>
+                                        <input type="email" id="email" class="form-control"
+                                            placeholder="example@mail.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Phone Number</label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="+91 00000 00000"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Select Subject</label>
+                                        <select id="subject" class="form-control" required>
+                                            <option value="" disabled selected>Nature of Inquiry</option>
+                                            <option value="New Admission">New Admission</option>
+                                            <option value="Seat Availability">Seat Availability</option>
+                                            <option value="Facilities Query">Facilities Query</option>
+                                            <option value="Pricing/Plans">Pricing/Plans</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Choose Your Shift</label>
+                                        <select id="shift" class="form-control">
+                                            <option value="" disabled selected>Preferred Study Shift</option>
+                                            <option value="5-Hour Shift">5-Hour Shift (Morning/Evening)</option>
+                                            <option value="15-Hour Shift">15-Hour Shift (Full Day)</option>
+                                            <option value="24/7 Access">24/7 Unlimited Access</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label-gold">Your Message</label>
+                                        <textarea id="message" class="form-control"
+                                            placeholder="How can we help you?"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="g-recaptcha mb-4" data-sitekey="6LdpN7AsAAAAABalMqgiU98EHQHA26P56IP5RIcw"></div>
+                            <button type="submit"
+                                class="btn btn-gold btn-lg text-uppercase fw-bold tracking-wider w-100 py-3">Send
+                                Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    `
+  },
+  {
+    id:'Gallery',
+    label:`    <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Bajirao Gallery
+    </div>`,
+    category: "Bajirao",
+    content: `
+      <section class="py-10 bg-soft mt-5">
+        <div class="container text-center">
+            <h6 class="text-gold text-uppercase fw-bold tracking-widest mb-3 small">Our Collections</h6>
+            <h1 class="display-3 serif fw-700 mb-4">A Visual Journey Through Focus</h1>
+            <p class="lead poppins fw-300 mx-auto" style="max-width: 700px;">Explore our world-class facilities designed
+                for the ultimate self-study experience.</p>
+        </div>
+    </section>
+
+    <!-- Main Gallery Grid -->
+    <section class="py-10">
+        <div class="container">
+            <div class="gallery-grid">
+                <!-- Row 1 -->
+                <div class="gallery-item reveal">
+                    <img src="images/library_entrance_6.png" class="gallery-img" alt="Library Entrance">
+                    <div class="gallery-info">
+                        <h5 class="serif">The Entrance</h5>
+                        <p>Welcome to silence</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-100">
+                    <img src="images/library_zone_2.png" class="gallery-img" alt="Main Study Zone">
+                    <div class="gallery-info">
+                        <h5 class="serif">Study Zone</h5>
+                        <p>Spacious seating</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-200">
+                    <img src="images/library_desk_1.png" class="gallery-img" alt="Premium Desk">
+                    <div class="gallery-info">
+                        <h5 class="serif">Premium Desk</h5>
+                        <p>High focus desks</p>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="gallery-item reveal">
+                    <img src="images/library_female_zone_4.png" class="gallery-img" alt="Girls Section">
+                    <div class="gallery-info">
+                        <h5 class="serif">Safe Space</h5>
+                        <p>Female-only sections</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-100">
+                    <img src="images/library_quiet_corner_3.png" class="gallery-img" alt="Quiet Corner">
+                    <div class="gallery-info">
+                        <h5 class="serif">Quiet Corner</h5>
+                        <p>Sanctuary for readers</p>
+                    </div>
+                </div>
+                <div class="gallery-item reveal delay-200">
+                    <img src="images/library_focus_5.png" class="gallery-img" alt="Student Focus">
+                    <div class="gallery-info">
+                        <h5 class="serif">Deep Work</h5>
+                        <p>Concentration at its best</p>
+                    </div>
+                </div>
+
+                <!-- Repeating or Adding more if desired, for now let's use the 6 we have -->
+                <!-- To show "More", I'll just repeat some or create a few more placeholders if needed, but 6 is good for now. -->
+            </div>
+
+            <div class="text-center mt-5 reveal">
+                <a href="index.html" class="btn btn-gold btn-lg text-uppercase fw-bold tracking-wider">Back to Home</a>
+            </div>
+        </div>
+    </section>
+    `
+  },
+  {
     id: 'Readers INDEX',
     label: `
     <div style="width:100%;height:60px;overflow:hidden;

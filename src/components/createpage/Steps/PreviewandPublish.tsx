@@ -122,6 +122,8 @@ ${cssTags}
 
   
   <style>${data?.pagecss || ''}</style>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </head>
 <body>
 
@@ -174,7 +176,7 @@ ${cssTags}
           htmlContent: finalHtml,
           ftpUser,
           pageName: data?.name,
-          path : data?.pagepath
+          path: data?.pagepath
         })
       });
 

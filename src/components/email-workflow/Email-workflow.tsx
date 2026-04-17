@@ -11,6 +11,7 @@ function EmailWorkflow() {
 
     const [options, setOptions] = useState<any[]>([]);
     const [recepientList, setRecepientList] = useState<any[]>([]);
+    const [templateJson, setTemplateJson] = useState("");
     const [loading, setLoading] = useState(true);
     const [workflowList, setWorkflowList] = useState<any[]>([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -94,6 +95,51 @@ function EmailWorkflow() {
         fetchRecipients();
     }, []);
 
+    const fetchWorkflows = async () => {
+        const jwt = localStorage.getItem("jwt");
+        const staffDataString = localStorage.getItem("staffData");
+
+        if (!jwt || !staffDataString) return;
+
+        const staffData = JSON.parse(staffDataString);
+        const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
+
+        if (!vendorid) return;
+
+        try {
+            const res = await fetch(
+                `${apiUrl}/api/emailworkflows?filters[vendorId][$eq]=${vendorid}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                }
+            );
+
+            const data = await res.json();
+
+            const workflows =
+                data?.data?.map((item: any) => ({
+                    id: item.id,
+                    name: item.attributes.name,
+                    trigger: item.attributes.executiondt,
+                    template: item.attributes.templateid,
+                    audience: item.attributes.recepientlistid || [],
+                    status: item.attributes.execute ? "Success" : "Pending",
+                    updatedAt: new Date(item.attributes.updatedAt).toLocaleDateString(),
+                })) || [];
+
+            setWorkflowList(workflows);
+        } catch (error) {
+            console.error("Fetch Workflows Error:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchWorkflows();
+    }, []);
+
 
     useEffect(() => {
         if (showModal) {
@@ -144,34 +190,41 @@ function EmailWorkflow() {
 
 
     const handleSaveWorkflow = async () => {
-
         try {
-
             const jwt = localStorage.getItem("jwt");
 
             const staffData = JSON.parse(localStorage.getItem("staffData") || "{}");
 
             const vendorid = staffData?.data?.[0]?.attributes?.vendoruuid;
 
-            const selectedTemplate = options.find(
-                (t) => t.id == newWorkflow.template
-            );
+            // ✅ JSON parse + validation
+            let parsedJson = {};
+
+            try {
+                parsedJson = templateJson ? JSON.parse(templateJson) : {};
+            } catch (err) {
+                alert("Invalid JSON format ❌");
+                return;
+            }
 
             const payload = {
-
                 data: {
                     name: newWorkflow.name,
-                    templateid: Number(newWorkflow.template),
-                    recepientlistid: JSON.parse(newWorkflow.audience),
-                    templatedata: selectedTemplate?.html_element || "",
+                    templateid: String(newWorkflow.template),
+                    recepientlistid: JSON.parse(newWorkflow.audience).join(","),
+
+                    templatedata: parsedJson,
+
                     execute: false,
                     executiondt:
                         newWorkflow.sendOption === "now"
                             ? getTodayLocalDate()
                             : newWorkflow.trigger,
-                    vendorid: vendorid
-                }
+                    vendorId: vendorid,
+                },
             };
+
+            console.log("Payload:", payload); // debug
 
             await fetch(`${apiUrl}/api/emailworkflows`, {
                 method: "POST",
@@ -183,12 +236,13 @@ function EmailWorkflow() {
             });
 
             setShowModal(false);
-
+            fetchWorkflows(); // Refresh the list
         } catch (error) {
-
             console.error("Workflow create error:", error);
         }
     };
+
+
 
     return (
         <div>
@@ -353,6 +407,20 @@ function EmailWorkflow() {
                                     onChange={(e) =>
                                         setNewWorkflow({ ...newWorkflow, name: e.target.value })
                                     }
+                                />
+                            </div>
+                            {/* //template data */}
+                            <div>
+                                <label className="block text-xs text-gray-500 mb-1">
+                                    Template JSON
+                                </label>
+
+                                <textarea
+                                    className="w-full border rounded-xl px-3 py-2 text-sm"
+                                    rows={4}
+                                    placeholder='{"message": "Hello ${name}"}'
+                                    value={templateJson}
+                                    onChange={(e) => setTemplateJson(e.target.value)}
                                 />
                             </div>
 
