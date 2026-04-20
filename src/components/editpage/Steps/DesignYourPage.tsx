@@ -1,5 +1,4 @@
 "use client";
-import "grapesjs/dist/css/grapes.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import grapesjs from "grapesjs";
 import TextHeading from "@/components/ui/textheader/TextHeader";
@@ -13,7 +12,7 @@ interface Props {
   onChange: (data: any) => void;
   onNext: () => void;
   onBack: () => void;
-}
+} 
 
 export default function DesignYourPage({
   pageId,

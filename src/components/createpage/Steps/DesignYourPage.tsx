@@ -52,88 +52,74 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
     fetchClientLibs();
   }, [data?.headerfooterid]);
 
+  // Memoize parsed libraries to prevent unnecessary re-renders
   const parsedLibs = React.useMemo(() => {
     let libs: string[] = [];
-
     try {
       if (typeof clientsideLibs === "string") {
         if (clientsideLibs.trim().startsWith("[")) {
           libs = JSON.parse(clientsideLibs);
         } else {
-          libs = clientsideLibs.split(",").map((l) => l.trim());
+          // Remove empty strings and spaces
+          libs = clientsideLibs.split(",").map((l) => l.trim()).filter(l => l !== "");
         }
       }
     } catch (e) {
       console.error("Lib parse error:", e);
     }
-
     return libs;
   }, [clientsideLibs]);
 
-  const cssLibs = parsedLibs.filter((lib) => lib.endsWith(".css"));
+  const cssLibs = React.useMemo(() =>
+    parsedLibs.filter((lib) => lib.toLowerCase().split('?')[0].endsWith(".css")),
+    [parsedLibs]
+  );
 
-  const jsLibs = parsedLibs.filter((lib) => lib.endsWith(".js"));
+  const jsLibs = React.useMemo(() =>
+    parsedLibs.filter((lib) => lib.toLowerCase().split('?')[0].endsWith(".js")),
+    [parsedLibs]
+  );
 
+  // Effect to handle manual injection of CSS/JS if they arrive after init
   useEffect(() => {
+    if (!gjsInstanceRef.current) return;
 
-    if (!gjsInstanceRef.current) {
-      return;
-    }
+    const editor = gjsInstanceRef.current;
 
-    const doc = gjsInstanceRef.current.Canvas.getDocument();
+    // Function to perform injection
+    const injectLibs = () => {
+      const doc = editor.Canvas.getDocument();
+      if (!doc) return;
 
+      cssLibs.forEach((href) => {
+        if (!doc.querySelector(`link[href="${href}"]`)) {
+          const link = doc.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          doc.head.appendChild(link);
+        }
+      });
 
-    cssLibs.forEach((href: string) => {
+      jsLibs.forEach((src) => {
+        if (!doc.querySelector(`script[src="${src}"]`)) {
+          const script = doc.createElement("script");
+          script.src = src;
+          script.async = false; // Maintain order if possible
+          doc.body.appendChild(script);
+        }
+      });
+    };
 
-      const existing = doc.querySelector(`link[href="${href}"]`);
+    // Try injecting immediately
+    injectLibs();
 
-      if (!existing) {
+    // Also listen for canvas load to be safe
+    editor.on('canvas:ready', injectLibs);
 
-        const link = doc.createElement("link");
-        link.rel = "stylesheet";
-        link.href = href;
-
-        doc.head.appendChild(link);
-
-
-      } else {
-
-
-      }
-
-    });
-
-  }, [cssLibs]);
-
-  useEffect(() => {
-
-    if (!gjsInstanceRef.current) {
-      return;
-    }
-
-    const doc = gjsInstanceRef.current.Canvas.getDocument();
-
-
-    jsLibs.forEach((src: string) => {
-
-      const existing = doc.querySelector(`script[src="${src}"]`);
-
-      if (!existing) {
-
-        const script = doc.createElement("script");
-        script.src = src;
-
-        doc.body.appendChild(script);
-
-
-      } else {
-
-
-      }
-
-    });
-
-  }, [jsLibs]);
+    return () => {
+      editor.off('canvas:ready', injectLibs);
+    };
+  }, [cssLibs, jsLibs, gjsInstanceRef.current]);
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -190,7 +176,6 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
           ],
           scripts: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
-            "https://code.jquery.com/jquery-3.6.0.min.js",
             ...jsLibs
           ],
         },
@@ -230,25 +215,29 @@ function DesignYourPage({ onNext, onBack, data, onChange }: DesignYourPageProps)
 
       // 🟢 Canvas loaded
       editor.on("load", () => {
-
-
         const win = editor.Canvas.getWindow();
 
-        if (win && typeof win.initPageScripts === "function") {
-          win.initPageScripts();
-        }
-
+        // Give the script a small delay to ensure it has executed
+        setTimeout(() => {
+          if (win && typeof win.initPageScripts === "function") {
+            console.log("Initializing page scripts...");
+            win.initPageScripts();
+          }
+        }, 500);
       });
 
-      // 🟢 Component updated
+      // 🟢 Component updated (optional, use sparingly to avoid duplicates)
+      let lastUpdate = 0;
       editor.on("component:update", () => {
+        const now = Date.now();
+        if (now - lastUpdate < 2000) return; // Debounce calls
+        lastUpdate = now;
 
         const win = editor.Canvas.getWindow();
-
         if (win && typeof win.initPageScripts === "function") {
-          win.initPageScripts();
+          // Note: If initPageScripts adds event listeners, this may be redundant
+          // win.initPageScripts(); 
         }
-
       });
 
     }
