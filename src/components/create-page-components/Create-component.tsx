@@ -15,7 +15,9 @@ import {
     BtnBulletList,
     BtnNumberedList,
     BtnUndo,
-    BtnRedo
+    BtnRedo,
+    HtmlButton,
+    Separator
 } from "react-simple-wysiwyg";
 import DOMPurify from "dompurify";
 export default function CreateComponent({ pid }: { pid?: string }) {
@@ -180,6 +182,8 @@ export default function CreateComponent({ pid }: { pid?: string }) {
                                 <BtnNumberedList />
                                 <BtnUndo />
                                 <BtnRedo />
+                                <Separator />
+                                <HtmlButton />
                             </Toolbar>
 
                             <Editor
