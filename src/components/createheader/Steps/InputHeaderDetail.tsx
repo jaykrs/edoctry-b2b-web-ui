@@ -83,13 +83,13 @@ function InputHeaderDetail({ data, onChange, onNext }: InputHeaderDetailProps) {
             {/* clientsidelibs */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-1">Client-Side Libraries</label>
-              <input
-                type="text"
+              <textarea
+                rows={4}
                 value={data.clientsidelibs}
                 onChange={(e) => onChange({ clientsidelibs: e.target.value })}
-                placeholder="1.0.0"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              />
+                placeholder="enter css and js with full path as comma seperated https://abc.com/assets/js/custom.js"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-mono"
+              ></textarea>
             </div>
 
             {/* Author */}
