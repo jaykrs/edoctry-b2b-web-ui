@@ -128,6 +128,96 @@ export const generalBlocks: BlockProperties[] = [
 ];
 
 export const headerBlocks: BlockProperties[] = [
+
+  {
+    id: 'Gravity',
+    label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Template - 0002         
+    </div>`,
+    category: 'TOP HEADER',
+    content: `
+    <div class="top-bar py-2 d-none d-lg-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="contact-info d-flex gap-4">
+                <a href="mailto:agieducare@gmail.com" class="text-decoration-none"><i
+                        class="bi bi-envelope-fill me-2"></i>agieducare@gmail.com</a>
+                <a href="tel:+919470405071" class="text-decoration-none"><i class="bi bi-telephone-fill me-2"></i>+91
+                    9431257894</a>
+            </div>
+            <div class="top-tagline">
+                <span><i class="bi bi-patch-check-fill me-1"></i> Govt. Approved &amp; Registered Academic
+                    Institution</span>
+            </div>
+        </div>
+    </div>
+    `
+  },
+
+  {
+    id: 'Gravity header',
+    label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Template - 0002         
+    </div>`,
+    category: 'HEADER',
+    content: `
+        <nav class="navbar navbar-expand-lg sticky-top" id="navbar-main">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#home">
+                <img src="logo.png" alt="Gravity Classes Logo" class="logo-img me-2">
+                <div class="brand-text">
+                    <span class="brand-title">GRAVITY</span>
+                    <span class="brand-subtitle">CLASSES</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon-custom"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#classes">Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#special-prep">Special Preparation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#why-choose-us">Why Us</a>
+                    </li>
+                    <li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#more">More</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#contact" class="btn btn-premium-gold btn-sm d-flex align-items-center gap-2">
+                        <span>Admission Open 2026-27</span>
+                        <span class="pulse-indicator"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    `
+  },
+
   {
     id: 'Bajirao',
     label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
@@ -2247,6 +2337,125 @@ Zay NavBar            </div>`,
 ];
 
 export const footerBlocks: BlockProperties[] = [
+    {
+id: 'Gravity sub Footer',
+label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Template - 0002
+            </div>
+  `,
+    category: 'Sub Footer',
+    content: `
+    <a href="#home" class="scroll-to-top text-decoration-none justify-content-center align-items-center"
+        id="scrollTopBtn">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+
+    <!-- ===== WHATSAPP & PHONE SIDEBAR ===== -->
+    <div class="gc-sidebar" id="gcSidebar">
+
+        <a href="https://wa.me/919431257894?text=Hello%20I%20want%20to%20enquire%20about%20Gravity%20Classes%20Patna"
+            target="_blank" rel="noopener noreferrer" class="gc-btn gc-wa" id="gcWaBtn" aria-label="WhatsApp Us">
+            <div class="gc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white"
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+            </div>
+            <span class="gc-label">WhatsApp Us</span>
+        </a>
+
+        <a href="tel:+919431257894" class="gc-btn gc-ph" id="gcPhBtn" aria-label="Call Us">
+            <div class="gc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white"
+                        d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" />
+                </svg>
+            </div>
+            <span class="gc-label">+91 9431257894</span>
+        </a>
+
+    </div>
+  `,
+  },
+
+  {
+id: 'Gravity Footer',
+label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Template - 0002
+            </div>
+  `,
+    category: 'Footer',
+    content: `
+           <footer class="footer-section bg-teal-darker pt-5 pb-3 position-relative border-top border-teal-muted">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <a class="d-flex align-items-center text-decoration-none mb-3" href="#home">
+                        <img src="logo.png" alt="Gravity Classes Logo" class="logo-img me-2">
+                        <div class="brand-text">
+                            <span class="brand-title text-white">GRAVITY</span>
+                            <span class="brand-subtitle text-gold">CLASSES</span>
+                        </div>
+                    </a>
+                    <p class="text-muted-light small">
+                        Providing top-tier coaching services for intermediate science, school foundation programs, and
+                        national level competitive exams like NEET, NTSE, and Olympiads.
+                    </p>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    <h5 class="text-white mb-3 font-weight-bold">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#home"><i class="bi bi-chevron-right me-1"></i> Home</a></li>
+                        <li><a href="#about"><i class="bi bi-chevron-right me-1"></i> About Us</a></li>
+                        <li><a href="#classes"><i class="bi bi-chevron-right me-1"></i> Classes Offered</a></li>
+                        <li><a href="#special-prep"><i class="bi bi-chevron-right me-1"></i> Special Preparation</a>
+                        </li>
+                        <li><a href="#why-choose-us"><i class="bi bi-chevron-right me-1"></i> Why Choose Us</a></li>
+                        <li><a href="#contact"><i class="bi bi-chevron-right me-1"></i> Contacts</a></li>
+                        <li><a href="#more"><i class="bi bi-chevron-right me-1"></i> More</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h5 class="text-white mb-3 font-weight-bold">Contact Info</h5>
+                    <ul class="list-unstyled text-muted-light small footer-contact-list">
+                        <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> Shaligram Market Khemnichak, Patna-800027
+                        </li>
+                        <li><i class="bi bi-telephone-fill text-gold me-2"></i> +91 9431257894</li>
+                        <li><i class="bi bi-envelope-fill text-gold me-2"></i> agieducare@gmail.com</li>
+                        <li><i class="bi bi-person-fill text-gold me-2"></i> S. Anand</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="border-teal-muted my-4">
+
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted-light small">&copy; 2026 Gravity Classes. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                    <p class="mb-0 text-muted-light small">Managed by <span class="text-white">Teqto Edge</span> &amp;
+                        <a href="https://www.teqtoeducation.com/" target="_blank"><span class="text-gold">Teqto
+                                Education</span></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+  `,
+  },
+
   {
 id: 'Bajirao Footer',
 label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
