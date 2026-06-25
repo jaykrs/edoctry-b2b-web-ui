@@ -1,6 +1,1431 @@
 import type { BlockProperties } from 'grapesjs';
 
 export const hero: BlockProperties[] = [
+    {
+    id: 'Hero',
+    label:`
+        <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Template - 0002
+    </div>
+    `,
+    category: "full page",
+    content: `
+       
+    <!-- Hero Section -->
+    <header id="home" class="hero-section position-relative overflow-hidden d-flex align-items-center">
+        <!-- Glowing background blobs -->
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+
+        <div class="container position-relative z-2">
+            <div class="row min-vh-75 align-items-center py-5">
+                <div class="col-lg-7 text-center text-lg-start hero-content-block">
+                    <div class="badge-pill mb-3 inline-block">
+                        <span class="badge-text"><i class="bi bi-shield-check text-gold me-2"></i>Govt. Approved &amp;
+                            Registered</span>
+                    </div>
+                    <h1 class="hero-title display-3 fw-bold text-white mb-3">
+                        GRAVITY <span class="text-teal">CLASSES</span>
+                    </h1>
+                    <h2 class="hero-subtitle h4 text-gold-light mb-4">
+                        Success in Life with Trust
+                    </h2>
+                    <p class="hero-description lead text-muted-light mb-5">
+                        Empowering students in Patna with quality education, experienced guidance, and personalized
+                        learning paths. Admissions for the academic session 2026-27 are now open. Secure your seat
+                        today!
+                    </p>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#contact" class="btn btn-premium-teal py-3 px-4">Enroll Today <i
+                                class="bi bi-arrow-right ms-2"></i></a>
+                        <a href="#classes" class="btn btn-outline-gold py-3 px-4">Explore Courses</a>
+                    </div>
+
+                    <div class="row mt-5 pt-4 border-top border-teal-muted text-start d-none d-md-flex">
+                        <div class="col-sm-4">
+                            <h3 class="fw-bold text-white mb-0 h4">4th - 12th</h3>
+                            <span class="text-muted-light small text-uppercase tracking-wider">Comprehensive
+                                Batches</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="fw-bold text-white mb-0 h4">Separate</h3>
+                            <span class="text-muted-light small text-uppercase tracking-wider">Hindi &amp; English
+                                Batches</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="fw-bold text-white mb-0 h4">Personalized</h3>
+                            <span class="text-muted-light small text-uppercase tracking-wider">Batch Sizes for
+                                Growth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 mt-5 mt-lg-0 text-center position-relative">
+                    <div class="logo-showcase-container">
+                        <div class="logo-glow-halo"></div>
+                        <div class="logo-orbit-ring ring-1"></div>
+                        <div class="logo-orbit-ring ring-2"></div>
+                        <img src="logo.png" alt="Gravity Classes Patna" class="hero-logo-large img-fluid shadow-lg">
+                    </div>
+                    <!-- Micro Floating Card -->
+                    <div class="floating-info-card glass-card p-3 d-flex align-items-center gap-3">
+                        <div class="icon-circle bg-gold-gradient">
+                            <i class="bi bi-clock-fill text-dark"></i>
+                        </div>
+                        <div class="text-start">
+                            <h6 class="mb-0 text-white font-weight-bold">Seats Filling Fast</h6>
+                            <small class="text-gold-light">Limited Batch Size</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-6 position-relative">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="about-image-wrapper position-relative">
+                        <div class="about-accent-box"></div>
+                        <div class="glass-card overflow-hidden p-0 rounded-4 shadow-2xl">
+                            <div
+                                class="p-4 bg-teal-dark border-bottom border-gold-muted d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-white d-flex align-items-center gap-2">
+                                    <i class="bi bi-patch-check-fill text-teal"></i> Legacy of Trust
+                                </h4>
+                                <span class="badge bg-gold text-dark py-2 px-3 fw-bold">Est. 2026-27 Session</span>
+                            </div>
+                            <div class="p-4 text-muted-light">
+                                <p class="mb-4">
+                                    <strong>Gravity Classes</strong>, Patna is dedicated to creating a nurturing and
+                                    result-driven academic environment. Operating under the umbrella of <strong>ABHA
+                                        foundation
+                                    </strong> as a Govt. registered academic institution, we stand as a
+                                    beacon of excellence and integrity.
+                                </p>
+                                <p class="mb-4">
+                                    Our philosophy centers on building a solid conceptual foundation, fostering critical
+                                    thinking, and ensuring every student believes in their potential. We combine
+                                    rigorous academic curriculums with modern teaching techniques to help students scale
+                                    new heights.
+                                </p>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-shield-check text-gold"></i>
+                                            <span class="text-white small">Registered Foundation</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-people-fill text-gold"></i>
+                                            <span class="text-white small">Expert Mentorship</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 ps-lg-5">
+                    <span class="section-subtitle">About Us</span>
+                    <h2 class="section-title text-white mb-4">Welcome to GRAVITY CLASSES PATNA</h2>
+                    <p class="lead text-muted-light mb-4">
+                        GRAVITY CLASSES PATNA is committed to providing quality education and academic excellence. Our
+                        aim is to build strong concepts and help students achieve their goals through expert guidance
+                        and regular assessment.
+                    </p>
+
+                    <div class="accordion accordion-custom" id="aboutAccordion">
+                        <div class="accordion-item glass-card mb-3 border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true">
+                                    <i class="bi bi-journal-bookmark-fill me-2 text-gold"></i> Our Mission
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body text-muted-light">
+                                    To provide high-quality education and target-oriented preparation that equips
+                                    students with the knowledge, confidence, and trust necessary to succeed in life's
+                                    competitive exams and academic pursuits.
+                                    <ul>
+                                        <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Concept-based
+                                            learning</li>
+                                        <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Individual attention
+                                        </li>
+                                        <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Regular tests and
+                                            assessments</li>
+                                        <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Affordable quality
+                                            education</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item glass-card mb-3 border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false">
+                                    <i class="bi bi-eye-fill me-2 text-gold"></i>Our Vision
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body text-muted-light">
+                                    To empower students with knowledge, confidence, and skills for lifelong success.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item glass-card mb-3 border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false">
+                                    <i class="bi bi-award-fill me-2 text-gold"></i> Registered Academic Legacy
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body text-muted-light">
+                                    Being a Govt. approved and registered institute managed by ABHA foundation allows us
+                                    to
+                                    run specialized educational initiatives, support outstanding learners, and align our
+                                    resources directly towards high-scoring results and trust-driven learning.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section id="classes" class="classes-section py-6 position-relative bg-teal-darker">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-subtitle text-center">Academic Programs</span>
+                <h2 class="section-title text-white text-center">Classes Available</h2>
+                <div class="section-divider mx-auto"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Class 4th to 10th Card -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="course-card glass-card h-100 position-relative overflow-hidden">
+                        <div class="course-banner-accent"></div>
+                        <div class="p-5">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <span class="badge bg-teal-soft py-2 px-3 text-teal">Foundation Division</span>
+                                <i class="bi bi-layers-half text-gold fs-3"></i>
+                            </div>
+                            <h3 class="course-title text-white mb-3">Classes 4<sup>th</sup> to 10<sup>th</sup></h3>
+                            <h4 class="course-subjects text-gold-light mb-4">All Subjects Covered</h4>
+                            <p class="text-muted-light mb-4">
+                                Focus on primary base building, conceptual clarity in mathematics and science, and
+                                comprehensive coverage of languages and social sciences. Perfect alignment with school
+                                curricula.
+                            </p>
+                            <ul class="course-features-list list-unstyled mb-5">
+                                <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Strong mathematical
+                                    foundations</li>
+                                <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Interactive science learning
+                                </li>
+                                <li><i class="bi bi-check-circle-fill text-teal me-2"></i> Writing and analytical skills
+                                </li>
+                            </ul>
+                            <a href="#contact" class="btn btn-premium-gold w-100 py-3">Inquire for Batch Timings</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 11th & 12th Card -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="course-card glass-card h-100 position-relative overflow-hidden">
+                        <div class="course-banner-accent banner-gold"></div>
+                        <div class="p-5">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <span class="badge bg-gold-soft py-2 px-3 text-gold">Higher Secondary Division</span>
+                                <i class="bi bi-mortorboard-fill text-teal fs-3"></i>
+                            </div>
+                            <h3 class="course-title text-white mb-3">Classes 11<sup>th</sup> &amp; 12<sup>th</sup></h3>
+                            <h4 class="course-subjects text-teal-light mb-4">All Stream Core</h4>
+                            <p class="text-muted-light mb-4">
+                                Rigorous training program for students in the science stream, strictly categorized into
+                                focused topics and advanced syllabus coverage to match board expectations.
+                            </p>
+                            <div class="row g-2 mb-4">
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-calculator me-2"></i>Math</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-lightning-charge me-2"></i>Physics</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-flask me-2"></i> Chemistry </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-activity me-2"></i>Biology</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-palette me-2"></i>Arts</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="subject-tag"><i class="bi bi-house-heart me-2"></i>Home science</div>
+                                </div>
+                            </div>
+                            <a href="#contact" class="btn btn-premium-teal w-100 py-3">Inquire for Batch Timings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Batches Highlight -->
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="medium-highlight-banner glass-card py-3 px-4 d-inline-flex align-items-center gap-3">
+                        <span class="badge bg-gold text-dark py-2 px-3 fw-bold">Important</span>
+                        <span class="text-white">We offer <strong>Hindi Medium &amp; English Medium Separate
+                                Batches</strong> to ensure comfortable learning environments for all.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Preparation Section -->
+    <section id="special-prep" class="special-prep-section py-6 position-relative">
+        <div class="glow-orb orb-3"></div>
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-subtitle text-center">Competitive Edge</span>
+                <h2 class="section-title text-white text-center">Special Preparation For</h2>
+                <div class="section-divider mx-auto"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- NEET -->
+                <div class="col-6 col-md-3">
+                    <div
+                        class="prep-card glass-card text-center p-4 h-100 d-flex flex-column justify-content-center align-items-center">
+                        <div class="prep-icon-box mb-3 bg-red-soft text-danger">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <h4 class="h5 text-white mb-2 font-weight-bold">NEET</h4>
+                        <p class="text-muted-light small mb-0">Medical Entrance Guidance</p>
+                    </div>
+                </div>
+
+                <!-- NTSE -->
+                <div class="col-6 col-md-3">
+                    <div
+                        class="prep-card glass-card text-center p-4 h-100 d-flex flex-column justify-content-center align-items-center">
+                        <div class="prep-icon-box mb-3 bg-purple-soft text-purple">
+                            <i class="bi bi-trophy-fill"></i>
+                        </div>
+                        <h4 class="h5 text-white mb-2 font-weight-bold">NTSE</h4>
+                        <p class="text-muted-light small mb-0">National Talent Search</p>
+                    </div>
+                </div>
+
+                <!-- Olympiads -->
+                <div class="col-6 col-md-3">
+                    <div
+                        class="prep-card glass-card text-center p-4 h-100 d-flex flex-column justify-content-center align-items-center">
+                        <div class="prep-icon-box mb-3 bg-blue-soft text-info">
+                            <i class="bi bi-award-fill"></i>
+                        </div>
+                        <h4 class="h5 text-white mb-2 font-weight-bold">OLYMPIAD</h4>
+                        <p class="text-muted-light small mb-0">National &amp; International</p>
+                    </div>
+                </div>
+
+                <!-- Bihar Board -->
+                <div class="col-6 col-md-3">
+                    <div
+                        class="prep-card glass-card text-center p-4 h-100 d-flex flex-column justify-content-center align-items-center">
+                        <div class="prep-icon-box mb-3 bg-gold-soft text-gold">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <h4 class="h5 text-white mb-2 font-weight-bold">BIHAR BOARD</h4>
+                        <p class="text-muted-light small mb-0">High-scoring strategy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="why-choose-us-section py-6 position-relative bg-teal-darker">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <span class="section-subtitle">Our Strengths</span>
+                    <h2 class="section-title text-white mb-4">Why Choose Us</h2>
+                    <p class="text-muted-light mb-4">
+                        At Gravity Classes, we maintain a standards-driven methodology that blends strict educational
+                        discipline with approachable teaching practices.
+                    </p>
+                    <div class="quote-card glass-card p-4 border-start border-gold border-4">
+                        <p class="text-gold-light italic mb-2">"Gravity classes built the trust in me that I can crack
+                            my dream board and competitive exams."</p>
+                        <cite class="text-white small">- Gravity Scholar</cite>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 ps-lg-5">
+                    <div class="row g-4">
+                        <!-- Experienced Teachers -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-person-workspace"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Experienced Faculty</h4>
+                                <p class="text-muted-light small mb-0">Learn from seasoned educators who understand
+                                    board patterns and student psyches.</p>
+                            </div>
+                        </div>
+
+                        <!-- Regular Tests & Doubt Classes -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-journals"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Study Materials &amp; Notes</h4>
+                                <p class="text-muted-light small mb-0">Weekly tests to evaluate comprehension combined
+                                    with dedicated doubt resolving classes.</p>
+                            </div>
+                        </div>
+
+                        <!-- Small Batch Size -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Small Batch Size</h4>
+                                <p class="text-muted-light small mb-0">We intentionally keep batch numbers restricted so
+                                    that classrooms remain active and non-crowded.</p>
+                            </div>
+                        </div>
+
+                        <!-- Personal Attention -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-zoom-in"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Parent-Teacher Interaction</h4>
+                                <p class="text-muted-light small mb-0">Every student is monitored closely. Regular
+                                    feedback reports are shared with parents.</p>
+                            </div>
+                        </div>
+
+                        <!-- Weekly Tests -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-zoom-in"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Weekly Tests</h4>
+                            </div>
+                        </div>
+
+                        <!-- Doubt Clearing Sessions -->
+                        <div class="col-sm-6">
+                            <div class="why-card glass-card p-4 h-100">
+                                <div class="why-icon text-gold mb-3 fs-3">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+                                <h4 class="h5 text-white mb-2 font-weight-bold">Doubt Clearing Sessions</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-6 position-relative">
+        <div class="glow-orb orb-4"></div>
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-subtitle text-center">Get in Touch</span>
+                <h2 class="section-title text-white text-center">Contact Us &amp; Admissions</h2>
+                <div class="section-divider mx-auto"></div>
+            </div>
+
+            <div class="row g-4 align-items-stretch">
+
+                <!--Info & Map Column -->
+                <div class="col-lg-5">
+                    <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h3 class="h4 text-white mb-4">Office Information</h3>
+
+                            <!-- Address -->
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <div class="contact-icon bg-teal-soft text-teal p-3 rounded-3">
+                                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-gold-light mb-1">Location Address</h6>
+                                    <p class="text-white small mb-0">Shaligram Market, Khemnichak, Patna-800027</p>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <div class="contact-icon bg-teal-soft text-teal p-3 rounded-3">
+                                    <i class="bi bi-telephone-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-gold-light mb-1">Direct Helpline</h6>
+                                    <p class="text-white mb-0"><a href="tel:+919470405071"
+                                            class="text-white text-decoration-none">+91 9431257894</a></p>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <div class="contact-icon bg-teal-soft text-teal p-3 rounded-3">
+                                    <i class="bi bi-envelope-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-gold-light mb-1">Email Support</h6>
+                                    <p class="text-white mb-0"><a href="mailto:agieducare@gmail.com"
+                                            class="text-white text-decoration-none">agieducare@gmail.com</a></p>
+                                </div>
+                            </div>
+
+                            <!-- Director / Head -->
+                            <div class="d-flex align-items-start gap-3 mb-4">
+                                <div class="contact-icon bg-gold-soft text-gold p-3 rounded-3">
+                                    <i class="bi bi-person-badge-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-gold-light mb-1">Director</h6>
+                                    <p class="text-white small mb-0">S. Anand</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map -->
+                        <div class="map-container overflow-hidden rounded-3 border border-teal-muted">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3598.6366034177573!2d85.1608128!3d25.5804413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f2a7d95dc48c3b%3A0x38f8b65907bc6d2b!2sGRAVITY%20CLASSES!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                                width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inquiry Form Column -->
+                <div class="col-lg-7">
+                    <div class="glass-card p-5 h-100">
+                        <h3 class="h4 text-white mb-2">Admission Inquiry Form</h3>
+                        <p class="text-muted-light mb-4">Fill out this quick form, and our coordinator will reach out to
+                            schedule an interaction session.</p>
+
+                        <form id="inquiryForm" class="needs-validation" novalidate>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="studentName" class="form-label text-white-50 small">Student Name</label>
+                                    <input type="text" class="form-control premium-input" id="studentName"
+                                        placeholder="Enter full name" required>
+                                    <div class="invalid-feedback">Please enter your name.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="parentName" class="form-label text-white-50 small">Parent/Guardian
+                                        Name</label>
+                                    <input type="text" class="form-control premium-input" id="parentName"
+                                        placeholder="Enter parent name" required>
+                                    <div class="invalid-feedback">Please enter parent/guardian name.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contactNo" class="form-label text-white-50 small">Contact Number</label>
+                                    <input type="tel" class="form-control premium-input" id="contactNo"
+                                        placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                                    <div class="invalid-feedback">Please enter a valid 10-digit mobile number.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="studentEmail" class="form-label text-white-50 small">Email
+                                        Address</label>
+                                    <input type="email" class="form-control premium-input" id="studentEmail"
+                                        placeholder="Enter email address" required>
+                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="targetClass" class="form-label text-white-50 small">Target Class</label>
+                                    <select class="form-select premium-input" id="targetClass" required>
+                                        <option value="" disabled selected>Select class</option>
+                                        <option value="4th-10th">Class 4th to 10th</option>
+                                        <option value="11th-12th">Class 11th &amp; 12th</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a class group.</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="mediumPreference" class="form-label text-white-50 small">Medium
+                                        Preference</label>
+                                    <div class="d-flex gap-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input premium-check" type="radio" name="medium"
+                                                id="mediumEnglish" value="English" checked>
+                                            <label class="form-check-label text-white" for="mediumEnglish">English
+                                                Medium</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input premium-check" type="radio" name="medium"
+                                                id="mediumHindi" value="Hindi">
+                                            <label class="form-check-label text-white" for="mediumHindi">Hindi
+                                                Medium</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="additionalNotes" class="form-label text-white-50 small">Any query /
+                                        Specific Subject Interests</label>
+                                    <textarea class="form-control premium-input" id="additionalNotes" rows="3"
+                                        placeholder="Let us know what you want to prepare for (e.g. NEET, Board, Olympiads)"></textarea>
+                                </div>
+
+                                <div class="g-recaptcha mb-3" data-sitekey="6LehVC8tAAAAALRuPqTA8AZMKsjmwIcH_qQ7rvH1"
+                                    data-theme="dark">
+                                </div>
+                                <div id="captchaError" class="text-danger small mb-2" style="display:none;">
+                                    Please verify that you are not a robot.
+                                </div>
+                                <button type="submit" class="btn btn-premium-teal w-100 py-3">
+                                    Submit Inquiry <i class="bi bi-send ms-2"></i>
+
+                                </button>
+                            </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+
+
+    <section id="more" class="more-section py-6 position-relative">
+        <div class="glow-orb orb-more"></div>
+        <div class="container">
+
+            <!-- Section Header -->
+            <div class="text-center mb-5">
+                <span class="section-subtitle text-center">Resources</span>
+                <h2 class="section-title text-white text-center">Study Materials</h2>
+                <p class="text-muted-light text-center mx-auto" style="max-width:600px;">
+                    Download free study resources curated by our faculty — PDF notes, previous year question papers, and
+                    sample papers to sharpen your exam preparation.
+                </p>
+                <div class="section-divider mx-auto"></div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="d-flex justify-content-center gap-2 flex-wrap mb-5" id="materialTabs">
+                <button class="mat-tab-btn active" data-filter="notes">PDF Notes</button>
+                <button class="mat-tab-btn" data-filter="question">Question Papers</button>
+                <button class="mat-tab-btn" data-filter="sample">Sample Papers</button>
+            </div>
+
+            <!-- Materials Grid -->
+            <div class="row g-4" id="materialsGrid">
+
+                <!-- ── PDF NOTES ── -->
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 4</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 5</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 6</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 7</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 8</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 9</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 10</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 11</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="notes">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-notes">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-notes">PDF Notes</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 12</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-gold w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Notes
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ── QUESTION PAPERS ── -->
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 4 </h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 5 </h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 6 </h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 7</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 8 </h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 9</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 10</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 11</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="question">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-question">
+                                <i class="bi bi-patch-question-fill"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-question">Question Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 12</h5>
+
+                        <a href="#" class="btn btn-premium-teal w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Paper
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ── SAMPLE PAPERS ── -->
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 4</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 5</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 6</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 7</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 8</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 9</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 10</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 11</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4 mat-item" data-type="sample">
+                    <div class="mat-card glass-card h-100 p-4 d-flex flex-column">
+                        <div class="mat-card-header d-flex align-items-center gap-3 mb-3">
+                            <div class="mat-icon-box mat-icon-sample">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div>
+                                <span class="mat-badge mat-badge-sample">Sample Paper</span>
+                                <p class="text-muted-light small mb-0"></p>
+                            </div>
+                        </div>
+                        <h5 class="text-white mb-2">Class 12</h5>
+                        <p class="text-muted-light small flex-grow-1 mb-3">
+
+                        </p>
+
+                        <a href="#" class="btn mat-sample-btn w-100 py-2 mat-download-btn">
+                            <i class="bi bi-download me-2"></i>Download Sample
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+
+
+
+            <!-- Bottom CTA Banner -->
+            <div class="row mt-5">
+                <div class="col-lg-10 mx-auto">
+                    <div
+                        class="mat-cta-banner glass-card p-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="mat-cta-icon">
+                                <i class="bi bi-bell-fill text-gold fs-3"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-white mb-1">Want More Study Material?</h5>
+                                <p class="text-muted-light small mb-0">New papers and notes are uploaded regularly.
+                                    Contact
+                                    us or WhatsApp for subject-specific resources.</p>
+                            </div>
+                        </div>
+                        <a href="#contact" class="btn btn-premium-teal px-4 py-2 flex-shrink-0">Request Material <i
+                                class="bi bi-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <section id="gallery" class="more-section py-5">
+                <div class="container">
+
+                    <div class="text-center mb-5">
+                        <span class="section-subtitle">Gallery</span>
+                        <h2 class="section-title">Our Gallery</h2>
+                        <p class="section-desc">
+                            Explore classrooms, activities, and memorable moments.
+                        </p>
+                    </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="gallery-card">
+                                <img src="images/gallery1.jpg" class="gallery-img">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="gallery-card">
+                                <img src="images/gallery1.jpg" class="gallery-img">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="gallery-card">
+                                <img src="images/gallery1.jpg" class="gallery-img">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+            <section id="results" class="more-section py-5">
+                <div class="container">
+
+                    <div class="text-center mb-5">
+                        <span class="section-subtitle">Results</span>
+                        <h2 class="section-title">Class-wise Results</h2>
+                        <p class="section-desc">
+                            Download result PDFs from Class 4 to Class 12.
+                        </p>
+                    </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 4 Result</h5>
+
+                                <a href="results/class4.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 5 Result</h5>
+
+                                <a href="results/class5.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 6 Result</h5>
+
+                                <a href="results/class6.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 7 Result</h5>
+
+                                <a href="results/class7.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 8 Result</h5>
+
+                                <a href="results/class8.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 9 Result</h5>
+
+                                <a href="results/class9.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 10 Result</h5>
+
+                                <a href="results/class10.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 11 Result</h5>
+
+                                <a href="results/class11.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="result-card">
+                                <i class="bi bi-file-earmark-pdf-fill pdf-icon"></i>
+                                <h5>Class 12 Result</h5>
+
+                                <a href="results/class12.pdf" target="_blank" class="btn result-btn">
+                                    View Result
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Copy till Class 12 -->
+
+                    </div>
+
+                </div>
+            </section>
+
+
+        </div>
+    </section>
+
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-gold overflow-hidden">
+                <div class="modal-body text-center p-5">
+                    <div class="success-icon-wrapper mb-4">
+                        <i class="bi bi-check-circle-fill text-gold fs-1"></i>
+                    </div>
+                    <h4 class="text-white mb-2">Inquiry Submitted Successfully</h4>
+                    <p class="text-muted-light small mb-4">Thank you for contacting Gravity Classes. Sadanand Kumar or
+                        one of our counselors will contact you shortly at the provided number.</p>
+                    <button type="button" class="btn btn-premium-gold px-4 py-2" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+  },
+
   {
     id: 'Hero',
     label:`
