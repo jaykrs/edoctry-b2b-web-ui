@@ -23,12 +23,17 @@ function FinishPage({ pageName, pagePath }: FinishPageProps) {
       setWebsite(site);
     }
   }, []);
-const liveUrl =
-  website && pageName
-    ? pagePath
-      ? `${website}/${pagePath}/${pageName}.html`
-      : `${website}/${pageName}.html`
-    : "";
+
+  const formattedWebsite = website && !/^https?:\/\//i.test(website) 
+    ? `https://${website}` 
+    : website;
+
+  const liveUrl =
+    formattedWebsite && pageName
+      ? pagePath
+        ? `${formattedWebsite}/${pagePath}/${pageName}.html`
+        : `${formattedWebsite}/${pageName}.html`
+      : "";
 
   return (
     <div className="w-full">

@@ -27,12 +27,15 @@ try {
 }
 }, []);
 
+const formattedWebsite = website && !/^https?:\/\//i.test(website) 
+  ? `https://${website}` 
+  : website;
 
 const liveUrl =
-  website && pageName
+  formattedWebsite && pageName
     ? pagepath
-      ? `${website}/${pagepath}/${pageName}.html`
-      : `${website}/${pageName}.html`
+      ? `${formattedWebsite}/${pagepath}/${pageName}.html`
+      : `${formattedWebsite}/${pageName}.html`
     : "";
 
 return (

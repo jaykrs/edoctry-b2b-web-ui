@@ -69,7 +69,6 @@ export default function SignInForm() {
       if (data.jwt) {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user));
-
         // 🔹 Fetch specific staff by email
         const staffRes = await fetch(
           `${apiUrl}/api/vendors?filters[email][$eq]=${encodeURIComponent(identifier)}`
@@ -82,6 +81,7 @@ export default function SignInForm() {
           }
         );
         const staffData = await staffRes.json();
+        console.log("Fetched staff data:", staffData);
         localStorage.setItem("staffData", JSON.stringify(staffData));
         router.push("/admin");
       } else {

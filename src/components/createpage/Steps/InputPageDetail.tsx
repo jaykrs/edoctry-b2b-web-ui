@@ -13,6 +13,34 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
   const [loading, setLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
+  const handleHtmlTitleChange = (newTitle: string) => {
+    let currentMetadata = {};
+    try {
+      currentMetadata = data.metadata ? JSON.parse(data.metadata) : {};
+    } catch (e) {}
+    
+    const updatedMetadata = { ...currentMetadata, title: newTitle };
+    onChange({
+      htmlTitle: newTitle,
+      metadata: JSON.stringify(updatedMetadata, null, 2)
+    });
+  };
+
+  const handleMetadataChange = (newMetadataStr: string) => {
+    let parsedTitle = data.htmlTitle || "";
+    try {
+      const parsed = JSON.parse(newMetadataStr);
+      if (parsed && parsed.title !== undefined) {
+        parsedTitle = parsed.title;
+      }
+    } catch (e) {}
+    
+    onChange({
+      metadata: newMetadataStr,
+      htmlTitle: parsedTitle
+    });
+  };
+
   const handleSave = () => {
     if (formRef.current) {
       if (formRef.current.checkValidity()) {
@@ -95,31 +123,68 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Name */}
-            <div className='p-4'>
-              <label className="block text-sm font-semibold text-gray-800 mb-1">Name<span className="text-red-500">*</span></label>
+            <div className="p-4">
+              <label className="block text-sm font-semibold text-gray-800 mb-1">
+                Page Name (URL Slug)
+                <span className="text-red-500">*</span>
+              </label>
+
               <input
                 type="text"
-                placeholder="Enter page name"
+                placeholder="e.g. about, contact-us, privacy-policy"
                 value={data.name || ""}
                 onChange={(e) => onChange({ name: e.target.value })}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               />
+
+              <p className="mt-1 text-xs text-gray-500">
+                This will be used to generate the HTML file name (e.g. <strong>about.html</strong>, <strong>contact-us.html</strong>). Use only lowercase letters, numbers, and hyphens.
+              </p>
+            </div>
+
+            {/* HTML Title */}
+            <div className="p-4">
+              <label className="block text-sm font-semibold text-gray-800 mb-1">
+                SEO Title (HTML Title)
+                <span className="text-red-500">*</span>
+              </label>
+
+              <input
+                type="text"
+                placeholder="e.g. Edge-ERP - Enterprise Educational ERP & CRM Platform"
+                value={data.htmlTitle || ""}
+                required
+                maxLength={60}
+                onChange={(e) => handleHtmlTitleChange(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              />
+
+              <p className="mt-1 text-xs text-gray-500">
+                Enter the page title that appears in browser tabs and search engine results (recommended 50–60 characters).
+              </p>
             </div>
 
             {/* Page Path */}
-            <div className='p-4'>
+            <div className="p-4">
               <label className="block text-sm font-semibold text-gray-800 mb-1">
-                Page Path
-
+                Page Path (Folder Path)
               </label>
+
               <input
                 type="text"
-                placeholder="about/example-path"
+                placeholder="e.g. blog or blog/delhi-blog"
                 value={data.pagepath || ""}
                 onChange={(e) => onChange({ pagepath: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               />
+
+              <p className="mt-1 text-xs text-gray-500">
+                Specify the folder path where the page will be generated. For example,
+                <strong> blog</strong> creates <strong>blog/index.html</strong>, and
+                <strong> blog/delhi-blog</strong> creates
+                <strong> blog/delhi-blog/index.html</strong>.
+              </p>
             </div>
 
 
@@ -205,7 +270,7 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
                 rows={4}
                 placeholder='{"key":"value"}'
                 value={data.metadata || ""}
-                onChange={(e) => onChange({ metadata: e.target.value })}
+                onChange={(e) => handleMetadataChange(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               ></textarea>
             </div>

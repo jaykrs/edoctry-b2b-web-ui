@@ -18,7 +18,15 @@ function CreatePage() {
         type: "",
         headerfooterid: "",
         seo: "",
-        metadata: "",
+        metadata: JSON.stringify({
+            title: "",
+            description: "",
+            keywords: "",
+            "og:title": "",
+            "og:description": "",
+            "og:image": ""
+        }, null, 2),
+        htmlTitle: "",
         css: "",
         pagecss: "",
         pagejs: "",
@@ -56,6 +64,7 @@ function CreatePage() {
 
 
         try {
+            const { htmlTitle, ...apiData } = formData;
             const response = await fetch(`${apiUrl}/api/pages`, {
                 method: "POST",
                 headers: {
@@ -64,7 +73,7 @@ function CreatePage() {
                 },
                 body: JSON.stringify({
                     data: {
-                        ...formData,
+                        ...apiData,
                         vendoruuid: vendoruuid
                     },
                 }),
