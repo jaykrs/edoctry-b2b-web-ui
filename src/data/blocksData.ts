@@ -182,8 +182,8 @@ export const headerBlocks: BlockProperties[] = [
             <div class="contact-info d-flex gap-4">
                 <a href="mailto:agieducare@gmail.com" class="text-decoration-none"><i
                         class="bi bi-envelope-fill me-2"></i>agieducare@gmail.com</a>
-                <a href="tel:+919470405071" class="text-decoration-none"><i class="bi bi-telephone-fill me-2"></i>+91
-                    9431257894</a>
+                <a href="tel:+91000000000" class="text-decoration-none"><i class="bi bi-telephone-fill me-2"></i>+91
+                    91000000000</a>
             </div>
             <div class="top-tagline">
                 <span><i class="bi bi-patch-check-fill me-1"></i> Govt. Approved &amp; Registered Academic
@@ -271,15 +271,15 @@ export const headerBlocks: BlockProperties[] = [
         <div class="top-bar d-none d-lg-block">
             <div class="container d-flex justify-content-between align-items-center">
                 <div class="contact-info">
-                    <span class="me-4"><a href="tel:+919525298482" class="text-white text-decoration-none"><i
-                                class="fas fa-phone-alt"></i> +91 9525298482</a></span>
+                    <span class="me-4"><a href="tel:+919800000000" class="text-white text-decoration-none"><i
+                                class="fas fa-phone-alt"></i> +91 9800000000</a></span>
                     <span><a href="mailto:bajiraosir1993@gmail.com" class="text-white text-decoration-none"><i
                                 class="fas fa-envelope"></i> bajiraosir1993@gmail.com</a></span>
                 </div>
                 <div class="social-links">
                     <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/919525298482" target="_blank" class="text-white"><i
+                    <a href="https://wa.me/9800000000" target="_blank" class="text-white"><i
                             class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
@@ -328,9 +328,9 @@ export const headerBlocks: BlockProperties[] = [
 
                 <!-- Phone Link -->
                 <i class="fa fa-phone-alt me-2 text-light"></i>
-                <a href="tel:+919334339046"
+                <a href="tel:+919800000000"
                     class="text-light text-decoration-none me-3">
-                    +91 9334339046
+                    +919800000000
                 </a>
 
                 <!-- Email Link -->
@@ -2426,14 +2426,14 @@ label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
         </div>
         <div>
           <h3>Contact</h3>
-          <a href="tel:9811955885">Call: 9811955885</a>
-          <a href="tel:9925253513">Call: 9925253513</a>
+          <a href="tel:9800000000">Call: 9800000000</a>
+          <a href="tel:9800000000">Call: 9800000000</a>
           <a href="mailto:info@teqtoeducation.com">info@teqtoeducation.com</a>
           <a href="https://www.teqtoeducation.com">www.teqtoeducation.com</a>
         </div>
         <div class="trust-indicators">
           <h3>Enterprise Ready</h3>
-          <span>WhatsApp only: 9313065972</span>
+          <span>WhatsApp only: +919800000000</span>
           <span>5 to 7 working days launch</span>
           <span>1-year free AMC</span>
         </div>
@@ -2478,14 +2478,14 @@ label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
             <span class="gc-label">WhatsApp Us</span>
         </a>
 
-        <a href="tel:+919431257894" class="gc-btn gc-ph" id="gcPhBtn" aria-label="Call Us">
+        <a href="tel:+919800000000" class="gc-btn gc-ph" id="gcPhBtn" aria-label="Call Us">
             <div class="gc-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path fill="white"
                         d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" />
                 </svg>
             </div>
-            <span class="gc-label">+91 9431257894</span>
+            <span class="gc-label">+919800000000</span>
         </a>
 
     </div>
@@ -2541,7 +2541,7 @@ label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
                     <ul class="list-unstyled text-muted-light small footer-contact-list">
                         <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> Shaligram Market Khemnichak, Patna-800027
                         </li>
-                        <li><i class="bi bi-telephone-fill text-gold me-2"></i> +91 9431257894</li>
+                        <li><i class="bi bi-telephone-fill text-gold me-2"></i> +919800000000</li>
                         <li><i class="bi bi-envelope-fill text-gold me-2"></i> agieducare@gmail.com</li>
                         <li><i class="bi bi-person-fill text-gold me-2"></i> S. Anand</li>
                     </ul>
@@ -2619,13 +2619,11 @@ label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
                     </div>
                     <div class="footer-contact-item">
                         <i class="fas fa-phone-alt"></i>
-                        <span><a href="tel:+919525298482" class="text-white text-decoration-none">+91
-                                9525298482</a></span>
+                        <span><a href="tel:+919800000000" class="text-white text-decoration-none">++919800000000</a></span>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fas fa-phone-alt"></i>
-                        <span><a href="tel:+919199701015" class="text-white text-decoration-none">+91
-                                9199701015</a></span>
+                        <span><a href="tel:+919800000000" class="text-white text-decoration-none">++919800000000</a></span>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fas fa-envelope"></i>
@@ -2686,7 +2684,7 @@ label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
 
                     <p><i class="fa fa-map-marker-alt me-3"></i> Kankarbagh,
                         Patna, Bihar</p>
-                    <p><i class="fa fa-phone-alt me-3"></i> +91 9334339046</p>
+                    <p><i class="fa fa-phone-alt me-3"></i> +919800000000</p>
                     <p><i class="fa fa-envelope me-3"></i>
                         info@readersrejoice.co.in</p>
 
