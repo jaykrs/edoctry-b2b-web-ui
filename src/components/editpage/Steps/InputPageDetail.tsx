@@ -16,6 +16,34 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
   const [loading, setLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
+  const handleHtmlTitleChange = (newTitle: string) => {
+    let currentMetadata = {};
+    try {
+      currentMetadata = data.metadata ? JSON.parse(data.metadata) : {};
+    } catch (e) {}
+    
+    const updatedMetadata = { ...currentMetadata, title: newTitle };
+    onChange({
+      htmlTitle: newTitle,
+      metadata: JSON.stringify(updatedMetadata, null, 2)
+    });
+  };
+
+  const handleMetadataChange = (newMetadataStr: string) => {
+    let parsedTitle = data.htmlTitle || "";
+    try {
+      const parsed = JSON.parse(newMetadataStr);
+      if (parsed && parsed.title !== undefined) {
+        parsedTitle = parsed.title;
+      }
+    } catch (e) {}
+    
+    onChange({
+      metadata: newMetadataStr,
+      htmlTitle: parsedTitle
+    });
+  };
+
   const handleSave = () => {
     if (!formRef.current) return;
 
@@ -112,6 +140,18 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
                 value={data.name || ""}
                 onChange={(e) => onChange({ name: e.target.value })}
                 required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              />
+            </div>
+
+            {/* HTML Title */}
+            <div className="p-4">
+              <label className="block text-sm font-semibold text-gray-800 mb-1">HTML Title</label>
+              <input
+                type="text"
+                placeholder="Enter HTML <title> value"
+                value={data.htmlTitle || ""}
+                onChange={(e) => handleHtmlTitleChange(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               />
             </div>
@@ -230,7 +270,7 @@ function InputPageDetail({ onNext, data, onChange }: InputPageDetailProps) {
               <textarea
                 rows={4}
                 value={data.metadata || ""}
-                onChange={(e) => onChange({ metadata: e.target.value })}
+                onChange={(e) => handleMetadataChange(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
               />
             </div>

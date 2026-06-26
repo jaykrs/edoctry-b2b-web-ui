@@ -130,6 +130,44 @@ export const generalBlocks: BlockProperties[] = [
 export const headerBlocks: BlockProperties[] = [
 
   {
+    id: 'Edge-erps header',
+    label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+            Template - 0001         
+    </div>`,
+    category: 'HEADER',
+    content: `
+      <div class="cursor-glow" aria-hidden="true"></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark premium-navbar sticky-top">
+    <div class="container nav-shell">
+      <a class="navbar-brand brand-lockup" href="#hero" aria-label="Edge-ERP home">
+        <img src="https://edgeadmin.teqtoeducation.com/uploads/edge_tq_wo_BG_e1dc84dbcc.png" alt="Edge-ERP Logo" style="height: 48px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto align-items-lg-center nav-track">
+          <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#centralized-platform">Platform</a></li>
+          <li class="nav-item"><a class="nav-link" href="#dual-engines">ERP + CRM</a></li>
+          <li class="nav-item"><a class="nav-link" href="#centralized-activity">Architecture</a></li>
+          <li class="nav-item"><a class="nav-link" href="#ecosystem-modules">Modules</a></li>
+          <li class="nav-item"><a class="nav-link" href="#digital-identity">Website</a></li>
+          <li class="nav-item"><a class="nav-link" href="#security-infrastructure">Security</a></li>
+          <li class="nav-item"><a class="nav-link" href="#pricing-section">Pricing</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-nav-cta magnetic" href="#hero-enquiry">Book Demo</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    `
+  },
+
+  {
     id: 'Gravity',
     label: `    <div style="width:100%;height:60px;border:1px solid #ddd;
               border-radius:4px;background:#f9f9f9;display:flex;
@@ -2337,7 +2375,79 @@ Zay NavBar            </div>`,
 ];
 
 export const footerBlocks: BlockProperties[] = [
-    {
+
+  {
+id: 'Edge-erps Footer',
+label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
+              border-radius:4px;background:#f9f9f9;display:flex;
+              align-items:center;justify-content:center;font-size:11px;
+              font-weight:bold;color:#555;">
+              Template - 0001
+            </div>
+  `,
+    category: 'Footer',
+    content: `
+      <footer id="contact-footer" class="enterprise-footer">
+    <div class="container">
+      <div class="footer-cta">
+        <div>
+          <span class="section-badge">Get started today</span>
+          <h2>Contact us for a free demo and discover how our ERP can revolutionize your institution.</h2>
+        </div>
+        <div class="qr-contact-card">
+          <div class="qr-frame">
+            <img src="images/whatsapp-qr.png" alt="WhatsApp QR code for Edge-ERP demo enquiry">
+          </div>
+          <div>
+            <h3>Scan to connect on WhatsApp</h3>
+            <p>WhatsApp only: 9313065972</p>
+            <a class="btn btn-saas-primary magnetic" href="#hero-enquiry" style="margin-top: 8px; display: inline-block;">Book Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-grid">
+        <div>
+          <a class="brand-lockup footer-brand" href="#hero">
+            <img src="https://edgeadmin.teqtoeducation.com/uploads/edge_tq_wo_BG_e1dc84dbcc.png" alt="Edge-ERP Logo" style="height: 48px;">
+          </a>
+          <p>Education Process Consultant / Management Team. Education Systems Research & Support | Edge-ERP Pvt Ltd.</p>
+          <div class="footer-social mt-3">
+            <a href="https://www.facebook.com/EdgeERPs" target="_blank" rel="noopener noreferrer" class="me-3" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://linkedin.com/company/edgeerp" target="_blank" rel="noopener noreferrer" class="me-3" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.youtube.com/@edgeerps" target="_blank" rel="noopener noreferrer" class="me-3" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.instagram.com/edge.erp/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3>Platform</h3>
+          <a href="#centralized-platform">Operating Core</a>
+          <a href="#centralized-activity">Architecture</a>
+          <a href="#ecosystem-modules">Modules</a>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <a href="tel:9811955885">Call: 9811955885</a>
+          <a href="tel:9925253513">Call: 9925253513</a>
+          <a href="mailto:info@teqtoeducation.com">info@teqtoeducation.com</a>
+          <a href="https://www.teqtoeducation.com">www.teqtoeducation.com</a>
+        </div>
+        <div class="trust-indicators">
+          <h3>Enterprise Ready</h3>
+          <span>WhatsApp only: 9313065972</span>
+          <span>5 to 7 working days launch</span>
+          <span>1-year free AMC</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Thank you. We look forward to powering your digital transformation.</span>
+        <span>ERP + CRM + Website + Support | Edge-ERP Pvt Ltd</span>
+      </div>
+    </div>
+  </footer>
+  `,
+  },
+
+  {
 id: 'Gravity sub Footer',
 label: `            <div style="width:100%;height:60px;border:1px solid #ddd;
               border-radius:4px;background:#f9f9f9;display:flex;
