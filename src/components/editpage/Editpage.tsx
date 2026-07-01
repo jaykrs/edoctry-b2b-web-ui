@@ -21,6 +21,7 @@ export default function EditPage() {
     headerfooterid: "",
     seo: "",
     metadata: "",
+    htmlTitle: "",
     css: "",
     pagecss: "",
     pagejs: "",
@@ -46,6 +47,7 @@ export default function EditPage() {
 
   const handleUpdatePage = async () => {
     const token = localStorage.getItem("jwt");
+    const { htmlTitle, ...apiData } = formData;
 
     try {
       const res = await fetch(`${apiUrl}/api/pages/${pageId}`, {
@@ -55,7 +57,7 @@ export default function EditPage() {
           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-          data: formData
+          data: apiData
         })
       });
 
@@ -83,10 +85,20 @@ export default function EditPage() {
     });
 
     const result = await res.json();
-    const attrs = result?.data?.attributes;
+    const attrs = result?.data?.attributes || {};
+    
+    let htmlTitle = "";
+    try {
+      const parsed = attrs.metadata ? JSON.parse(attrs.metadata) : {};
+      htmlTitle = parsed.title || "";
+    } catch (e) {
+      console.error("Error parsing metadata on fetch:", e);
+    }
 
-    setFormData(attrs);
-
+    setFormData({
+      ...attrs,
+      htmlTitle
+    });
   };
 
   if(pageId){

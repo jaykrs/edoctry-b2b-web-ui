@@ -1,7 +1,534 @@
 import type { BlockProperties } from 'grapesjs';
 
 export const hero: BlockProperties[] = [
-    {
+
+        {
+    id: 'Hero-erps',
+    label:`
+        <div style="width:100%;height:60px;overflow:hidden;
+                border:1px solid #ddd;border-radius:4px;
+                background:#f9f9f9;display:flex;
+                align-items:center;justify-content:center;
+                font-size:11px;font-weight:bold;color:#555;">
+      Template - 0001
+    </div>
+    `,
+    category: "full page",
+    content: `
+
+      <header class="hero-section section-layer" id="hero">
+    <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
+    <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="section-badge">Enterprise education cloud</span>
+          <h1 class="hero-title">Run every institution workflow from one command center.</h1>
+          <p class="hero-copy">Edge-ERP unifies ERP, CRM, finance, communication, admissions, websites, and support into a secure operating layer built for premium schools, colleges, and universities.</p>
+          <div class="hero-actions">
+            <a class="btn btn-saas-primary magnetic" href="https://u.payu.in/PAYUMN/xJZ9E6UfhpdY" target="_blank" rel="noopener noreferrer">Join Us</a>
+            <a class="btn btn-saas-secondary magnetic" href="#hero-enquiry">Request Demo</a>
+          </div>
+          <div class="proof-row">
+            <div><strong>5-7</strong><span>Working days delivery</span></div>
+            <div><strong>₹4,999</strong><span>ERP with website</span></div>
+            <div><strong>1 Year</strong><span>Free AMC included</span></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-enquiry-card premium-float" id="hero-enquiry" data-depth="0.06">
+            <div class="console-toolbar">
+              <span></span><span></span><span></span>
+              <small>Free Demo Enquiry</small>
+            </div>
+            <div class="enquiry-grid">
+              <div class="mini-console">
+                <div class="panel-kicker">Edge-ERP Unified Ecosystem</div>
+                <h3>ERP + CRM + Custom Website</h3>
+                <div class="mini-flow">
+                  <span><i class="fa-solid fa-user-graduate"></i> Students</span>
+                  <span><i class="fa-solid fa-users-gear"></i> Staff</span>
+                  <span><i class="fa-solid fa-building-columns"></i> Campus</span>
+                  <span><i class="fa-solid fa-globe"></i> Website</span>
+                </div>
+              </div>
+              <form id="contactForm" class="enquiry-form">
+                <label>
+                  Institution Name
+                  <input type="text" id="institution" name="institution" placeholder="Your institute / library name" required>
+                </label>
+                <label>
+                  Contact Person
+                  <input type="text" id="name" name="name" placeholder="Your name" required>
+                </label>
+                <label>
+                  Email Address
+                  <input type="email" id="email" name="email" placeholder="Your email address" required>
+                </label>
+                <label>
+                  Mobile / WhatsApp
+                  <input type="tel" id="phone" name="phone" placeholder="9313065972" required>
+                </label>
+                <label>
+                  Requirement
+                  <select id="requirement" name="requirement">
+                    <option>Complete ERP + CRM + Custom Website</option>
+                    <option>ERP and institution management</option>
+                    <option>Website builder, blog and domain setup</option>
+                    <option>Support, AMC and database security</option>
+                  </select>
+                </label>
+                <div class="g-recaptcha my-3" data-sitekey="6LeCCTAtAAAAAFX3oyGlt7kThhKRbaq1QeWzXHXG"></div>
+                <button type="submit" class="btn btn-saas-primary magnetic">Get Free Demo</button>
+                <p>Call: 9925253513 | WhatsApp only: 9313065972</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="executive-strip">
+    <div class="container">
+      <div class="strip-grid">
+        <div><i class="fa-solid fa-circle-check"></i><span>Streamline Operations</span></div>
+        <div><i class="fa-solid fa-user-graduate"></i><span>Empower Students</span></div>
+        <div><i class="fa-solid fa-bolt"></i><span>Optimize Resources</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="centralized-platform" class="section-pad workflow-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Platform core</span>
+        <h2>A Centralized Platform for Modern Education</h2>
+        <p>Replace fragmented tools with one governed operating system where every role, workflow, and decision shares the same source of truth.</p>
+      </div>
+      <div class="workflow-lanes">
+        <article class="workflow-step">
+          <span>01</span>
+          <i class="fa-solid fa-diagram-project"></i>
+          <h3>Streamline</h3>
+          <p>Drastically reduce manual work and paperwork through intelligent administrative automation.</p>
+        </article>
+        <article class="workflow-step elevated">
+          <span>02</span>
+          <i class="fa-solid fa-people-arrows"></i>
+          <h3>Empower</h3>
+          <p>Provide a seamless integrated digital experience for staff, students, and parents.</p>
+        </article>
+        <article class="workflow-step">
+          <span>03</span>
+          <i class="fa-solid fa-chart-line"></i>
+          <h3>Optimize</h3>
+          <p>Improve overall academic and operational efficiency with centralized data.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="dual-engines" class="section-pad split-engine reveal-fade-up">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <span class="section-badge">Platform infrastructure</span>
+          <h2>The Dual Engines of Institutional Growth</h2>
+          <p class="section-copy">Edge-ERP separates the back-office operating engine from the engagement growth engine, while keeping both connected through shared identity, permissions, and analytics.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="engine-board">
+            <div class="engine-card">
+              <div class="engine-icon"><i class="fa-solid fa-server"></i></div>
+              <h3>ERP Engine</h3>
+              <ul>
+                <li>Student lifecycle records</li>
+                <li>Staff duties and departments</li>
+                <li>Attendance, assets, and files</li>
+                <li>Academic operations dashboard</li>
+              </ul>
+            </div>
+            <div class="engine-core">
+              <div class="core-ring"></div>
+              <i class="fa-solid fa-cubes"></i>
+              <span>Shared Data Fabric</span>
+            </div>
+            <div class="engine-card">
+              <div class="engine-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+              <h3>CRM Engine</h3>
+              <ul>
+                <li>Admissions lead pipeline</li>
+                <li>Campaign and newsletter tools</li>
+                <li>Support ticketing workflows</li>
+                <li>Parent and alumni engagement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-upgrade" class="section-pad impact-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-badge">Value proposition</span>
+        <h2>Why Upgrade to Edge-ERP?</h2>
+      </div>
+      <div class="impact-grid">
+        <article>
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <h3>Save Time</h3>
+          <p>Reduce daily administrative loops and manual reconciliation.</p>
+        </article>
+        <article>
+          <i class="fa-solid fa-comments"></i>
+          <h3>Enhance Communication</h3>
+          <p>Keep staff, students, and parents aligned through governed channels.</p>
+        </article>
+        <article>
+          <i class="fa-solid fa-chart-line"></i>
+          <h3>Improve Efficiency</h3>
+          <p>Use clean operational data to spot bottlenecks before they spread.</p>
+        </article>
+        <article>
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>Secure and Scalable</h3>
+          <p>Grow safely with role-based access and cloud-ready architecture.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="centralized-activity" class="section-pad topology-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Topology architecture</span>
+        <h2>A Centralized Platform For Every Activity</h2>
+        <p>A symmetrical hub-and-spoke architecture where critical institutional functions stay connected to one premium education platform core.</p>
+      </div>
+
+      <div class="topology-diagram" data-topology>
+        <svg class="topology-svg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5de2ff" stop-opacity="0.2" />
+              <stop offset="48%" stop-color="#f7d879" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#5de2ff" stop-opacity="0.2" />
+            </linearGradient>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path id="path-im" class="connector-line" d="M600 360 C520 300 430 226 310 186" />
+          <path id="path-ch" class="connector-line" d="M600 360 C520 420 430 494 310 534" />
+          <path id="path-dp" class="connector-line" d="M600 360 C680 300 770 226 890 186" />
+          <path id="path-fm" class="connector-line" d="M600 360 C680 420 770 494 890 534" />
+          <path class="connector-glow" d="M600 360 C520 300 430 226 310 186" />
+          <path class="connector-glow" d="M600 360 C520 420 430 494 310 534" />
+          <path class="connector-glow" d="M600 360 C680 300 770 226 890 186" />
+          <path class="connector-glow" d="M600 360 C680 420 770 494 890 534" />
+          <circle class="data-particle particle-one" r="5" filter="url(#softGlow)"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#path-im" /></animateMotion></circle>
+          <circle class="data-particle particle-two" r="5" filter="url(#softGlow)"><animateMotion dur="3.8s" begin=".4s" repeatCount="indefinite"><mpath href="#path-ch" /></animateMotion></circle>
+          <circle class="data-particle particle-three" r="5" filter="url(#softGlow)"><animateMotion dur="3.5s" begin=".8s" repeatCount="indefinite"><mpath href="#path-dp" /></animateMotion></circle>
+          <circle class="data-particle particle-four" r="5" filter="url(#softGlow)"><animateMotion dur="3.9s" begin="1.1s" repeatCount="indefinite"><mpath href="#path-fm" /></animateMotion></circle>
+        </svg>
+
+        <article class="topology-card node-im">
+          <span class="node-icon"><i class="fa-solid fa-building-columns"></i></span>
+          <div>
+            <h3>Institutional Management</h3>
+            <p>Departments, roles, classrooms, timetables, and approvals managed through a governed operating model.</p>
+          </div>
+        </article>
+        <article class="topology-card node-ch">
+          <span class="node-icon"><i class="fa-solid fa-bullhorn"></i></span>
+          <div>
+            <h3>Communication Hub</h3>
+              <p>Email, subscribers, support, direct messaging pathways, internal alerts, and parent-teacher updates.</p>
+          </div>
+        </article>
+        <div class="central-hub-node">
+          <div class="hub-halo"></div>
+          <i class="fa-solid fa-circle-nodes"></i>
+          <h3>Education Platform</h3>
+          <span>Unified Control Plane</span>
+        </div>
+        <article class="topology-card node-dp">
+          <span class="node-icon"><i class="fa-solid fa-display"></i></span>
+          <div>
+            <h3>Digital Presence</h3>
+              <p>Dynamic website builder, website authoring, integrated blog management, and seamless domain mapping.</p>
+          </div>
+        </article>
+        <article class="topology-card node-fm">
+          <span class="node-icon"><i class="fa-solid fa-wallet"></i></span>
+          <div>
+            <h3>Financial Modules</h3>
+              <p>Invoice generation, automated billing, fee tracking, assets, reminders, and finance reporting workflows.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="ecosystem-modules" class="section-pad matrix-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-badge">Framework matrix</span>
+        <h2>All In One Framework Ecosystem</h2>
+      </div>
+      <div class="module-matrix">
+        <article class="matrix-column">
+          <h3><i class="fa-solid fa-cube"></i> Core Management</h3>
+          <p>Student databases, staff allocation, library logs, biometric attendance, academic records, and operational permissions.</p>
+        </article>
+        <article class="matrix-column featured">
+          <h3><i class="fa-solid fa-globe"></i> Digital Identity</h3>
+          <p>Website builder, campus blogs, custom domains, course authoring, SEO pages, and branded public-facing portals.</p>
+        </article>
+        <article class="matrix-column">
+          <h3><i class="fa-solid fa-gears"></i> Operations Core</h3>
+          <p>Invoices, email campaigns, helpdesk logs, department tasks, asset registers, and management reporting.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="digital-identity" class="section-pad identity-section reveal-fade-up">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <span class="section-badge">Hub 2: Modern digital identity</span>
+          <h2>Your institution website, blog and domain in one stack.</h2>
+          <p class="section-copy">Edge-ERP includes a digital identity layer for institutions that need a professional web presence connected to their operating system.</p>
+          <div class="identity-features">
+            <article><b>Feature 1</b><span>Dynamic Website Builder and Website Authoring</span><small>Included: 4 informatics pages + 1 blog page</small></article>
+            <article><b>Feature 2</b><span>Integrated Blog Management</span><small>Publish updates, notices, articles, and institution news.</small></article>
+            <article><b>Feature 3</b><span>Seamless Domain Mapping</span><small>Domain mapping included in the architecture.</small></article>
+          </div>
+          <p class="identity-note">Please provide a soft copy of all details and information to be placed into the web design.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="website-preview tilt-card">
+            <div class="browser-top"><span></span><span></span><span></span><small>www.educationsite.com</small></div>
+            <div class="campus-hero">
+              <div>
+                <h3>University Campus</h3>
+                <p>Admissions, programs, research, news, blogs and contact pages ready for launch.</p>
+                <button type="button">Read More</button>
+              </div>
+            </div>
+            <div class="website-content">
+              <div><strong>About Institution</strong><span>Custom content sections</span></div>
+              <div><strong>Programs</strong><span>Informational pages</span></div>
+              <div><strong>Blog</strong><span>Integrated publishing</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="core-features" class="section-pad dashboard-section reveal-fade-up">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <span class="section-badge">Deep modules</span>
+          <h2>Core System Features</h2>
+          <p class="section-copy">Purpose-built screens for academic leaders, finance teams, administrators, and faculty with no unnecessary noise.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="dashboard-preview">
+            <div class="dash-sidebar">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="dash-main">
+              <div class="dash-header">
+                <div><small>Student Performance Tracker</small><strong>9.4 GPA Average</strong></div>
+                <span>Live</span>
+              </div>
+              <div class="dash-bars">
+                <b style="width: 82%"></b>
+                <b style="width: 94%"></b>
+                <b style="width: 71%"></b>
+              </div>
+              <div class="dash-cards">
+                <div><i class="fa-solid fa-user-graduate"></i><strong>Student Management</strong><small>Lifecycle, progress, attendance, parent logs</small></div>
+                <div><i class="fa-solid fa-user-tie"></i><strong>Staff Management</strong><small>Recruitment, duties, departments, roster health</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="operations-features" class="section-pad timeline-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Automation tools</span>
+        <h2>Operations and Admin Modules</h2>
+      </div>
+      <div class="ops-timeline">
+        <article><span>01</span><h3>Resource and Asset</h3><p>Track labs, classrooms, libraries, devices, and procurement movement.</p></article>
+        <article><span>02</span><h3>Attendance</h3><p>Automate sheets, alerts, exception queues, RFID, and biometric workflows.</p></article>
+        <article><span>03</span><h3>Task Management</h3><p>Assign, monitor, audit, and close department work with ownership clarity.</p></article>
+        <article><span>04</span><h3>File and Support</h3><p>Secure document pathways and support tickets with SLA visibility.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="engagement-hub" class="section-pad engagement-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Hub 3: Seamless operations and engagement</span>
+        <h2>From billing to communication to issue resolution.</h2>
+      </div>
+      <div class="engagement-flow">
+        <article><i class="fa-solid fa-file-invoice-dollar"></i><h3>Invoice Generation</h3><p>Automated billing and fee tracking.</p></article>
+        <article><i class="fa-solid fa-bullhorn"></i><h3>Subscriber Communicator</h3><p>Direct messaging pathways.</p></article>
+        <article><i class="fa-solid fa-envelope-open-text"></i><h3>Email Campaign Management</h3><p>Targeted outreach for growth.</p></article>
+        <article><i class="fa-solid fa-headset"></i><h3>Task and Support Management</h3><p>Internal accountability and issue resolution.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="security-infrastructure" class="section-pad security-section reveal-fade-up">
+    <div class="container">
+      <div class="security-panel">
+        <div>
+          <span class="section-badge">Security infrastructure</span>
+          <h2>Secure, scalable, and supported.</h2>
+          <p>Teqto runs on a 100% cloud-based platform with highly scalable architecture designed to grow alongside your institution and robust database security protocols to protect sensitive student and staff data.</p>
+        </div>
+        <div class="security-stack">
+          <span><i class="fa-solid fa-cloud"></i> 100% cloud-based platform</span>
+          <span><i class="fa-solid fa-layer-group"></i> Scalable institution architecture</span>
+          <span><i class="fa-solid fa-database"></i> Robust database security</span>
+          <span><i class="fa-solid fa-handshake"></i> Total ownership data guarantee</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="safety-net" class="section-pad safety-section reveal-fade-up">
+    <div class="container">
+      <div class="safety-card">
+        <div>
+          <span class="section-badge">The 1-Year Edge-ERP Safety Net</span>
+          <h2>Free AMC for the first year.</h2>
+          <p>Comprehensive Annual Maintenance Contract included completely free for the first year.</p>
+        </div>
+        <div class="safety-list">
+          <span>If there is any problem inside the website, we will fix it.</span>
+          <span>Technical troubleshooting and debugging.</span>
+          <span>CMS troubleshooting and minor changes.</span>
+          <span>Robust database security monitoring.</span>
+          <strong>Rapid SLA: Problems solved within 24 to 72 hours, except major structural work.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="delivery-cycle" class="section-pad delivery-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Timeline to transformation</span>
+        <h2>5 to 7 working days delivery cycle.</h2>
+        <p>A highly optimized deployment cycle designed for fast institutional launch.</p>
+      </div>
+      <div class="delivery-track">
+        <div class="delivery-rail" aria-hidden="true">
+          <span class="rail-fill"></span>
+          <span class="rail-arrow arrow-one"></span>
+          <span class="rail-arrow arrow-two"></span>
+        </div>
+        <article>
+          <span class="day-node">Day 1</span>
+          <h3>Project Approval and Resource Handover</h3>
+        </article>
+        <article>
+          <span class="day-node">Days 2-5</span>
+          <h3>Configuration, Website Design, and Database Setup</h3>
+        </article>
+        <article>
+          <span class="day-node">Day 5-7</span>
+          <h3>Final Delivery and System Launch</h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing-section" class="section-pad pricing-section reveal-fade-up">
+    <div class="container">
+      <div class="pricing-card">
+        <div>
+          <span class="section-badge">Transparent, disruptive investment</span>
+          <h2>₹4,999 INR only.</h2>
+          <p>Proposed price includes ERP with website. Complete ERP + CRM + custom website within one unified digital ecosystem.</p>
+          <div class="payment-split">
+            <span><b>70%</b> Down Payment at the time of project approval.</span>
+            <span><b>30%</b> Final Payment at the time of final delivery after website contents and images are complete.</span>
+          </div>
+        </div>
+        <a class="btn btn-saas-primary magnetic" href="https://u.payu.in/PAYUMN/xJZ9E6UfhpdY" target="_blank" rel="noopener noreferrer">Plan My Rollout</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="terms-section" class="section-pad terms-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-badge">Clear terms and seamless scalability</span>
+        <h2>Transparent scope for launch and growth.</h2>
+      </div>
+      <div class="terms-grid">
+        <article>
+          <h3>Scalability and Add-ons</h3>
+          <ul>
+            <li>Extra website pages created at ₹1,000 per page.</li>
+            <li>Content writing, creative banners, and custom graphics are available at an extra charge.</li>
+            <li>Domain booking charges are extra.</li>
+            <li>Any extra feature requested carries an extra charge.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Operational Terms</h3>
+          <ul>
+            <li>Website design is final once approved. Changes post-approval incur charges.</li>
+            <li>Working hours: 10 A.M. to 6 P.M., Monday to Friday.</li>
+            <li>cPanel is not provided to ensure core system integrity.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="data-guarantee"><i class="fa-solid fa-shield-halved"></i> If you decide to discontinue our services in the future, all your data will be securely provided to you.</div>
+    </div>
+  </section>
+
+  <section id="why-choose" class="section-pad choose-section reveal-fade-up">
+    <div class="container">
+      <div class="section-intro narrow">
+        <span class="section-badge">Why choose Edge-ERP?</span>
+        <h2>Helping institutes and libraries go digital - research based.</h2>
+      </div>
+      <div class="choose-grid">
+        <article><h3>Unmatched Capabilities</h3><p>Complete ERP + CRM + custom website within one unified digital ecosystem.</p></article>
+        <article class="featured"><h3>Unbeatable Value</h3><p>At just ₹4,999, it offers the highest return on investment in the education technology sector.</p></article>
+        <article><h3>Unwavering Support</h3><p>Secure cloud architecture backed by a 1-year free Annual Maintenance Contract.</p></article>
+      </div>
+    </div>
+  </section>
+
+    `
+  },
+
+{
     id: 'Hero',
     label:`
         <div style="width:100%;height:60px;overflow:hidden;
