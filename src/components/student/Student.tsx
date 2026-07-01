@@ -1,11 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
 import TextHeading from "../ui/textheader/TextHeader";
 import { Table, TableCell, TableHeader, TableRow, TableBody } from "../ui/table";
-import Badge from "../ui/badge/Badge";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 interface Order {
   id: number;
@@ -50,6 +57,7 @@ interface Order {
 
 export default function Student() {
   const [tableData, setTableData] = useState<Order[]>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
@@ -87,6 +95,75 @@ export default function Student() {
     studentid: "",
     seatdetails: "",
     dam: "",
+  });
+
+
+  // 1. Column Definitions
+  const columns = useMemo<ColumnDef<Order>[]>(
+    () => [
+      {
+        header: "Name",
+        accessorFn: (row) => row.user.name,
+        id: "name",
+      },
+      {
+        header: "Email & Phone",
+        accessorFn: (row) => row.user.email,
+        id: "email",
+      },
+      {
+        header: "Skill & Qualification",
+        accessorFn: (row) => row.user.skills,
+        id: "skills",
+      },
+      {
+        header: "Courses",
+        accessorFn: (row) => row.user.courses,
+        id: "courses",
+      },
+      {
+        header: "Address",
+        accessorFn: (row) => row.user.address,
+        id: "address",
+      },
+      {
+        header: "Registration Date & Locker Details",
+        accessorFn: (row) => row.user.registrationdt,
+        id: "registrationdt",
+      },
+      {
+        header: "ID Type & ID Number",
+        accessorFn: (row) => row.user.idtype,
+        id: "idtype",
+      },
+      {
+        header: "Status",
+        accessorFn: (row) => row.user.active,
+        id: "active",
+      },
+      {
+        header: "Reg Fee, Month Fee & Shift Time",
+        accessorFn: (row) => row.user.regfee,
+        id: "regfee",
+      },
+      {
+        header: "Edit",
+        id: "edit",
+      },
+    ],
+    []
+  );
+
+  // 2. Initialize Table Instance
+  const table = useReactTable({
+    data: tableData,
+    columns,
+    state: {
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   useEffect(() => {
@@ -367,7 +444,21 @@ export default function Student() {
         </div>
       )} */}
 
-
+      {/* Search Input Bar */}
+      <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+        <div className="relative w-full max-w-sm">
+          <input
+            type="text"
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Search students..."
+            className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+          />
+          <span className="absolute left-3 top-2.5 text-gray-400">
+            🔍
+          </span>
+        </div>
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -375,154 +466,130 @@ export default function Student() {
             <Table>
               {/* Table Header */}
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-                <TableRow>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Name
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Email & Phone
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Skill & Qualification
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Courses
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Address
-                  </TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
-                    Registration Date & Locker Details
-                  </TableCell>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      // Columns के हिसाब से specific Tailwind classes
+                      let className = "px-5 py-3 font-medium text-gray-500 text-start text-theme-xs";
+                      if (["name", "email", "skills", "courses", "address", "edit"].includes(header.id)) {
+                        className += " dark:text-gray-400";
+                      }
 
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
-                    ID Type & ID Number
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs"
-                  >
-                    Status
-                  </TableCell>
-                  <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs">
-                    Reg Fee, Month Fee & Shift Time
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Edit
-                  </TableCell>
-                </TableRow>
+                      return (
+                        <TableCell
+                          key={header.id}
+                          isHeader
+                          className={className}
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
               </TableHeader>
 
               {/* Table Body */}
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                {tableData.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="px-5 py-6 sm:px-6 text-start">
-                      <div className="flex items-center gap-3">
-                        <div className="min-w-10 min-h-10  rounded-lg">
-                          <img
-                            src={`https://ui-avatars.com/api/?name=${order.user.name}&background=random`}
-                            alt={order.user.name}
-                            className="w-10 h-10 rounded-lg object-cover"
-                          />
+                {table.getRowModel().rows.map((row) => {
+                  const order = row.original;
+                  return (
+                    <TableRow key={row.id}>
+                      <TableCell className="px-5 py-6 sm:px-6 text-start">
+                        <div className="flex items-center gap-3">
+                          <div className="min-w-10 min-h-10  rounded-lg">
+                            <img
+                              src={`https://ui-avatars.com/api/?name=${order.user.name}&background=random`}
+                              alt={order.user.name}
+                              className="w-10 h-10 rounded-lg object-cover"
+                            />
+                          </div>
+                          <div>
+                            <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                              {order.user.name}
+                            </span>
+                            <span>
+                              {order.user.studentid || "-"}
+                            </span>
+                          </div>
                         </div>
-                        <div>
-                          <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                            {order.user.name}
+                      </TableCell>
+                      <TableCell className="flex flex-col px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
+                        <span className="text-blue-600 font font-bold">
+                          {order.user.email}
+                        </span>
+                        <span className="font-bold">{order.user.phone}</span>
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                        <div className="flex flex-col">
+                          <span className="text-blue-600 font font-bold">
+                            {extractPlainText(order.user.skills).split(' ').slice(0, 3).join(' ') + (extractPlainText(order.user.skills).split(' ').length > 3 ? '...' : '')}
                           </span>
-                          <span >
-                            {order.user.studentid || "-"}
+                          <span>{extractPlainText(order.user.qualification)}</span>
+                        </div>
+                      </TableCell>
+
+                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        <span>{order.user.courses}</span>
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        <span>{order.user.address}</span>
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                        <div className="flex flex-col">
+                          <span>
+                            {order.user.registrationdt || "-"}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {order.user.lockerdetails || "-"}
                           </span>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="flex flex-col px-4 py-3 mt-2 text-gray-500 text-start  text-theme-sm dark:text-gray-400">
-                      <span className="text-blue-600 font font-bold">
-                        {order.user.email}
-                      </span>
-                      <span className="font-bold">{order.user.phone}</span>
-
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                      <div className="flex flex-col">
-                        <span className="text-blue-600 font font-bold">{extractPlainText(order.user.skills).split(' ').slice(0, 3).join(' ') + (extractPlainText(order.user.skills).split(' ').length > 3 ? '...' : '')}</span>
-                        <span>{extractPlainText(order.user.qualification)}</span>
-                      </div>
-                    </TableCell>
-
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                      <span>{order.user.courses}</span>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                      <span>{order.user.address}</span>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
-                      <div className="flex flex-col">
-                        <span>
-                          {order.user.registrationdt || "-"}
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                        <div className="flex flex-col">
+                          <span className="font-medium">
+                            {order.user.idtype || "-"}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {order.user.idnumber || "-"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-theme-sm">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${order.user.active
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                            }`}
+                        >
+                          {order.user.active ? "Active" : "Inactive"}
                         </span>
-                        <span className="text-xs text-gray-400">
-                          {order.user.lockerdetails || "-"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
-                      <div className="flex flex-col">
-                        <span className="font-medium">
-                          {order.user.idtype || "-"}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          {order.user.idnumber || "-"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-theme-sm">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${order.user.active
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                          }`}
-                      >
-                        {order.user.active ? "Active" : "Inactive"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
-                      <div className="flex flex-col">
-                        <span>Reg Fee: {order.user.regfee || "-"}</span>
-                        <span>Month Fee: {order.user.monthfee || "-"}</span>
-                        <span className="text-xs text-gray-400">
-                          {order.user.shifttime || "-"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <button
-                        onClick={() => openEditModal(order)}
-                        className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                      >
-                        <PencilIcon />
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                        <div className="flex flex-col">
+                          <span>Reg Fee: {order.user.regfee || "-"}</span>
+                          <span>Month Fee: {order.user.monthfee || "-"}</span>
+                          <span className="text-xs text-gray-400">
+                            {order.user.shifttime || "-"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => openEditModal(order)}
+                          className="ps-6 flex justify-end text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                        >
+                          <PencilIcon />
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>

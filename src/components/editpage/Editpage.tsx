@@ -21,6 +21,7 @@ export default function EditPage() {
     headerfooterid: "",
     seo: "",
     metadata: "",
+    htmlTitle: "",
     css: "",
     pagecss: "",
     pagejs: "",

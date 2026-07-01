@@ -24,12 +24,12 @@ function FinishPage({ pageName, pagePath }: FinishPageProps) {
     }
   }, []);
 
-  const formattedWebsite = website && !/^https?:\/\//i.test(website) 
-    ? `https://${website}` 
-    : website;
+  const formattedWebsite = website 
+    ? (/^https?:\/\//i.test(website) ? website : `https://${website}`)
+    : (typeof window !== "undefined" ? window.location.origin : "");
 
   const liveUrl =
-    formattedWebsite && pageName
+    pageName
       ? pagePath
         ? `${formattedWebsite}/${pagePath}/${pageName}.html`
         : `${formattedWebsite}/${pageName}.html`
