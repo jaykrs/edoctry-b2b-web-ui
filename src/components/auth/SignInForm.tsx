@@ -69,10 +69,12 @@ export default function SignInForm() {
       if (data.jwt) {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user));
-        // 🔹 Fetch specific staff by email
+        
+        // Get data from the vendors endpoint using the vendorid from the user object
+        const vendorId = data.user.vendorid;
         const staffRes = await fetch(
-          `${apiUrl}/api/vendors?filters[email][$eq]=${encodeURIComponent(identifier)}`
-          , {
+          `${apiUrl}/api/vendors?filters[vendoruuid][$eq]=${encodeURIComponent(vendorId)}&populate=*`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
