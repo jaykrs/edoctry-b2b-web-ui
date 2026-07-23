@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
-import Image from "next/image";
 import { Pencil, EyeIcon, DocsIcon, PencilIcon } from "@/icons/index";
 import { apiUrl } from "@/utils/config";
 import TextHeading from "../ui/textheader/TextHeader";

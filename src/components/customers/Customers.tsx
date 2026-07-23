@@ -216,11 +216,11 @@ function Customers() {
             if (!vendorid || !jwt) return;
 
             const res = await fetch(
-                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[pageSize]=200`                {
-                headers: {
-                    Authorization: `Bearer ${jwt}`,
-                },
-            }
+                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[pageSize]=200`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                }
             );
 
             const data = await res.json();
