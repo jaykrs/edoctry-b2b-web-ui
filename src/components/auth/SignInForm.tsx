@@ -1,24 +1,14 @@
 "use client";
+
 import Checkbox from "@/components/form/input/Checkbox";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
-import Link from "next/link";
+import { EyeCloseIcon, EyeIcon } from "@/icons";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { apiUrl } from "@/utils/config";
-import { appName } from "@/utils/config";
+import { apiUrl, appName } from "@/utils/config";
 import { jwtDecode } from "jwt-decode";
-type InputProps = {
-  placeholder: string;
-  type: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required: boolean;
-};
-
-
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,14 +18,12 @@ export default function SignInForm() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
     if (token) {
       try {
         const decoded: any = jwtDecode(token);
-
         const currentTime = Date.now() / 1000;
 
         if (decoded.exp < currentTime) {
@@ -45,12 +33,12 @@ export default function SignInForm() {
         } else {
           router.push("/admin");
         }
-
       } catch (error) {
         localStorage.removeItem("jwt");
       }
     }
   }, [router]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -61,7 +49,10 @@ export default function SignInForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ identifier, password }),
+        body: JSON.stringify({
+          identifier,
+          password,
+        }),
       });
 
       const data = await res.json();
@@ -69,11 +60,14 @@ export default function SignInForm() {
       if (data.jwt) {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user));
-        
-        // Get data from the vendors endpoint using the vendorid from the user object
+
+        // Get vendor data using vendorid from the logged-in user
         const vendorId = data.user.vendorid;
+
         const staffRes = await fetch(
-          `${apiUrl}/api/vendors?filters[vendoruuid][$eq]=${encodeURIComponent(vendorId)}&populate=*`,
+          `${apiUrl}/api/vendors?filters[vendorid][$eq]=${encodeURIComponent(
+            vendorId
+          )}&populate=*`,
           {
             method: "GET",
             headers: {
@@ -82,9 +76,13 @@ export default function SignInForm() {
             },
           }
         );
+
         const staffData = await staffRes.json();
+
         console.log("Fetched staff data:", staffData);
+
         localStorage.setItem("staffData", JSON.stringify(staffData));
+
         router.push("/admin");
       } else {
         setError(data.error?.message || "Login failed");
@@ -97,22 +95,25 @@ export default function SignInForm() {
 
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
-      <div className="flex flex-col  justify-center flex-1 w-full max-w-md mx-auto">
+      <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div className="border border-gray-200 dark:border-gray-700 rounded-md shadow-lg px-6 py-8 sm:px-10">
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-green-600 text-title-sm dark:text-white/90 sm:text-title-md uppercase">
               {appName}
             </h1>
+
             <p className="text-sm text-red-500 dark:text-gray-400">
               Enter your email and password to sign in!
             </p>
           </div>
+
           <form onSubmit={handleLogin}>
             <div className="space-y-6">
               <div>
                 <Label>
                   Email <span className="text-error-500">*</span>
                 </Label>
+
                 <Input
                   placeholder="info@gmail.com"
                   type="email"
@@ -121,10 +122,12 @@ export default function SignInForm() {
                   required
                 />
               </div>
+
               <div>
                 <Label>
                   Password <span className="text-error-500">*</span>
                 </Label>
+
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -133,6 +136,7 @@ export default function SignInForm() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+
                   <span
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 mt-2 top-1/2"
@@ -145,26 +149,34 @@ export default function SignInForm() {
                   </span>
                 </div>
               </div>
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Checkbox checked={isChecked} onChange={setIsChecked} />
+                  <Checkbox
+                    checked={isChecked}
+                    onChange={setIsChecked}
+                  />
+
                   <span className="block font-normal text-gray-700 text-theme-sm dark:text-gray-400">
                     Keep me logged in
                   </span>
                 </div>
               </div>
+
               <div>
                 <Button className="w-full bg-blue-600" size="sm">
                   Sign in
                 </Button>
               </div>
+
               {error && (
-                <p className="text-sm text-red-500 mt-2 text-center">{error}</p>
+                <p className="text-sm text-red-500 mt-2 text-center">
+                  {error}
+                </p>
               )}
             </div>
           </form>
         </div>
-
       </div>
     </div>
   );
