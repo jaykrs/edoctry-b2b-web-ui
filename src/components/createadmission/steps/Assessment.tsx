@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, FormEvent } from "react";
-import TextHeading from "@/components/ui/textheader/TextHeader";
 
 export type AssessmentData = {
   assessment_id: string;
@@ -64,6 +63,10 @@ const initialAssessmentState: AssessmentData = {
   aggregate_eval_score: 0,
   evaluation_result: "",
 };
+
+function TextHeading({ title }: { title: string }) {
+  return <h2 className="text-xl font-semibold text-gray-800">{title}</h2>;
+}
 
 function mergeInitialData(incomingData?: Partial<AssessmentData> & Record<string, any>): AssessmentData {
   if (!incomingData || Object.keys(incomingData).length === 0) {
