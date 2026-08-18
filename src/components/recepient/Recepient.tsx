@@ -21,6 +21,8 @@ function Recepient() {
   const [students, setStudents] = useState<any[]>([]);
   const [collection, setCollection] = useState<string>("");
   const [ownerName, setOwnerName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
 
 
  useEffect(() => {
@@ -60,9 +62,9 @@ function Recepient() {
     label: s.attributes?.name,
   }));
 
-  const fetchRecepientList = async (jwt: string, vendoruuid: string) => {
+  const fetchRecepientList = async (jwt: string, vendoruuid: string, page = 1) => {
     const res = await fetch(
-      `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
+      `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}&pagination[page]=${page}&pagination[pageSize]=25`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -82,6 +84,8 @@ function Recepient() {
       },
     }));
     setRecepientList(recepients || []);
+    setPageCount(data.meta?.pagination?.pageCount || 1);
+    setCurrentPage(data.meta?.pagination?.page || 1);
   };
 
   useEffect(() => {
@@ -97,7 +101,7 @@ function Recepient() {
         setToken(jwt);
         setVendorId(vendoruuid);
         try {
-          await fetchRecepientList(jwt, vendoruuid);
+          await fetchRecepientList(jwt, vendoruuid, currentPage);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -107,7 +111,7 @@ function Recepient() {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (showModal) {
@@ -166,7 +170,7 @@ function Recepient() {
       await res.json();
       setShowModal(false);
       resetForm();
-      await fetchRecepientList(token, vendorId);
+      await fetchRecepientList(token, vendorId, currentPage);
     } catch (err) {
       console.error("Error saving data:", err);
     }
@@ -246,6 +250,54 @@ function Recepient() {
                 ))}
               </TableBody>
             </Table>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center mt-8 mb-4">
+            <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+              {/* Previous */}
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                  ${currentPage === 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                ←
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: pageCount }, (_, index) => {
+                const page = index + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                      ${currentPage === page
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              {/* Next */}
+              <button
+                disabled={currentPage === pageCount}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                  ${currentPage === pageCount
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                →
+              </button>
+
+            </div>
           </div>
         </div>
       </div>

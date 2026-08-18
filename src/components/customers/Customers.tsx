@@ -27,6 +27,8 @@ interface Customer {
 
 function Customers() {
     const [customers, setCustomers] = useState<Customer[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
     const [showCallLogModal, setShowCallLogModal] = useState(false);
     const [selectedCallLogs, setSelectedCallLogs] = useState<CallLog[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -62,8 +64,8 @@ function Customers() {
     }, [showCallLogModal, showModal]);
 
     useEffect(() => {
-        fetchCustomersList();
-    }, []);
+        fetchCustomersList(currentPage);
+    }, [currentPage]);
 
     // add cutomer
 
@@ -207,7 +209,7 @@ function Customers() {
     };
 
 
-    const fetchCustomersList = async () => {
+    const fetchCustomersList = async (page = 1) => {
         try {
             const staffDataString = localStorage.getItem("staffData");
             const staffData = staffDataString ? JSON.parse(staffDataString) : null;
@@ -216,7 +218,7 @@ function Customers() {
             if (!vendorid || !jwt) return;
 
             const res = await fetch(
-                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[pageSize]=200`, {
+                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[page]=${page}&pagination[pageSize]=25`, {
                     headers: {
                         Authorization: `Bearer ${jwt}`,
                     },
@@ -224,6 +226,9 @@ function Customers() {
             );
 
             const data = await res.json();
+
+            setPageCount(data.meta.pagination.pageCount);
+            setCurrentPage(data.meta.pagination.page);
 
             const list: Customer[] = data.data.map((item: any) => ({
                 id: item.id,
@@ -410,6 +415,55 @@ function Customers() {
                                 ))}
                             </TableBody>
                         </Table>
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="flex justify-center items-center mt-8 mb-4">
+                        <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+                            {/* Previous Button */}
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(prev => prev - 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === 1
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                ←
+                            </button>
+
+                            {/* Page Numbers */}
+                            {Array.from({ length: pageCount }, (_, index) => {
+                                const page = index + 1;
+
+                                return (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                                            ${currentPage === page
+                                                ? "bg-indigo-600 text-white shadow-md"
+                                                : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            })}
+
+                            {/* Next Button */}
+                            <button
+                                disabled={currentPage === pageCount}
+                                onClick={() => setCurrentPage(prev => prev + 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === pageCount
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                →
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             </div>
