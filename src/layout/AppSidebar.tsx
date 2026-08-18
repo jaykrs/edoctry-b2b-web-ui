@@ -122,6 +122,13 @@ const othersItems: NavItem[] = [
 ];
 
 const updateItems: NavItem[] = [
+  
+      {
+    icon: <StudentIcon />,
+    name: "Admission Workflow",
+    path: "/admin/admission-workflow",
+      },
+  
   {
     icon: <PageIcon />,
     name: "Customers",
