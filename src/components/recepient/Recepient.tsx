@@ -10,6 +10,7 @@ function Recepient() {
   const [token, setToken] = useState("");
   const [vendorId, setVendorId] = useState("");
   const [recepientList, setRecepientList] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState<number | string | null>(null);
@@ -187,6 +188,17 @@ function Recepient() {
     setShowModal(true);
   };
 
+  const filteredRecepientList = recepientList.filter((item) => {
+    const searchText = searchQuery.toLowerCase();
+
+    return (
+      item.user.name?.toLowerCase().includes(searchText) ||
+      item.user.kekyword?.toLowerCase().includes(searchText) ||
+      item.user.author?.toLowerCase().includes(searchText) ||
+      item.user.collection?.toLowerCase().includes(searchText)
+    );
+  });
+
   return (
     <div className="">
       <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
@@ -207,6 +219,22 @@ function Recepient() {
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        {/* Search Input Bar */}
+        <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+          <div className="relative w-full max-w-sm">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search recipients..."
+              className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+            />
+            <span className="absolute left-3 top-2.5 text-gray-400">
+              🔍
+            </span>
+          </div>
+        </div>
+
         <div className="max-w-full overflow-x-auto">
           <div className="min-w-[1102px]">
             <Table>
@@ -220,7 +248,7 @@ function Recepient() {
               </TableHeader>
 
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                {recepientList.map((order) => (
+                {filteredRecepientList.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="px-5 py-6 sm:px-6 text-start">
                       <div className="flex items-center gap-3">

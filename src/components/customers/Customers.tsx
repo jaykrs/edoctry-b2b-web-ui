@@ -27,6 +27,7 @@ interface Customer {
 
 function Customers() {
     const [customers, setCustomers] = useState<Customer[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
     const [showCallLogModal, setShowCallLogModal] = useState(false);
@@ -252,6 +253,20 @@ function Customers() {
         return new Date().toISOString().split("T")[0];
     };
 
+    const filteredCustomers = customers.filter((customer) => {
+        const searchText = searchQuery.toLowerCase();
+
+        return (
+            customer.name?.toLowerCase().includes(searchText) ||
+            customer.email?.toLowerCase().includes(searchText) ||
+            customer.phone?.toLowerCase().includes(searchText) ||
+            customer.city?.toLowerCase().includes(searchText) ||
+            customer.requirement?.toLowerCase().includes(searchText) ||
+            customer.address?.toLowerCase().includes(searchText) ||
+            customer.status?.toLowerCase().includes(searchText)
+        );
+    });
+
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
         if (!jwt) return;
@@ -303,6 +318,22 @@ function Customers() {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+                {/* Search Input Bar */}
+                <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+                    <div className="relative w-full max-w-sm">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search customers..."
+                            className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                        />
+                        <span className="absolute left-3 top-2.5 text-gray-400">
+                            🔍
+                        </span>
+                    </div>
+                </div>
+
                 <div className="max-w-full overflow-x-auto">
                     <div className="min-w-[1102px]">
                         <Table>
@@ -336,7 +367,7 @@ function Customers() {
 
                             {/* Table Body */}
                             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                                {customers.map((customer) => (
+                                {filteredCustomers.map((customer) => (
                                     <TableRow key={customer.id}>
 
                                         {/* Name */}
