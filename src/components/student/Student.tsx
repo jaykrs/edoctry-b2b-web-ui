@@ -339,12 +339,45 @@ export default function Student() {
   const handleSave = async () => {
     try {
       const jwt = localStorage.getItem("jwt");
-      if (!jwt) return;
+      if (!jwt) {
+        alert("JWT token not found. Please login again.");
+        return;
+      }
 
       const staffDataString = localStorage.getItem("staffData");
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
       const vendoruuid = staffData?.data?.[0]?.attributes?.vendoruuid;
-      if (!vendoruuid) return;
+      if (!vendoruuid) {
+        alert("Vendor UUID not found. Please login again.");
+        return;
+      }
+
+      if (!formData.name.trim()) {
+        alert("Student name is required.");
+        return;
+      }
+
+      if (!formData.email.trim()) {
+        alert("Student email is required.");
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(formData.email.trim())) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (!formData.phone.trim()) {
+        alert("Student phone number is required.");
+        return;
+      }
+
+      const phoneDigits = formData.phone.replace(/\D/g, "");
+      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+        alert("Please enter a valid phone number.");
+        return;
+      }
 
       const url =
         editingStudentId === null
@@ -354,7 +387,7 @@ export default function Student() {
       const finalReRegistrationDate =
         formData.reregistrationdt && formData.reregistrationdt.trim() !== ""
           ? formData.reregistrationdt
-          : formData.registrationdt;
+          : formData.registrationdt || null;
 
 
       const method = editingStudentId === null ? "POST" : "PUT";
@@ -367,7 +400,7 @@ export default function Student() {
         },
         body: JSON.stringify({
           data: {
-            name: formData.name,
+            name: formData.name.trim(),
             role: formData.role,
             website: formData.website,
             avatar: formData.avatar,
@@ -377,9 +410,9 @@ export default function Student() {
             address: formData.address,
             biography: formData.biography,
             courses: formData.courses,
-            dob: formData.dob,
-            email: formData.email,
-            phone: formData.phone,
+            dob: formData.dob || null,
+            email: formData.email.trim(),
+            phone: formData.phone.trim(),
             qualification: formData.qualification,
             remarks: formData.remarks,
             skills: formData.skills,
@@ -393,7 +426,7 @@ export default function Student() {
             monthfee: formData.monthfee,
             parentdetails: formData.parentdetails,
             regfee: formData.regfee,
-            registrationdt: formData.registrationdt,
+            registrationdt: formData.registrationdt || null,
             reregistrationdt: finalReRegistrationDate,
             shifttime: formData.shifttime,
             studentid: formData.studentid,
@@ -403,15 +436,30 @@ export default function Student() {
         }),
       });
 
-      if (res.ok) {
-        setShowModal(false);
-        setEditingStudentId(null);
-        fetchStudentList();
-      } else {
-        console.error("Save failed");
+      const result = await res.json().catch(() => null);
+
+      console.log("Student save status:", res.status);
+      console.log("Student save response:", result);
+
+      if (!res.ok) {
+        const validationMessage = result?.error?.details?.errors?.[0]?.message;
+        const errorMessage =
+          validationMessage ||
+          result?.error?.message ||
+          result?.message ||
+          `Student save failed. Status: ${res.status}`;
+
+        alert(errorMessage);
+        return;
       }
+
+      setShowModal(false);
+      setEditingStudentId(null);
+      await fetchStudentList(currentPage);
+      alert(editingStudentId === null ? "Student added successfully." : "Student updated successfully.");
     } catch (err) {
       console.error("Error saving student:", err);
+      alert("Something went wrong while saving the student.");
     }
   };
 
