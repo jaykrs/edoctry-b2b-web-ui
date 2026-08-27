@@ -33,6 +33,8 @@ function VendorStaff() {
   const [showModal, setShowModal] = useState(false);
   const [editingStaffId, setEditingStaffId] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
   const [formData, setFormData] = useState<{
     name: string;
     staffType: string;
@@ -72,7 +74,7 @@ function VendorStaff() {
   });
 
 
-  const vendorStaff = async () => {
+  const vendorStaff = async (page = 1) => {
     try {
       const staffDataString = localStorage.getItem("staffData");
       const staffData = staffDataString ? JSON.parse(staffDataString) : null;
@@ -81,7 +83,7 @@ function VendorStaff() {
 
       if (vendorid && jwt) {
         const res = await fetch(
-          `${apiUrl}/api/vendostaffs?filters[vendoruuid][$eq]=${vendorid}`,
+          `${apiUrl}/api/vendostaffs?filters[vendoruuid][$eq]=${vendorid}&pagination[page]=${page}&pagination[pageSize]=25`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -94,6 +96,8 @@ function VendorStaff() {
           throw new Error(data.error?.message || "Failed to fetch vendor staff list");
         }
         setVendor(data.data || []);
+        setPageCount(data.meta?.pagination?.pageCount || 1);
+        setCurrentPage(data.meta?.pagination?.page || 1);
       }
     } catch (error) {
       console.error("Failed to fetch vendor staff list:", error);
@@ -175,7 +179,7 @@ function VendorStaff() {
           biography: "",
         });
         setIsEditable(false);
-        vendorStaff();
+        vendorStaff(currentPage);
       } else {
         console.error("Save failed", result);
       }
@@ -185,8 +189,8 @@ function VendorStaff() {
   };
 
   useEffect(() => {
-    vendorStaff();
-  }, []);
+    vendorStaff(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     if (showModal && !editingStaffId) {
@@ -350,6 +354,55 @@ function VendorStaff() {
         </TableBody>
 
       </Table>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-8 mb-4">
+        <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+          {/* Previous */}
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => prev - 1)}
+            className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+              ${currentPage === 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+          >
+            ←
+          </button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: pageCount }, (_, index) => {
+            const page = index + 1;
+
+            return (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                  ${currentPage === page
+                    ? "bg-indigo-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+              >
+                {page}
+              </button>
+            );
+          })}
+
+          {/* Next */}
+          <button
+            disabled={currentPage === pageCount}
+            onClick={() => setCurrentPage(prev => prev + 1)}
+            className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+              ${currentPage === pageCount
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+          >
+            →
+          </button>
+
+        </div>
+      </div>
       {/* vendor end */}
 
       {/* <ul className="space-y-4 p-4 pt-4">

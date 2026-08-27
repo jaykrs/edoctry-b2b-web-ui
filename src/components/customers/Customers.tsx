@@ -27,6 +27,9 @@ interface Customer {
 
 function Customers() {
     const [customers, setCustomers] = useState<Customer[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
     const [showCallLogModal, setShowCallLogModal] = useState(false);
     const [selectedCallLogs, setSelectedCallLogs] = useState<CallLog[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -62,8 +65,8 @@ function Customers() {
     }, [showCallLogModal, showModal]);
 
     useEffect(() => {
-        fetchCustomersList();
-    }, []);
+        fetchCustomersList(currentPage);
+    }, [currentPage]);
 
     // add cutomer
 
@@ -207,7 +210,7 @@ function Customers() {
     };
 
 
-    const fetchCustomersList = async () => {
+    const fetchCustomersList = async (page = 1) => {
         try {
             const staffDataString = localStorage.getItem("staffData");
             const staffData = staffDataString ? JSON.parse(staffDataString) : null;
@@ -216,7 +219,7 @@ function Customers() {
             if (!vendorid || !jwt) return;
 
             const res = await fetch(
-                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[pageSize]=200`, {
+                `${apiUrl}/api/customers?filters[vendorId][$eq]=${vendorid}&pagination[page]=${page}&pagination[pageSize]=25`, {
                     headers: {
                         Authorization: `Bearer ${jwt}`,
                     },
@@ -224,6 +227,9 @@ function Customers() {
             );
 
             const data = await res.json();
+
+            setPageCount(data.meta.pagination.pageCount);
+            setCurrentPage(data.meta.pagination.page);
 
             const list: Customer[] = data.data.map((item: any) => ({
                 id: item.id,
@@ -246,6 +252,20 @@ function Customers() {
     const getTodayDate = () => {
         return new Date().toISOString().split("T")[0];
     };
+
+    const filteredCustomers = customers.filter((customer) => {
+        const searchText = searchQuery.toLowerCase();
+
+        return (
+            customer.name?.toLowerCase().includes(searchText) ||
+            customer.email?.toLowerCase().includes(searchText) ||
+            customer.phone?.toLowerCase().includes(searchText) ||
+            customer.city?.toLowerCase().includes(searchText) ||
+            customer.requirement?.toLowerCase().includes(searchText) ||
+            customer.address?.toLowerCase().includes(searchText) ||
+            customer.status?.toLowerCase().includes(searchText)
+        );
+    });
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
@@ -298,6 +318,22 @@ function Customers() {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+                {/* Search Input Bar */}
+                <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+                    <div className="relative w-full max-w-sm">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search customers..."
+                            className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                        />
+                        <span className="absolute left-3 top-2.5 text-gray-400">
+                            🔍
+                        </span>
+                    </div>
+                </div>
+
                 <div className="max-w-full overflow-x-auto">
                     <div className="min-w-[1102px]">
                         <Table>
@@ -331,7 +367,7 @@ function Customers() {
 
                             {/* Table Body */}
                             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                                {customers.map((customer) => (
+                                {filteredCustomers.map((customer) => (
                                     <TableRow key={customer.id}>
 
                                         {/* Name */}
@@ -410,6 +446,55 @@ function Customers() {
                                 ))}
                             </TableBody>
                         </Table>
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="flex justify-center items-center mt-8 mb-4">
+                        <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+                            {/* Previous Button */}
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(prev => prev - 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === 1
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                ←
+                            </button>
+
+                            {/* Page Numbers */}
+                            {Array.from({ length: pageCount }, (_, index) => {
+                                const page = index + 1;
+
+                                return (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                                            ${currentPage === page
+                                                ? "bg-indigo-600 text-white shadow-md"
+                                                : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            })}
+
+                            {/* Next Button */}
+                            <button
+                                disabled={currentPage === pageCount}
+                                onClick={() => setCurrentPage(prev => prev + 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === pageCount
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                →
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             </div>
