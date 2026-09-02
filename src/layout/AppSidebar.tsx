@@ -128,6 +128,12 @@ const updateItems: NavItem[] = [
     name: "Admission Workflow",
     path: "/admin/admission-workflow",
       },
+
+   {
+  icon: <DollarLineIcon />,
+  name: "Payment",
+  path: "/admin/payment",
+  }, 
   
   {
     icon: <PageIcon />,

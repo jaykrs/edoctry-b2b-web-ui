@@ -371,11 +371,13 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
   const errorInputStyle = "w-full border border-red-500 rounded p-2 focus:ring-1 focus:ring-red-500 outline-none bg-white transition-all duration-150";
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden text-gray-800">
       <TextHeading title="Applicant Form" />
 
+      <div className="px-6 pb-8">
+
       {/* Top Meta Fields */}
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
         <div>
           <label className="block text-xs font-medium text-gray-600 mb-1">
             Applicant ID <span className="text-red-500">*</span>
@@ -389,12 +391,12 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="my-8 border-gray-200" />
 
       {/* Personal Information */}
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Personal Information</h2>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+        <h2 className="text-xl font-bold text-gray-800 mb-5">Personal Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">
               First Name <span className="text-red-500">*</span>
@@ -499,12 +501,12 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="my-8 border-gray-200" />
 
       {/* Program Applied */}
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Program Applied</h2>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+        <h2 className="text-xl font-bold text-gray-800 mb-5">Program Applied</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">
               Program ID <span className="text-red-500">*</span>
@@ -568,7 +570,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="my-8 border-gray-200" />
 
       {/* Academic History Block */}
       <div>
@@ -597,7 +599,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
                     Remove
                   </button>
                 )}
-                <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">
                       Level <span className="text-red-500">*</span>
@@ -674,7 +676,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="my-8 border-gray-200" />
 
       {/* Documents Block */}
       <div>
@@ -703,7 +705,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
                     Remove
                   </button>
                 )}
-                <div className="grid grid-cols-3 gap-x-6 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">
                       Document Type <span className="text-red-500">*</span>
@@ -760,7 +762,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
       )}
 
       {/* Navigation Actions */}
-      <div className="flex justify-between items-center pt-4 border-t">
+      <div className="flex justify-between items-center pt-6 mt-2 border-t border-gray-200">
         <button 
           type="button"
           onClick={onBack}
@@ -778,6 +780,7 @@ const response = await fetch(`${STRAPI_URL}/api/admission-workflows`, {
         >
           {isSubmitting ? "Saving..." : "Submit / Next →"}
         </button>
+      </div>
       </div>
     </div>
   );

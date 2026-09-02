@@ -116,7 +116,7 @@ export default function AdmissionWorkflow() {
   console.log("WORKFLOW DATA:", workflowData);
   console.log("CURRENT TARGET ID:", currentTargetId);
   return (
-    <div className="createpage-container">
+    <div className="createpage-container overflow-x-hidden">
       {/* Stepper Header (Steps 1 to 5) */}
       {step <= 5 && (
         <div

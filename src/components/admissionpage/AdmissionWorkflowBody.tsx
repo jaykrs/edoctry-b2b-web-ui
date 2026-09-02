@@ -145,8 +145,8 @@ function AdmissionWorkflowBody() {
             ))
         ) : (
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <div className="max-w-full overflow-x-auto">
-              <div className="min-w-[1200px]">
+            <div className="max-w-full overflow-x-hidden">
+              <div className="w-full">
                 <Table>
 
                   {/* Table Header */}
@@ -224,12 +224,12 @@ function AdmissionWorkflowBody() {
 
                     {options.length === 0 ? (
                       <TableRow>
-                        <TableCell
+                        <td
                           className="px-5 py-8 text-center text-gray-500"
                           colSpan={9}
                         >
                           No Admission Workflow records found.
-                        </TableCell>
+                        </td>
                       </TableRow>
                     ) : (
                       options.map((opt) => (
