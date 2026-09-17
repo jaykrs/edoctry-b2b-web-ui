@@ -3,194 +3,152 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 
-type FeeHeadProps = {
-  onNext: (data?: any) => void;
-  onBack: () => void;
+interface FeeHeadProps {
+  onNext?: (data?: any) => void;
+  onBack?: () => void;
   data?: any;
-  editMode?: boolean;
-};
+}
 
-type FeeHeadForm = {
-  name: string;
-  description: string;
-  isRefundable: boolean;
-  isTaxable: boolean;
-};
+interface FeeStructure {
+  id: number;
+  name?: string;
+  academicYear?: string;
+  cycleType?: string;
+  programId?: string;
+  attributes?: {
+    name?: string;
+    academicYear?: string;
+    cycleType?: string;
+    programId?: string;
+  };
+}
 
 export default function FeeHead({
   onNext,
   onBack,
   data,
-  editMode = false,
 }: FeeHeadProps) {
-  const [formData, setFormData] =
-    useState<FeeHeadForm>({
-      name: "",
-      description: "",
-      isRefundable: false,
-      isTaxable: false,
-    });
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [isRefundable, setIsRefundable] = useState(false);
+  const [isTaxable, setIsTaxable] = useState(false);
+
+  const [selectedFeeStructure, setSelectedFeeStructure] =
+    useState("");
+
+  const [feeStructures, setFeeStructures] = useState<FeeStructure[]>(
+    []
+  );
+
+  const [vendoruuid, setVendoruuid] = useState("");
+  const [loadingStructures, setLoadingStructures] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
-  // =========================================
-  // LOAD DATA
-  // =========================================
+  // ----------------------------------------------------
+  // GET VENDOR UUID
+  // ----------------------------------------------------
+  const getVendorUuid = (): string => {
+    try {
+      const staffData = localStorage.getItem("staffData");
 
-  useEffect(() => {
-    if (!data) {
-      return;
+      if (!staffData) {
+        return "";
+      }
+
+      const parsed = JSON.parse(staffData);
+
+      const uuid =
+        parsed?.data?.[0]?.attributes?.vendoruuid ||
+        parsed?.data?.attributes?.vendoruuid ||
+        parsed?.attributes?.vendoruuid ||
+        parsed?.vendoruuid ||
+        "";
+
+      return typeof uuid === "string" ? uuid.trim() : "";
+    } catch (err) {
+      console.error("Vendor UUID Parse Error:", err);
+      return "";
     }
-
-    const feeHeadData =
-      data?.attributes || data;
-
-    setFormData({
-      name: feeHeadData?.name || "",
-      description:
-        feeHeadData?.description || "",
-      isRefundable:
-        feeHeadData?.isRefundable ?? false,
-      isTaxable:
-        feeHeadData?.isTaxable ?? false,
-    });
-  }, [data]);
-
-  // =========================================
-  // HANDLE CHANGE
-  // =========================================
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
-  ) => {
-    const {
-      name,
-      value,
-      type,
-    } = e.target;
-
-    if (type === "checkbox") {
-      const checked =
-        (e.target as HTMLInputElement)
-          .checked;
-
-      setFormData((prev) => ({
-        ...prev,
-        [name]: checked,
-      }));
-
-      return;
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
-  // =========================================
-  // SUBMIT
-  // =========================================
+  // ----------------------------------------------------
+  // INITIAL DATA
+  // ----------------------------------------------------
+  useEffect(() => {
+    if (!data) return;
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+    const attrs = data?.attributes || data;
 
-    if (!formData.name.trim()) {
-      setError(
-        "Fee Header name is required."
-      );
+    setName(attrs?.name || "");
+    setDescription(attrs?.description || "");
+    setIsRefundable(Boolean(attrs?.isRefundable));
+    setIsTaxable(Boolean(attrs?.isTaxable));
+
+    const structureId =
+      attrs?.fee_structure?.data?.id ||
+      attrs?.fee_structure?.id ||
+      attrs?.fee_structure ||
+      attrs?.selectedFeeStructureId ||
+      attrs?.selectedFeeStructure ||
+      "";
+
+    if (structureId) {
+      setSelectedFeeStructure(String(structureId));
+    }
+  }, [data]);
+
+  // ----------------------------------------------------
+  // LOAD VENDOR UUID
+  // ----------------------------------------------------
+  useEffect(() => {
+    const uuid = getVendorUuid();
+
+    if (uuid) {
+      setVendoruuid(uuid);
+    }
+  }, []);
+
+  // ----------------------------------------------------
+  // LOAD FEE STRUCTURES
+  // ----------------------------------------------------
+  useEffect(() => {
+    if (!vendoruuid) {
       return;
     }
 
+    fetchFeeStructures();
+  }, [vendoruuid]);
+
+  const fetchFeeStructures = async () => {
     try {
-      setLoading(true);
+      setLoadingStructures(true);
       setError("");
 
-      const token =
-        localStorage.getItem("jwt");
+      const token = localStorage.getItem("jwt");
 
-      const feeHeadPayload = {
-        name: formData.name.trim(),
-        description:
-          formData.description.trim(),
-        isRefundable:
-          formData.isRefundable,
-        isTaxable:
-          formData.isTaxable,
-      };
+      const url =
+        `${apiUrl}/api/fee-structures` +
+        `?filters[vendoruuid][$eq]=${encodeURIComponent(
+          vendoruuid
+        )}` +
+        `&sort=createdAt:desc`;
 
-      let response: Response;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          ...(token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {}),
+        },
+      });
 
-      // =====================================
-      // EDIT MODE → PUT
-      // =====================================
-
-      if (editMode && data?.id) {
-        response = await fetch(
-          `${apiUrl}/api/fee-heads/${data.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept: "application/json",
-
-              ...(token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                  }
-                : {}),
-            },
-
-            body: JSON.stringify({
-              data: feeHeadPayload,
-            }),
-          }
-        );
-      }
-
-      // =====================================
-      // CREATE MODE → POST
-      // =====================================
-
-      else {
-        response = await fetch(
-          `${apiUrl}/api/fee-heads`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept: "application/json",
-
-              ...(token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                  }
-                : {}),
-            },
-
-            body: JSON.stringify({
-              data: feeHeadPayload,
-            }),
-          }
-        );
-      }
-
-      const result =
-        await response
-          .json()
-          .catch(() => null);
-
-      console.log(
-        "Fee Head API Response:",
-        result
-      );
+      const result = await response.json().catch(() => null);
 
       if (!response.ok) {
         throw new Error(
@@ -199,230 +157,331 @@ export default function FeeHead({
         );
       }
 
-      const savedFeeHead =
-        result?.data;
+      const formattedStructures: FeeStructure[] = (
+        result?.data || []
+      ).map((item: any) => ({
+        id: item?.id,
+        ...(item?.attributes || {}),
+        attributes: item?.attributes || {},
+      }));
 
-      console.log(
-        editMode
-          ? "Fee Head Updated:"
-          : "Fee Head Created:",
-        savedFeeHead
-      );
-
-      // =====================================
-      // NEXT STEP
-      // =====================================
-
-      onNext(savedFeeHead);
+      setFeeStructures(formattedStructures);
     } catch (err) {
-      console.error(
-        "Fee Head API Error:",
-        err
-      );
+      console.error("Fee Structure API Error:", err);
 
       setError(
         err instanceof Error
           ? err.message
-          : editMode
-          ? "Failed to update Fee Header."
-          : "Failed to create Fee Header."
+          : "Failed to load Fee Structures."
       );
+
+      setFeeStructures([]);
     } finally {
-      setLoading(false);
+      setLoadingStructures(false);
     }
   };
 
-  // =========================================
+  // ----------------------------------------------------
+  // SUBMIT
+  // ----------------------------------------------------
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    try {
+      setError("");
+      setSuccess("");
+
+      if (!name.trim()) {
+        setError("Fee Head Name is required.");
+        return;
+      }
+
+      if (!selectedFeeStructure) {
+        setError("Please select a Fee Structure.");
+        return;
+      }
+
+      if (!vendoruuid) {
+        setError(
+          "Vendor UUID not found. Please login again."
+        );
+        return;
+      }
+
+      setSaving(true);
+
+      const token = localStorage.getItem("jwt");
+
+      const payload = {
+        name: name.trim(),
+        description: description.trim(),
+        isRefundable,
+        isTaxable,
+        fee_structure: Number(selectedFeeStructure),
+        vendoruuid: vendoruuid.trim(),
+      };
+
+      const feeHeadId =
+        data?.id ||
+        data?.data?.id;
+
+      const isEdit = Boolean(feeHeadId);
+
+      const url = isEdit
+        ? `${apiUrl}/api/fee-heads/${feeHeadId}`
+        : `${apiUrl}/api/fee-heads`;
+
+      const response = await fetch(url, {
+        method: isEdit ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {}),
+        },
+        body: JSON.stringify({
+          data: payload,
+        }),
+      });
+
+      const result = await response
+        .json()
+        .catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(
+          result?.error?.message ||
+            `HTTP Error: ${response.status}`
+        );
+      }
+
+      const savedFeeHead = result?.data;
+
+      setSuccess(
+        isEdit
+          ? "Fee Head updated successfully."
+          : "Fee Head created successfully."
+      );
+
+      const nextData = {
+        ...(savedFeeHead || {}),
+        selectedFeeStructureId: Number(
+          selectedFeeStructure
+        ),
+        selectedFeeStructure: Number(
+          selectedFeeStructure
+        ),
+        fee_structure: Number(
+          selectedFeeStructure
+        ),
+      };
+
+      if (typeof onNext === "function") {
+        onNext(nextData);
+      }
+    } catch (err) {
+      console.error("Fee Head Save Error:", err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to save Fee Head."
+      );
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // ----------------------------------------------------
+  // BACK
+  // ----------------------------------------------------
+  const handleBack = () => {
+    if (typeof onBack === "function") {
+      onBack();
+    }
+  };
+
+  // ----------------------------------------------------
   // UI
-  // =========================================
-
+  // ----------------------------------------------------
   return (
-    <div className="mx-auto w-full max-w-4xl">
-
-      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-
-        {/* HEADER */}
-
-        <div className="border-b px-6 py-5">
-
-          <h2 className="text-xl font-semibold text-gray-800">
-            Fee Header
+    <div className="w-full">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            {data ? "Edit Fee Head" : "Create Fee Head"}
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
-            {editMode
-              ? "Update fee header details."
-              : "Create a fee header for your institution."}
+            Create a Fee Head and associate it with a Fee
+            Structure.
           </p>
-
         </div>
 
-        {/* FORM */}
+        {error && (
+          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit}>
+        {success && (
+          <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            {success}
+          </div>
+        )}
 
-          <div className="space-y-6 p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        >
+          {/* Fee Head Name */}
+          <div className="mb-5">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Fee Head Name
+              <span className="ml-1 text-red-500">*</span>
+            </label>
 
-            {/* ERROR */}
-
-            {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                {error}
-              </div>
-            )}
-
-            {/* FEE HEADER NAME */}
-
-            <div>
-
-              <label
-                htmlFor="name"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Fee Header Name
-                <span className="ml-1 text-red-500">
-                  *
-                </span>
-              </label>
-
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter fee header name"
-                disabled={loading}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-
-            </div>
-
-            {/* DESCRIPTION */}
-
-            <div>
-
-              <label
-                htmlFor="description"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Description
-              </label>
-
-              <textarea
-                id="description"
-                name="description"
-                value={
-                  formData.description
-                }
-                onChange={handleChange}
-                placeholder="Enter fee header description"
-                rows={4}
-                disabled={loading}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-
-            </div>
-
-            {/* OPTIONS */}
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
-              {/* REFUNDABLE */}
-
-              <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
-
-                <input
-                  type="checkbox"
-                  name="isRefundable"
-                  checked={
-                    formData.isRefundable
-                  }
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-
-                <div>
-
-                  <p className="text-sm font-medium text-gray-700">
-                    Refundable
-                  </p>
-
-                  <p className="text-xs text-gray-500">
-                    Mark this fee as refundable.
-                  </p>
-
-                </div>
-
-              </label>
-
-              {/* TAXABLE */}
-
-              <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
-
-                <input
-                  type="checkbox"
-                  name="isTaxable"
-                  checked={
-                    formData.isTaxable
-                  }
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-
-                <div>
-
-                  <p className="text-sm font-medium text-gray-700">
-                    Taxable
-                  </p>
-
-                  <p className="text-xs text-gray-500">
-                    Mark this fee as taxable.
-                  </p>
-
-                </div>
-
-              </label>
-
-            </div>
-
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter Fee Head Name"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            />
           </div>
 
-          {/* BUTTONS */}
+          {/* Fee Structure */}
+          <div className="mb-5">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Fee Structure
+              <span className="ml-1 text-red-500">*</span>
+            </label>
 
-          <div className="flex items-center justify-between border-t px-6 py-4">
+            <select
+              value={selectedFeeStructure}
+              onChange={(e) =>
+                setSelectedFeeStructure(e.target.value)
+              }
+              disabled={loadingStructures}
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            >
+              <option value="">
+                {loadingStructures
+                  ? "Loading Fee Structures..."
+                  : feeStructures.length === 0
+                  ? "No Fee Structures Found"
+                  : "Select Fee Structure"}
+              </option>
 
+              {feeStructures.map((structure) => {
+                const structureName =
+                  structure?.name ||
+                  structure?.attributes?.name ||
+                  `Fee Structure #${structure?.id}`;
+
+                return (
+                  <option
+                    key={structure.id}
+                    value={structure.id}
+                  >
+                    {structureName}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          {/* Description */}
+          <div className="mb-5">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Description
+            </label>
+
+            <textarea
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              placeholder="Enter description"
+              rows={4}
+              className="w-full resize-none rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          {/* Checkboxes */}
+          <div className="mb-6 grid gap-4 sm:grid-cols-2">
+            <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+              <input
+                type="checkbox"
+                checked={isRefundable}
+                onChange={(e) =>
+                  setIsRefundable(e.target.checked)
+                }
+                className="h-4 w-4"
+              />
+
+              <div>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                  Refundable
+                </p>
+
+                <p className="text-xs text-gray-500">
+                  Mark this fee as refundable.
+                </p>
+              </div>
+            </label>
+
+            <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+              <input
+                type="checkbox"
+                checked={isTaxable}
+                onChange={(e) =>
+                  setIsTaxable(e.target.checked)
+                }
+                className="h-4 w-4"
+              />
+
+              <div>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                  Taxable
+                </p>
+
+                <p className="text-xs text-gray-500">
+                  Mark this fee as taxable.
+                </p>
+              </div>
+            </label>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex items-center justify-between border-t border-gray-200 pt-5 dark:border-gray-700">
             <button
               type="button"
-              onClick={onBack}
-              disabled={loading}
-              className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={handleBack}
+              className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
             >
               Back
             </button>
 
             <button
               type="submit"
-              disabled={loading}
-              className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={saving}
+              className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading
-                ? editMode
-                  ? "Updating..."
-                  : "Saving..."
-                : editMode
+              {saving
+                ? "Saving..."
+                : data
                 ? "Update & Next"
                 : "Save & Next"}
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 }

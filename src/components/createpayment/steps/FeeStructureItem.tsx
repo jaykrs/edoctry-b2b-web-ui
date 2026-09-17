@@ -3,183 +3,197 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl } from "@/utils/config";
 
-interface FeeStructureItemProps {
-  onNext: (data?: any) => void;
-  onBack: () => void;
-  data?: any;
-  feeHead?: any;
-  feeStructure?: any;
-  editMode?: boolean;
+interface Props {
+  onNext?: (data?: any) => void;
+  initialData?: any;
 }
 
 export default function FeeStructureItem({
   onNext,
-  onBack,
-  data,
-  feeHead,
-  feeStructure,
-  editMode = false,
-}: FeeStructureItemProps) {
+  initialData,
+}: Props) {
+  const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [mandatory, setMandatory] =
-    useState(true);
+  const [mandatory, setMandatory] = useState(true);
+  const [vendoruuid, setVendoruuid] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  // =========================================
-  // LOAD EXISTING DATA
-  // =========================================
+  /*
+   * GET VENDOR UUID
+   */
+  const getVendorUuid = () => {
+    try {
+      const staffData = localStorage.getItem("staffData");
 
-  useEffect(() => {
-    if (!data) {
-      return;
+      if (!staffData) return "";
+
+      const parsed = JSON.parse(staffData);
+
+      const uuid =
+        parsed?.data?.[0]?.attributes?.vendoruuid ||
+        parsed?.data?.attributes?.vendoruuid ||
+        parsed?.attributes?.vendoruuid ||
+        parsed?.vendoruuid ||
+        "";
+
+      return typeof uuid === "string"
+        ? uuid.trim()
+        : "";
+    } catch (err) {
+      console.error("Vendor UUID Error:", err);
+      return "";
     }
+  };
 
-    const itemData =
-      data?.attributes || data;
+  /*
+   * INITIAL DATA
+   */
+  useEffect(() => {
+    const attrs =
+      initialData?.attributes ||
+      initialData ||
+      {};
 
+    setName(attrs?.name || "");
     setAmount(
-      itemData?.amount !== undefined &&
-        itemData?.amount !== null
-        ? String(itemData.amount)
+      attrs?.amount !== undefined &&
+        attrs?.amount !== null
+        ? String(attrs.amount)
         : ""
     );
 
     setMandatory(
-      itemData?.mandatory ?? true
+      attrs?.mandatory !== undefined
+        ? Boolean(attrs.mandatory)
+        : true
     );
-  }, [data]);
 
-  // =========================================
-  // IDS
-  // =========================================
+    const uuid =
+      attrs?.vendoruuid ||
+      getVendorUuid();
 
-  const feeHeadId =
-    feeHead?.id;
+    if (uuid) {
+      setVendoruuid(uuid);
+    }
+  }, [initialData]);
 
-  const feeStructureId =
-    feeStructure?.id;
+  /*
+   * SET VENDOR UUID
+   */
+  useEffect(() => {
+    if (vendoruuid) return;
 
-  // =========================================
-  // SUBMIT
-  // =========================================
+    const uuid = getVendorUuid();
 
+    if (uuid) {
+      setVendoruuid(uuid);
+    }
+  }, [vendoruuid]);
+
+  /*
+   * SUBMIT
+   */
   const handleSubmit = async (
-    e: React.FormEvent
+    event: React.FormEvent
   ) => {
-    e.preventDefault();
-
-    setError("");
-
-    if (!amount.trim()) {
-      setError(
-        "Amount is required."
-      );
-      return;
-    }
-
-    if (Number(amount) < 0) {
-      setError(
-        "Amount cannot be negative."
-      );
-      return;
-    }
-
-    if (!feeHeadId) {
-      setError(
-        "Fee Head is missing. Please go back to Step 1."
-      );
-      return;
-    }
-
-    if (!feeStructureId) {
-      setError(
-        "Fee Structure is missing. Please go back to Step 2."
-      );
-      return;
-    }
+    event.preventDefault();
 
     try {
-      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      if (!name.trim()) {
+        setError(
+          "Fee Structure Item Name is required."
+        );
+        return;
+      }
+
+      if (!amount.trim()) {
+        setError(
+          "Amount is required."
+        );
+        return;
+      }
+
+      const numericAmount = Number(amount);
+
+      if (
+        Number.isNaN(numericAmount) ||
+        numericAmount < 0
+      ) {
+        setError(
+          "Please enter a valid amount."
+        );
+        return;
+      }
+
+      if (!vendoruuid) {
+        setError(
+          "Vendor UUID not found. Please login again."
+        );
+        return;
+      }
+
+      setSaving(true);
 
       const token =
         localStorage.getItem("jwt");
 
+      const itemId =
+        initialData?.id ||
+        initialData?.data?.id;
+
+      const isEdit =
+        Boolean(itemId);
+
       const payload = {
-        amount: Number(amount),
+        name: name.trim(),
+        amount: numericAmount,
         mandatory,
-        fee_structure:
-          feeStructureId,
-        fee_head:
-          feeHeadId,
+        vendoruuid: vendoruuid.trim(),
       };
 
-      let response: Response;
-
-      // =====================================
-      // EDIT → PUT
-      // =====================================
-
-      if (editMode && data?.id) {
-        response = await fetch(
-          `${apiUrl}/api/fee-structure-items/${data.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept: "application/json",
-
-              ...(token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                  }
-                : {}),
-            },
-            body: JSON.stringify({
-              data: payload,
-            }),
-          }
-        );
-      }
-
-      // =====================================
-      // CREATE → POST
-      // =====================================
-
-      else {
-        response = await fetch(
-          `${apiUrl}/api/fee-structure-items`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept: "application/json",
-
-              ...(token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                  }
-                : {}),
-            },
-            body: JSON.stringify({
-              data: payload,
-            }),
-          }
-        );
-      }
-
-      const result =
-        await response
-          .json()
-          .catch(() => null);
-
       console.log(
-        "Fee Structure Item API Response:",
-        result
+        "Fee Structure Item Payload:",
+        payload
       );
+
+      const url = isEdit
+        ? `${apiUrl}/api/fee-structure-items/${itemId}`
+        : `${apiUrl}/api/fee-structure-items`;
+
+      const response = await fetch(url, {
+        method: isEdit
+          ? "PUT"
+          : "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+
+          Accept:
+            "application/json",
+
+          ...(token
+            ? {
+                Authorization:
+                  `Bearer ${token}`,
+              }
+            : {}),
+        },
+
+        body: JSON.stringify({
+          data: payload,
+        }),
+      });
+
+      const result = await response
+        .json()
+        .catch(() => null);
 
       if (!response.ok) {
         throw new Error(
@@ -188,103 +202,123 @@ export default function FeeStructureItem({
         );
       }
 
-      const savedItem =
-        result?.data;
-
       console.log(
-        editMode
-          ? "Fee Structure Item Updated:"
-          : "Fee Structure Item Created:",
-        savedItem
+        "Saved Fee Structure Item:",
+        result
       );
 
-      // =====================================
-      // NEXT STEP
-      // =====================================
+      setSuccess(
+        isEdit
+          ? "Fee Structure Item updated successfully."
+          : "Fee Structure Item created successfully."
+      );
 
-      onNext(savedItem);
-    } catch (err: any) {
+      const nextData =
+        result?.data || {};
+
+      /*
+       * Redirect to Fee Invoice
+       */
+      if (typeof onNext === "function") {
+        onNext(nextData);
+      }
+    } catch (err) {
       console.error(
-        "Fee Structure Item API Error:",
+        "Fee Structure Item Save Error:",
         err
       );
 
       setError(
-        err?.message ||
-          (editMode
-            ? "Failed to update Fee Structure Item."
-            : "Failed to create Fee Structure Item.")
+        err instanceof Error
+          ? err.message
+          : "Failed to save Fee Structure Item."
       );
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  // =========================================
-  // UI
-  // =========================================
-
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div className="w-full">
+      <div className="mx-auto max-w-5xl">
 
-      {/* HEADER */}
+        {/* Header */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            {initialData
+              ? "Edit Fee Structure Item"
+              : "Create Fee Structure Item"}
+          </h2>
 
-      <div className="mb-8">
+          <p className="mt-1 text-sm text-gray-500">
+            Create a Fee Structure Item with a meaningful name and amount.
+          </p>
+        </div>
 
-        <h2 className="text-xl font-semibold text-gray-800">
-          Fee Structure Item
-        </h2>
+        {/* Error */}
+        {error && (
+          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
+          </div>
+        )}
 
-        <p className="mt-2 text-sm text-gray-500">
-          {editMode
-            ? "Update fee structure item details."
-            : "Add amount and link it with the Fee Head and Fee Structure."}
-        </p>
+        {/* Success */}
+        {success && (
+          <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            {success}
+          </div>
+        )}
 
-      </div>
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        >
 
-      <form onSubmit={handleSubmit}>
+          {/* Name */}
+          <div className="mb-5">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Fee Structure Item Name
+              <span className="ml-1 text-red-500">
+                *
+              </span>
+            </label>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
+              placeholder="Example: Tuition Fee"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
 
-          {/* AMOUNT */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+          {/* Amount */}
+          <div className="mb-5">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
               Amount
-              <span className="text-red-500">
-                {" "}*
+              <span className="ml-1 text-red-500">
+                *
               </span>
             </label>
 
             <input
               type="number"
-              step="0.01"
               min="0"
+              step="0.01"
               value={amount}
               onChange={(e) =>
-                setAmount(
-                  e.target.value
-                )
+                setAmount(e.target.value)
               }
-              placeholder="Enter amount"
-              disabled={loading}
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:bg-gray-100"
+              placeholder="Example: 50000"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             />
-
           </div>
 
-          {/* MANDATORY */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Mandatory
-            </label>
-
-            <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-300 px-4 py-2.5">
-
+          {/* Mandatory */}
+          <div className="mb-6">
+            <label className="flex cursor-pointer items-center gap-3">
               <input
                 type="checkbox"
                 checked={mandatory}
@@ -293,95 +327,37 @@ export default function FeeStructureItem({
                     e.target.checked
                   )
                 }
-                disabled={loading}
-                className="h-4 w-4"
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
 
-              <span className="text-sm text-gray-700">
-                This fee is mandatory
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                Mandatory Fee
               </span>
-
             </label>
 
+            <p className="mt-1 text-xs text-gray-500">
+              Mark this item as mandatory if every applicable student must pay it.
+            </p>
           </div>
 
-          {/* FEE HEAD */}
+          {/* Buttons */}
+          <div className="flex items-center justify-end border-t border-gray-200 pt-5 dark:border-gray-700">
 
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Fee Head
-            </label>
-
-            <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
-
-              {feeHead?.attributes?.name ||
-                feeHead?.name ||
-                "Fee Head not available"}
-
-            </div>
-
-          </div>
-
-          {/* FEE STRUCTURE */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Fee Structure
-            </label>
-
-            <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
-
-              {feeStructure?.attributes?.name ||
-                feeStructure?.name ||
-                "Fee Structure not available"}
-
-            </div>
+            <button
+              type="submit"
+              disabled={saving}
+              className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {saving
+                ? "Saving..."
+                : initialData
+                ? "Update & Next"
+                : "Save & Next"}
+            </button>
 
           </div>
-
-        </div>
-
-        {/* ERROR */}
-
-        {error && (
-          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-            {error}
-          </div>
-        )}
-
-        {/* BUTTONS */}
-
-        <div className="mt-8 flex justify-between">
-
-          <button
-            type="button"
-            onClick={onBack}
-            disabled={loading}
-            className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Back
-          </button>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading
-              ? editMode
-                ? "Updating..."
-                : "Saving..."
-              : editMode
-              ? "Update & Next"
-              : "Save & Next"}
-          </button>
-
-        </div>
-
-      </form>
-
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,702 +1,804 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { apiUrl } from "@/utils/config";
 
-interface FeePaymentProps {
-  onNext: (data?: any) => void;
-  onBack: () => void;
+type Props = {
+  onNext?: (data?: any) => void;
+  onBack?: () => void;
   data?: any;
   invoice?: any;
-}
+};
 
 export default function FeePayment({
   onNext,
   onBack,
   data,
   invoice,
-}: FeePaymentProps) {
+}: Props) {
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  // =====================================================
-  // FORM DATA
-  // =====================================================
+  const [receiptNumber, setReceiptNumber] = useState(
+    data?.receiptNumber || `REC-${Date.now()}`
+  );
 
-  const [receiptNumber, setReceiptNumber] =
-    useState(
-      data?.attributes?.receiptNumber ||
-        data?.receiptNumber ||
-        ""
-    );
+  const [amount, setAmount] = useState(
+    Number(data?.amount || 0)
+  );
 
-  const [amount, setAmount] =
-    useState(
-      data?.attributes?.amount !== undefined
-        ? String(data.attributes.amount)
-        : data?.amount !== undefined
-        ? String(data.amount)
-        : ""
-    );
+  const [paymentMode, setPaymentMode] = useState(
+    data?.paymentMode || ""
+  );
 
-  const [paymentMode, setPaymentMode] =
-    useState(
-      data?.attributes?.paymentMode ||
-        data?.paymentMode ||
-        ""
-    );
+  const [gatewayRef, setGatewayRef] = useState(
+    data?.gatewayRef || ""
+  );
 
-  const [gatewayRef, setGatewayRef] =
-    useState(
-      data?.attributes?.gatewayRef ||
-        data?.gatewayRef ||
-        ""
-    );
+  const [paymentDate, setPaymentDate] = useState(
+    data?.paymentDate
+      ? String(data.paymentDate).slice(0, 10)
+      : new Date().toISOString().slice(0, 10)
+  );
 
-  const [paymentDate, setPaymentDate] =
-    useState(
-      data?.attributes?.paymentDate ||
-        data?.paymentDate ||
-        ""
-    );
+  const [remarks, setRemarks] = useState(
+    data?.remarks || ""
+  );
 
-  const [remarks, setRemarks] =
-    useState(
-      data?.attributes?.remarks ||
-        data?.remarks ||
-        ""
-    );
+  const [invoiceDetails, setInvoiceDetails] =
+    useState<any>(invoice || null);
 
-  // =====================================================
-  // STATES
-  // =====================================================
+  const getToken = () => {
+    if (typeof window === "undefined") return "";
+    return localStorage.getItem("jwt") || "";
+  };
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  const [success, setSuccess] =
-    useState("");
-
-  // =====================================================
-  // GET INVOICE ID
-  // =====================================================
-
-  const invoiceId =
-    invoice?.id ||
-    invoice?.data?.id;
-
-  // =====================================================
-  // GET INVOICE NUMBER
-  // =====================================================
-
-  const invoiceNumber =
-    invoice?.attributes?.invoiceNumber ||
-    invoice?.invoiceNumber ||
-    invoice?.data?.attributes
-      ?.invoiceNumber ||
-    invoice?.data?.invoiceNumber ||
-    "";
-
-  // =====================================================
-  // HANDLE SUBMIT
-  // =====================================================
-
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
-
-    e.preventDefault();
-
-    // -----------------------------------------------
-    // RESET MESSAGES
-    // -----------------------------------------------
-
-    setError("");
-    setSuccess("");
-
-    // -----------------------------------------------
-    // DEBUG
-    // -----------------------------------------------
-
-    console.log(
-      "===================================="
-    );
-
-    console.log(
-      "FEE PAYMENT SUBMIT STARTED"
-    );
-
-    console.log(
-      "Invoice Object:",
-      invoice
-    );
-
-    console.log(
-      "Invoice ID:",
-      invoiceId
-    );
-
-    console.log(
-      "Invoice Number:",
-      invoiceNumber
-    );
-
-    console.log(
-      "Receipt Number:",
-      receiptNumber
-    );
-
-    console.log(
-      "Amount:",
-      amount
-    );
-
-    console.log(
-      "Payment Mode:",
-      paymentMode
-    );
-
-    console.log(
-      "Payment Date:",
-      paymentDate
-    );
-
-    console.log(
-      "===================================="
-    );
-
-    // =================================================
-    // VALIDATION
-    // =================================================
-
-    if (!receiptNumber.trim()) {
-      setError(
-        "Receipt Number is required."
-      );
-      return;
+  const getRelationId = (value: any): number | null => {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return null;
     }
 
-    if (!amount.trim()) {
-      setError(
-        "Amount is required."
-      );
-      return;
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : null;
     }
 
-    if (Number(amount) <= 0) {
-      setError(
-        "Amount must be greater than 0."
-      );
-      return;
+    if (typeof value === "string") {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : null;
     }
 
-    if (!paymentMode) {
-      setError(
-        "Payment Mode is required."
-      );
-      return;
+    if (typeof value === "object") {
+      if (value.id !== undefined) {
+        return getRelationId(value.id);
+      }
+
+      if (value.data?.id !== undefined) {
+        return getRelationId(value.data.id);
+      }
     }
 
-    if (!paymentDate) {
-      setError(
-        "Payment Date is required."
-      );
-      return;
-    }
+    return null;
+  };
 
-    if (!invoiceId) {
-      setError(
-        "Fee Invoice is missing. Please go back to Step 4 and save the invoice first."
-      );
-      return;
-    }
+  const invoiceId = useMemo(() => {
+    return getRelationId(
+      invoice?.id ||
+        invoice?.data?.id
+    );
+  }, [invoice]);
 
-    // =================================================
-    // API
-    // =================================================
+  const invoiceNetAmount = useMemo(() => {
+    return Number(
+      invoice?.netAmount ||
+        invoice?.attributes?.netAmount ||
+        0
+    );
+  }, [invoice]);
 
-    try {
+  const invoiceAmountPaid = useMemo(() => {
+    return Number(
+      invoice?.amountPaid ||
+        invoice?.attributes?.amountPaid ||
+        0
+    );
+  }, [invoice]);
 
-      setLoading(true);
+  const invoiceBalance = useMemo(() => {
+    return Math.max(
+      invoiceNetAmount - invoiceAmountPaid,
+      0
+    );
+  }, [
+    invoiceNetAmount,
+    invoiceAmountPaid,
+  ]);
 
-      const token =
-        localStorage.getItem("jwt");
+  useEffect(() => {
+    if (!invoiceId) return;
 
-      // -----------------------------------------------
-      // HEADERS
-      // -----------------------------------------------
+    const fetchInvoice = async () => {
+      try {
+        const token = getToken();
 
-      const headers: HeadersInit = {
-        "Content-Type":
-          "application/json",
-
-        Accept:
-          "application/json",
-
-        ...(token
-          ? {
-              Authorization:
-                `Bearer ${token}`,
-            }
-          : {}),
-      };
-
-      // -----------------------------------------------
-      // PAYLOAD
-      // -----------------------------------------------
-
-      const payload = {
-        data: {
-          receiptNumber:
-            receiptNumber.trim(),
-
-          amount:
-            Number(amount),
-
-          paymentMode:
-            paymentMode,
-
-          gatewayRef:
-            gatewayRef.trim() || null,
-
-          paymentDate:
-            paymentDate,
-
-          remarks:
-            remarks.trim() || null,
-
-          fee_invoice:
-            invoiceId,
-        },
-      };
-
-      console.log(
-        "Fee Payment Payload:",
-        payload
-      );
-
-      // =================================================
-      // POST
-      // =================================================
-
-      const response =
-        await fetch(
-          `${apiUrl}/api/fee-payments`,
+        const response = await fetch(
+          `${apiUrl}/api/fee-invoices/${invoiceId}`,
           {
-            method: "POST",
-            headers,
-            body:
-              JSON.stringify(payload),
+            headers: {
+              "Content-Type": "application/json",
+              ...(token
+                ? {
+                    Authorization: `Bearer ${token}`,
+                  }
+                : {}),
+            },
           }
         );
 
-      // =================================================
-      // RESPONSE
-      // =================================================
+        if (!response.ok) {
+          return;
+        }
 
-      const result =
-        await response.json();
+        const result = await response.json();
 
-      console.log(
-        "Fee Payment API Response:",
-        result
+        if (result?.data) {
+          setInvoiceDetails(result.data);
+
+          const attributes =
+            result.data?.attributes ||
+            result.data;
+
+          const currentBalance = Math.max(
+            Number(attributes?.netAmount || 0) -
+              Number(attributes?.amountPaid || 0),
+            0
+          );
+
+          if (!data?.amount && currentBalance > 0) {
+            setAmount(currentBalance);
+          }
+        }
+      } catch (err) {
+        console.error(
+          "Fee Invoice fetch error:",
+          err
+        );
+      }
+    };
+
+    fetchInvoice();
+  }, [invoiceId, data?.amount]);
+
+  const currentNetAmount = useMemo(() => {
+    return Number(
+      invoiceDetails?.attributes?.netAmount ||
+        invoiceDetails?.netAmount ||
+        invoiceNetAmount ||
+        0
+    );
+  }, [
+    invoiceDetails,
+    invoiceNetAmount,
+  ]);
+
+  const currentAmountPaid = useMemo(() => {
+    return Number(
+      invoiceDetails?.attributes?.amountPaid ||
+        invoiceDetails?.amountPaid ||
+        invoiceAmountPaid ||
+        0
+    );
+  }, [
+    invoiceDetails,
+    invoiceAmountPaid,
+  ]);
+
+  const currentBalanceDue = useMemo(() => {
+    return Math.max(
+      currentNetAmount - currentAmountPaid,
+      0
+    );
+  }, [
+    currentNetAmount,
+    currentAmountPaid,
+  ]);
+
+  const remainingAfterPayment = useMemo(() => {
+    return Math.max(
+      currentBalanceDue - amount,
+      0
+    );
+  }, [
+    currentBalanceDue,
+    amount,
+  ]);
+
+  const getInvoiceStatus = (
+    paidAmount: number,
+    netAmount: number
+  ) => {
+    if (paidAmount <= 0) {
+      return "UNPAID";
+    }
+
+    if (
+      netAmount > 0 &&
+      paidAmount >= netAmount
+    ) {
+      return "PAID";
+    }
+
+    return "PARTIALLY_PAID";
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setError("");
+      setSuccess("");
+
+      if (!invoiceId) {
+        setError(
+          "Fee Invoice is missing. Please create the invoice first."
+        );
+        return;
+      }
+
+      if (!receiptNumber.trim()) {
+        setError("Receipt number is required.");
+        return;
+      }
+
+      if (!amount || amount <= 0) {
+        setError(
+          "Payment amount must be greater than 0."
+        );
+        return;
+      }
+
+      if (amount > currentBalanceDue) {
+        setError(
+          `Payment amount cannot be greater than balance due ₹${currentBalanceDue.toFixed(
+            2
+          )}.`
+        );
+        return;
+      }
+
+      if (!paymentMode) {
+        setError("Please select payment mode.");
+        return;
+      }
+
+      if (!paymentDate) {
+        setError("Payment date is required.");
+        return;
+      }
+
+      setSaving(true);
+
+      const token = getToken();
+
+      // ---------------------------------------------
+      // 1. CREATE PAYMENT
+      // ---------------------------------------------
+
+      const paymentPayload = {
+        receiptNumber: receiptNumber.trim(),
+        amount: Number(amount),
+        paymentMode,
+        gatewayRef:
+          gatewayRef.trim() || undefined,
+        paymentDate,
+        remarks: remarks.trim() || undefined,
+        fee_invoice: Number(invoiceId),
+      };
+
+      const existingPaymentId = getRelationId(
+        data?.id ||
+          data?.data?.id
       );
 
-      // =================================================
-      // ERROR
-      // =================================================
+      const paymentUrl = existingPaymentId
+        ? `${apiUrl}/api/fee-payments/${existingPaymentId}`
+        : `${apiUrl}/api/fee-payments`;
 
-      if (!response.ok) {
+      const paymentMethod = existingPaymentId
+        ? "PUT"
+        : "POST";
 
-        const errorMessage =
-          result?.error?.message ||
-          result?.message ||
-          `HTTP Error: ${response.status}`;
+      const paymentResponse = await fetch(
+        paymentUrl,
+        {
+          method: paymentMethod,
+          headers: {
+            "Content-Type": "application/json",
+            ...(token
+              ? {
+                  Authorization: `Bearer ${token}`,
+                }
+              : {}),
+          },
+          body: JSON.stringify({
+            data: paymentPayload,
+          }),
+        }
+      );
 
+      const paymentResult =
+        await paymentResponse.json();
+
+      if (!paymentResponse.ok) {
         console.error(
           "Fee Payment API Error:",
-          errorMessage
+          paymentResult
         );
 
         throw new Error(
-          errorMessage
+          paymentResult?.error?.message ||
+            `HTTP Error: ${paymentResponse.status}`
         );
       }
 
-      // =================================================
-      // SUCCESS
-      // =================================================
+      const savedPayment =
+        paymentResult?.data ||
+        paymentResult;
 
-      console.log(
-        "===================================="
+      // ---------------------------------------------
+      // 2. CALCULATE NEW INVOICE AMOUNT
+      // ---------------------------------------------
+
+      const newAmountPaid =
+        currentAmountPaid + Number(amount);
+
+      const newStatus = getInvoiceStatus(
+        newAmountPaid,
+        currentNetAmount
       );
 
-      console.log(
-        "FEE PAYMENT CREATED SUCCESSFULLY"
+      // ---------------------------------------------
+      // 3. UPDATE FEE INVOICE
+      // ---------------------------------------------
+
+      const invoiceUpdatePayload = {
+        amountPaid: Number(newAmountPaid),
+        status: newStatus,
+      };
+
+      const invoiceResponse = await fetch(
+        `${apiUrl}/api/fee-invoices/${invoiceId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token
+              ? {
+                  Authorization: `Bearer ${token}`,
+                }
+              : {}),
+          },
+          body: JSON.stringify({
+            data: invoiceUpdatePayload,
+          }),
+        }
       );
 
-      console.log(
-        "Created Payment:",
-        result?.data
-      );
+      const invoiceUpdateResult =
+        await invoiceResponse.json();
 
-      console.log(
-        "===================================="
-      );
-
-      // -----------------------------------------------
-      // SUCCESS MESSAGE
-      // -----------------------------------------------
-
-      setSuccess(
-        "Fee Payment saved successfully! Redirecting..."
-      );
-
-      // -----------------------------------------------
-      // SEND DATA TO PARENT
-      // -----------------------------------------------
-
-      setTimeout(() => {
-
-        onNext(
-          result?.data
+      if (!invoiceResponse.ok) {
+        console.error(
+          "Fee Invoice update error:",
+          invoiceUpdateResult
         );
 
-      }, 1000);
+        throw new Error(
+          invoiceUpdateResult?.error?.message ||
+            `Invoice update failed: ${invoiceResponse.status}`
+        );
+      }
 
-    } catch (err) {
+      // ---------------------------------------------
+      // 4. FINAL DATA FOR WORKFLOW
+      // ---------------------------------------------
 
+      const updatedInvoice =
+        invoiceUpdateResult?.data ||
+        invoiceDetails ||
+        invoice;
+
+      const finalPaymentData = {
+        ...savedPayment,
+
+        id:
+          savedPayment?.id ||
+          savedPayment?.data?.id,
+
+        receiptNumber:
+          savedPayment?.receiptNumber ||
+          paymentPayload.receiptNumber,
+
+        amount: Number(amount),
+
+        paymentMode:
+          savedPayment?.paymentMode ||
+          paymentPayload.paymentMode,
+
+        gatewayRef:
+          savedPayment?.gatewayRef ||
+          paymentPayload.gatewayRef ||
+          "",
+
+        paymentDate:
+          savedPayment?.paymentDate ||
+          paymentPayload.paymentDate,
+
+        remarks:
+          savedPayment?.remarks ||
+          paymentPayload.remarks ||
+          "",
+
+        fee_invoice: Number(invoiceId),
+
+        invoice: {
+          ...(updatedInvoice || {}),
+          id: Number(invoiceId),
+          amountPaid: Number(newAmountPaid),
+          status: newStatus,
+          balanceDue: Number(
+            Math.max(
+              currentNetAmount - newAmountPaid,
+              0
+            )
+          ),
+        },
+      };
+
+      setSuccess(
+        "Payment saved successfully and invoice updated."
+      );
+
+      console.log(
+        "PAYMENT SAVED:",
+        finalPaymentData
+      );
+
+      console.log(
+        "INVOICE UPDATED:",
+        {
+          invoiceId,
+          amountPaid: newAmountPaid,
+          netAmount: currentNetAmount,
+          balanceDue: Math.max(
+            currentNetAmount - newAmountPaid,
+            0
+          ),
+          status: newStatus,
+        }
+      );
+
+      if (typeof onNext === "function") {
+        onNext(finalPaymentData);
+      }
+    } catch (err: any) {
       console.error(
-        "Fee Payment Error:",
+        "Fee Payment save error:",
         err
       );
 
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to create Fee Payment."
+        err?.message ||
+          "Failed to save payment."
       );
-
     } finally {
-
-      setLoading(false);
-
+      setSaving(false);
     }
   };
 
-  // =====================================================
-  // UI
-  // =====================================================
-
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div className="w-full rounded-xl border bg-white p-6 shadow-sm">
+      {/* ------------------------------------------- */}
+      {/* HEADER */}
+      {/* ------------------------------------------- */}
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
-
-      <div className="mb-8">
-
+      <div className="mb-6">
         <h2 className="text-xl font-semibold text-gray-800">
-          Fee Payment
+          New Payment
         </h2>
 
-        <p className="mt-2 text-sm text-gray-500">
-          Record the payment against the created fee invoice.
+        <p className="mt-1 text-sm text-gray-500">
+          Record payment against the selected fee invoice.
         </p>
-
       </div>
 
-      {/* =================================================
-          FORM
-      ================================================= */}
+      {/* ------------------------------------------- */}
+      {/* MESSAGES */}
+      {/* ------------------------------------------- */}
 
-      <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          {error}
+        </div>
+      )}
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {success && (
+        <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600">
+          {success}
+        </div>
+      )}
 
-          {/* =================================================
-              RECEIPT NUMBER
-          ================================================= */}
+      {/* ------------------------------------------- */}
+      {/* INVOICE SUMMARY */}
+      {/* ------------------------------------------- */}
 
-          <div>
+      <div className="mb-6 rounded-xl border bg-gray-50 p-5">
+        <h3 className="mb-4 text-base font-semibold text-gray-800">
+          Invoice Summary
+        </h3>
 
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-lg border bg-white p-4">
+            <p className="text-xs text-gray-500">
+              Net Amount
+            </p>
 
-              Receipt Number
-
-              <span className="ml-1 text-red-500">
-                *
-              </span>
-
-            </label>
-
-            <input
-              type="text"
-              value={receiptNumber}
-              onChange={(e) =>
-                setReceiptNumber(
-                  e.target.value
-                )
-              }
-              placeholder="e.g. REC-2026-001"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-
+            <p className="mt-1 text-xl font-bold text-gray-800">
+              ₹ {currentNetAmount.toFixed(2)}
+            </p>
           </div>
 
-          {/* =================================================
-              AMOUNT
-          ================================================= */}
+          <div className="rounded-lg border bg-white p-4">
+            <p className="text-xs text-gray-500">
+              Already Paid
+            </p>
 
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-
-              Amount
-
-              <span className="ml-1 text-red-500">
-                *
-              </span>
-
-            </label>
-
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={amount}
-              onChange={(e) =>
-                setAmount(
-                  e.target.value
-                )
-              }
-              placeholder="Enter payment amount"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-
+            <p className="mt-1 text-xl font-bold text-green-600">
+              ₹ {currentAmountPaid.toFixed(2)}
+            </p>
           </div>
 
-          {/* =================================================
-              PAYMENT MODE
-          ================================================= */}
+          <div className="rounded-lg border bg-white p-4">
+            <p className="text-xs text-gray-500">
+              Balance Due
+            </p>
 
-          <div>
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-
-              Payment Mode
-
-              <span className="ml-1 text-red-500">
-                *
-              </span>
-
-            </label>
-
-            <select
-              value={paymentMode}
-              onChange={(e) =>
-                setPaymentMode(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            >
-
-              <option value="">
-                Select Payment Mode
-              </option>
-
-              <option value="CASH">
-                CASH
-              </option>
-
-              <option value="ONLINE">
-                ONLINE
-              </option>
-
-              <option value="CARD">
-                CARD
-              </option>
-
-              <option value="UPI">
-                UPI
-              </option>
-
-              <option value="BANK_TRANSFER">
-                BANK TRANSFER
-              </option>
-
-              <option value="CHEQUE">
-                CHEQUE
-              </option>
-
-            </select>
-
+            <p className="mt-1 text-xl font-bold text-orange-600">
+              ₹ {currentBalanceDue.toFixed(2)}
+            </p>
           </div>
+        </div>
+      </div>
 
-          {/* =================================================
-              GATEWAY REFERENCE
-          ================================================= */}
+      {/* ------------------------------------------- */}
+      {/* PAYMENT FORM */}
+      {/* ------------------------------------------- */}
 
-          <div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Receipt Number */}
 
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Gateway Reference
-            </label>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Receipt Number{" "}
+            <span className="text-red-500">*</span>
+          </label>
 
-            <input
-              type="text"
-              value={gatewayRef}
-              onChange={(e) =>
-                setGatewayRef(
-                  e.target.value
-                )
-              }
-              placeholder="Optional"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
+          <input
+            type="text"
+            value={receiptNumber}
+            onChange={(e) =>
+              setReceiptNumber(e.target.value)
+            }
+            placeholder="Receipt number"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          />
+        </div>
 
-          </div>
+        {/* Amount */}
 
-          {/* =================================================
-              PAYMENT DATE
-          ================================================= */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Payment Amount{" "}
+            <span className="text-red-500">*</span>
+          </label>
 
-          <div>
+          <input
+            type="number"
+            min="0"
+            max={currentBalanceDue}
+            value={amount}
+            onChange={(e) =>
+              setAmount(
+                Number(e.target.value) || 0
+              )
+            }
+            placeholder="Enter payment amount"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          />
 
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+          <p className="mt-1 text-xs text-gray-500">
+            Maximum payable: ₹{" "}
+            {currentBalanceDue.toFixed(2)}
+          </p>
+        </div>
 
-              Payment Date
+        {/* Payment Mode */}
 
-              <span className="ml-1 text-red-500">
-                *
-              </span>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Payment Mode{" "}
+            <span className="text-red-500">*</span>
+          </label>
 
-            </label>
+          <select
+            value={paymentMode}
+            onChange={(e) =>
+              setPaymentMode(e.target.value)
+            }
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          >
+            <option value="">
+              Select Payment Mode
+            </option>
 
-            <input
-              type="date"
-              value={paymentDate}
-              onChange={(e) =>
-                setPaymentDate(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
+            <option value="CASH">
+              Cash
+            </option>
 
-          </div>
+            <option value="CARD">
+              Card
+            </option>
 
-          {/* =================================================
-              FEE INVOICE
-          ================================================= */}
+            <option value="UPI">
+              UPI
+            </option>
 
-          <div>
+            <option value="BANK_TRANSFER">
+              Bank Transfer
+            </option>
 
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Fee Invoice
-            </label>
+            <option value="CHEQUE">
+              Cheque
+            </option>
 
-            <div className="min-h-[42px] rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+            <option value="ONLINE">
+              Online
+            </option>
+          </select>
+        </div>
 
-              {invoiceNumber ||
-                "Invoice not available"}
+        {/* Gateway Reference */}
 
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Gateway Reference
+          </label>
+
+          <input
+            type="text"
+            value={gatewayRef}
+            onChange={(e) =>
+              setGatewayRef(e.target.value)
+            }
+            placeholder="Optional gateway/reference ID"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          />
+        </div>
+
+        {/* Payment Date */}
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Payment Date{" "}
+            <span className="text-red-500">*</span>
+          </label>
+
+          <input
+            type="date"
+            value={paymentDate}
+            onChange={(e) =>
+              setPaymentDate(e.target.value)
+            }
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          />
+        </div>
+
+        {/* Remarks */}
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Remarks
+          </label>
+
+          <input
+            type="text"
+            value={remarks}
+            onChange={(e) =>
+              setRemarks(e.target.value)
+            }
+            placeholder="Optional remarks"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+          />
+        </div>
+      </div>
+
+      {/* ------------------------------------------- */}
+      {/* AFTER PAYMENT PREVIEW */}
+      {/* ------------------------------------------- */}
+
+      {amount > 0 && (
+        <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
+          <h3 className="mb-3 text-sm font-semibold text-blue-800">
+            After This Payment
+          </h3>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div>
+              <p className="text-xs text-gray-500">
+                Payment
+              </p>
+
+              <p className="text-lg font-semibold text-gray-800">
+                ₹ {amount.toFixed(2)}
+              </p>
             </div>
 
+            <div>
+              <p className="text-xs text-gray-500">
+                Remaining Balance
+              </p>
+
+              <p className="text-lg font-semibold text-orange-600">
+                ₹{" "}
+                {remainingAfterPayment.toFixed(2)}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs text-gray-500">
+                New Invoice Status
+              </p>
+
+              <p className="text-lg font-semibold text-blue-600">
+                {getInvoiceStatus(
+                  currentAmountPaid + amount,
+                  currentNetAmount
+                )}
+              </p>
+            </div>
           </div>
-
-          {/* =================================================
-              REMARKS
-          ================================================= */}
-
-          <div className="md:col-span-2">
-
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Remarks
-            </label>
-
-            <textarea
-              value={remarks}
-              onChange={(e) =>
-                setRemarks(
-                  e.target.value
-                )
-              }
-              rows={4}
-              placeholder="Enter remarks"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-
-          </div>
-
         </div>
+      )}
 
-        {/* =================================================
-            ERROR
-        ================================================= */}
+      {/* ------------------------------------------- */}
+      {/* BUTTONS */}
+      {/* ------------------------------------------- */}
 
-        {error && (
+      <div className="mt-6 flex items-center justify-between border-t pt-5">
+        <button
+          type="button"
+          onClick={() => {
+            if (typeof onBack === "function") {
+              onBack();
+            }
+          }}
+          disabled={saving}
+          className="rounded-lg border px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Back
+        </button>
 
-          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-
-            {error}
-
-          </div>
-
-        )}
-
-        {/* =================================================
-            SUCCESS
-        ================================================= */}
-
-        {success && (
-
-          <div className="mt-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-600">
-
-            {success}
-
-          </div>
-
-        )}
-
-        {/* =================================================
-            BUTTONS
-        ================================================= */}
-
-        <div className="mt-8 flex justify-between border-t pt-6">
-
-          {/* BACK */}
-
-          <button
-            type="button"
-            onClick={onBack}
-            disabled={loading}
-            className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Back
-          </button>
-
-          {/* SAVE */}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-
-            {loading
-              ? "Saving..."
-              : "Save Payment"}
-
-          </button>
-
-        </div>
-
-      </form>
-
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={saving}
+          className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {saving ? "Saving..." : "Save Payment"}
+        </button>
+      </div>
     </div>
   );
 }

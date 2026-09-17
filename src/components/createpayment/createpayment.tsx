@@ -3,133 +3,70 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import FeeHead from "./steps/FeeHead";
+import StudentConcession from "./steps/StudentConcession";
 import FeeStructure from "./steps/FeeStructure";
-import FeeStructureItem from "./steps/FeeStructureItem";
+import FeeHead from "./steps/FeeHead";
 import FeeInvoice from "./steps/FeeInvoice";
 import FeePayment from "./steps/FeePayment";
-
-// =====================================================
-// STEPS
-// =====================================================
+import InvoiceLineItem from "./steps/InvoiceLineItem";
 
 const steps = [
   {
     id: 1,
-    label: "Fee Header",
-    subtext: "Create and manage fee heads",
+    label: "Fee Structure",
+    subtext: "Create fee structure & select items",
   },
   {
     id: 2,
-    label: "Fee Structure",
-    subtext: "Create fee structure",
+    label: "Fee Head",
+    subtext: "Select fee head",
   },
   {
     id: 3,
-    label: "Fee Structure Item",
-    subtext: "Add fee structure items",
+    label: "Student Concession",
+    subtext: "Add student concession (Optional)",
   },
   {
     id: 4,
-    label: "Invoice",
-    subtext: "Create student fee invoice",
+    label: "Invoice Line Item",
+    subtext: "Create invoice line item",
   },
   {
     id: 5,
-    label: "Fee Payment",
-    subtext: "Record fee payment",
+    label: "Fee Invoice",
+    subtext: "Create student fee invoice",
+  },
+  {
+    id: 6,
+    label: "New Payment",
+    subtext: "Record payment",
   },
 ];
-
-// =====================================================
-// COMPONENT
-// =====================================================
 
 export default function CreatePaymentWorkflow() {
   const router = useRouter();
 
-  // ===================================================
-  // CURRENT STEP
-  // ===================================================
-
   const [step, setStep] = useState(1);
 
-  // ===================================================
-  // WORKFLOW DATA
-  // ===================================================
-
   const [workflowData, setWorkflowData] = useState<any>({
-    feeHead: null,
     feeStructure: null,
-    feeStructureItem: null,
+    feeHead: null,
+    studentConcession: null,
+    invoiceLineItem: null,
     invoice: null,
-    feePayment: null,
+    payment: null,
   });
 
-  // ===================================================
-  // NEXT
-  // ===================================================
-
   const handleNext = (data?: any) => {
-    // -----------------------------------------------
-    // STEP 1 -> STEP 2
-    // -----------------------------------------------
-
-    if (step === 1) {
-      if (!data) {
-        return;
-      }
-
-      setWorkflowData((prev: any) => ({
-        ...prev,
-        feeHead: data,
-      }));
-
-      console.log("Step 1 - Fee Head:", data);
-
-      setStep(2);
-      return;
-    }
-
-    // -----------------------------------------------
-    // STEP 2 -> STEP 3
-    // -----------------------------------------------
-
-    if (step === 2) {
-      if (!data) {
-        return;
-      }
-
-      setWorkflowData((prev: any) => ({
-        ...prev,
-        feeStructure: data,
-      }));
-
-      console.log(
-        "Step 2 - Fee Structure:",
-        data
-      );
-
-      setStep(3);
-      return;
-    }
-
-    // -----------------------------------------------
-    // STEP 3 -> STEP 4
-    // -----------------------------------------------
-
+    // Step 3 is optional
     if (step === 3) {
-      if (!data) {
-        return;
-      }
-
       setWorkflowData((prev: any) => ({
         ...prev,
-        feeStructureItem: data,
+        studentConcession: data || null,
       }));
 
       console.log(
-        "Step 3 - Fee Structure Item:",
+        "Step 3 - Student Concession:",
         data
       );
 
@@ -137,22 +74,47 @@ export default function CreatePaymentWorkflow() {
       return;
     }
 
-    // -----------------------------------------------
-    // STEP 4 -> STEP 5
-    // -----------------------------------------------
+    // Other steps require data
+    if (!data) return;
 
-    if (step === 4) {
-      if (!data) {
-        return;
-      }
-
+    if (step === 1) {
       setWorkflowData((prev: any) => ({
         ...prev,
-        invoice: data,
+        feeStructure: data,
       }));
 
       console.log(
-        "Step 4 - Fee Invoice:",
+        "Step 1 - Fee Structure:",
+        data
+      );
+
+      setStep(2);
+      return;
+    }
+
+    if (step === 2) {
+      setWorkflowData((prev: any) => ({
+        ...prev,
+        feeHead: data,
+      }));
+
+      console.log(
+        "Step 2 - Fee Head:",
+        data
+      );
+
+      setStep(3);
+      return;
+    }
+
+    if (step === 4) {
+      setWorkflowData((prev: any) => ({
+        ...prev,
+        invoiceLineItem: data,
+      }));
+
+      console.log(
+        "Step 4 - Invoice Line Item:",
         data
       );
 
@@ -160,67 +122,33 @@ export default function CreatePaymentWorkflow() {
       return;
     }
 
-    // -----------------------------------------------
-    // STEP 5 -> COMPLETE
-    // -----------------------------------------------
-
     if (step === 5) {
-      if (!data) {
-        return;
-      }
+      setWorkflowData((prev: any) => ({
+        ...prev,
+        invoice: data,
+      }));
 
+      console.log(
+        "Step 5 - Fee Invoice:",
+        data
+      );
+
+      setStep(6);
+      return;
+    }
+
+    if (step === 6) {
       const completedWorkflow = {
         ...workflowData,
-        feePayment: data,
+        payment: data,
       };
 
       setWorkflowData(completedWorkflow);
 
       console.log(
-        "===================================="
-      );
-
-      console.log(
-        "PAYMENT WORKFLOW COMPLETED"
-      );
-
-      console.log(
-        "Complete Workflow:",
+        "PAYMENT WORKFLOW COMPLETED",
         completedWorkflow
       );
-
-      console.log(
-        "Fee Head:",
-        completedWorkflow.feeHead
-      );
-
-      console.log(
-        "Fee Structure:",
-        completedWorkflow.feeStructure
-      );
-
-      console.log(
-        "Fee Structure Item:",
-        completedWorkflow.feeStructureItem
-      );
-
-      console.log(
-        "Fee Invoice:",
-        completedWorkflow.invoice
-      );
-
-      console.log(
-        "Fee Payment:",
-        completedWorkflow.feePayment
-      );
-
-      console.log(
-        "===================================="
-      );
-
-      // ---------------------------------------------
-      // REDIRECT TO PAYMENT LIST
-      // ---------------------------------------------
 
       setTimeout(() => {
         router.push("/admin/payment");
@@ -230,120 +158,92 @@ export default function CreatePaymentWorkflow() {
     }
   };
 
-  // ===================================================
-  // BACK
-  // ===================================================
-
   const handleBack = () => {
     if (step > 1) {
-      setStep((prev) => prev - 1);
+      setStep((previousStep) => previousStep - 1);
     }
   };
 
-  // ===================================================
-  // RENDER
-  // ===================================================
-
   return (
     <div className="w-full overflow-x-hidden">
+      {/* Workflow Header */}
+      <div className="mb-6 rounded-xl border bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800">
+              Create Payment
+            </h1>
 
-      {/* =================================================
-          STEPPER
-      ================================================= */}
+            <p className="mt-1 text-sm text-gray-500">
+              Complete the fee setup and payment workflow.
+            </p>
+          </div>
 
-      <div className="mb-8 flex w-full items-start justify-between">
+          <div className="rounded-lg bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700">
+            Step {step} of {steps.length}
+          </div>
+        </div>
 
-        {steps.map((item, index) => {
-          const isActive =
-            step === item.id;
+        {/* Step Indicator */}
+        <div className="mt-6 overflow-x-auto">
+          <div className="flex min-w-[900px] items-start">
+            {steps.map((item, index) => {
+              const isActive = step === item.id;
+              const isCompleted = step > item.id;
 
-          const isCompleted =
-            step > item.id;
+              return (
+                <React.Fragment key={item.id}>
+                  <div className="flex min-w-[140px] flex-1 flex-col items-center text-center">
+                    <div
+                      className={[
+                        "flex h-9 w-9 items-center justify-center rounded-full border-2 text-sm font-semibold",
+                        isActive
+                          ? "border-blue-600 bg-blue-600 text-white"
+                          : isCompleted
+                          ? "border-green-600 bg-green-600 text-white"
+                          : "border-gray-300 bg-white text-gray-500",
+                      ].join(" ")}
+                    >
+                      {isCompleted ? "✓" : item.id}
+                    </div>
 
-          return (
-            <React.Fragment key={item.id}>
+                    <p
+                      className={[
+                        "mt-2 text-xs font-semibold",
+                        isActive
+                          ? "text-blue-600"
+                          : isCompleted
+                          ? "text-green-600"
+                          : "text-gray-500",
+                      ].join(" ")}
+                    >
+                      {item.label}
+                    </p>
 
-              {/* -----------------------------------------
-                  STEP
-              ----------------------------------------- */}
+                    <p className="mt-1 text-[11px] text-gray-400">
+                      {item.subtext}
+                    </p>
+                  </div>
 
-              <div className="flex min-w-0 flex-1 flex-col items-center text-center">
-
-                {/* Circle */}
-
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition ${
-                    isCompleted
-                      ? "border-blue-600 bg-blue-600 text-white"
-                      : isActive
-                      ? "border-blue-600 bg-blue-50 text-blue-600"
-                      : "border-gray-300 bg-white text-gray-500"
-                  }`}
-                >
-                  {isCompleted
-                    ? "✓"
-                    : item.id}
-                </div>
-
-                {/* Label */}
-
-                <div
-                  className={`mt-2 text-xs font-semibold sm:text-sm ${
-                    isActive ||
-                    isCompleted
-                      ? "text-blue-600"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {item.label}
-                </div>
-
-                {/* Subtext */}
-
-                <div className="mt-1 hidden text-xs text-gray-400 md:block">
-                  {item.subtext}
-                </div>
-
-              </div>
-
-              {/* -----------------------------------------
-                  CONNECTOR
-              ----------------------------------------- */}
-
-              {index <
-                steps.length - 1 && (
-                <div
-                  className={`mt-5 h-0.5 flex-1 ${
-                    step > item.id
-                      ? "bg-blue-600"
-                      : "bg-gray-200"
-                  }`}
-                />
-              )}
-
-            </React.Fragment>
-          );
-        })}
-
+                  {index < steps.length - 1 && (
+                    <div
+                      className={[
+                        "mt-4 h-0.5 flex-1",
+                        step > item.id
+                          ? "bg-green-500"
+                          : "bg-gray-200",
+                      ].join(" ")}
+                    />
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      {/* =================================================
-          STEP 1
-      ================================================= */}
-
+      {/* Step 1 */}
       {step === 1 && (
-        <FeeHead
-          onNext={handleNext}
-          onBack={handleBack}
-          data={workflowData.feeHead}
-        />
-      )}
-
-      {/* =================================================
-          STEP 2
-      ================================================= */}
-
-      {step === 2 && (
         <FeeStructure
           onNext={handleNext}
           onBack={handleBack}
@@ -351,54 +251,64 @@ export default function CreatePaymentWorkflow() {
         />
       )}
 
-      {/* =================================================
-          STEP 3
-      ================================================= */}
-
-      {step === 3 && (
-        <FeeStructureItem
+      {/* Step 2 */}
+      {step === 2 && (
+        <FeeHead
           onNext={handleNext}
           onBack={handleBack}
-          data={
-            workflowData.feeStructureItem
-          }
-          feeHead={
-            workflowData.feeHead
-          }
-          feeStructure={
-            workflowData.feeStructure
+          data={workflowData.feeHead}
+        />
+      )}
+
+      {/* Step 3 - Optional */}
+      {step === 3 && (
+        <StudentConcession
+          onNext={handleNext}
+          onBack={handleBack}
+          data={workflowData.studentConcession}
+        />
+      )}
+
+      {/* Step 4 */}
+      {step === 4 && (
+        <InvoiceLineItem
+          onNext={handleNext}
+          onBack={handleBack}
+          data={workflowData.invoiceLineItem}
+          feeHead={workflowData.feeHead}
+          feeStructure={workflowData.feeStructure}
+          studentConcession={
+            workflowData.studentConcession
           }
         />
       )}
 
-      {/* =================================================
-          STEP 4
-      ================================================= */}
-
-      {step === 4 && (
+      {/* Step 5 */}
+      {step === 5 && (
         <FeeInvoice
           onNext={handleNext}
           onBack={handleBack}
           data={workflowData.invoice}
-          feeStructure={
-            workflowData.feeStructure
+          feeStructure={workflowData.feeStructure}
+          feeHead={workflowData.feeHead}
+          studentConcession={
+            workflowData.studentConcession
+          }
+          invoiceLineItem={
+            workflowData.invoiceLineItem
           }
         />
       )}
 
-      {/* =================================================
-          STEP 5
-      ================================================= */}
-
-      {step === 5 && (
+      {/* Step 6 */}
+      {step === 6 && (
         <FeePayment
           onNext={handleNext}
           onBack={handleBack}
-          data={workflowData.feePayment}
+          data={workflowData.payment}
           invoice={workflowData.invoice}
         />
       )}
-
     </div>
   );
 }
