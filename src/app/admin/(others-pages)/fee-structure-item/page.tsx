@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { apiUrl } from "@/utils/config";
@@ -21,11 +25,10 @@ interface FeeStructureItem {
   };
 }
 
-export default function FeeStructureItemPage() {
+function FeeStructureItemContent() {
   const searchParams = useSearchParams();
 
-  const feeStructureId =
-    searchParams.get("fee_structure_id");
+  const feeStructureId = searchParams.get("fee_structure_id");
 
   const [items, setItems] = useState<FeeStructureItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -186,5 +189,21 @@ export default function FeeStructureItemPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function FeeStructureItemPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full px-2 sm:px-3">
+          <div className="p-8 text-center text-sm text-gray-500">
+            Loading Fee Structure Items...
+          </div>
+        </div>
+      }
+    >
+      <FeeStructureItemContent />
+    </Suspense>
   );
 }
