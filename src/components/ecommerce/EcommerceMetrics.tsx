@@ -88,7 +88,7 @@ export const EcommerceMetrics = () => {
       );
 
       const currentData = await currentRes.json();
-      setCustomers(currentData.meta.pagination.total);
+      setCustomers(currentData?.meta?.pagination?.total ?? currentData?.data?.length ?? 0);
 
       // last month (example logic)
       const lastMonthRes = await fetch(

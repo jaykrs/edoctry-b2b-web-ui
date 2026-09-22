@@ -756,7 +756,7 @@ body.hide-app-layout footer {
 .stepper-container {
   display: flex;
   width: 100%;
-  align-items: center;
+  align-items: stretch;
   background-color: transparent;
 }
 
@@ -778,6 +778,10 @@ body.hide-app-layout footer {
     0 100%       /* bottom-left */
   );
   border: 1px solid #e0e0e0;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .step-item:not(:last-child) {
