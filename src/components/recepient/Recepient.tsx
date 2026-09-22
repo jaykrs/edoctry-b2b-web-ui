@@ -10,6 +10,7 @@ function Recepient() {
   const [token, setToken] = useState("");
   const [vendorId, setVendorId] = useState("");
   const [recepientList, setRecepientList] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState<number | string | null>(null);
@@ -21,6 +22,8 @@ function Recepient() {
   const [students, setStudents] = useState<any[]>([]);
   const [collection, setCollection] = useState<string>("");
   const [ownerName, setOwnerName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
 
 
  useEffect(() => {
@@ -60,9 +63,9 @@ function Recepient() {
     label: s.attributes?.name,
   }));
 
-  const fetchRecepientList = async (jwt: string, vendoruuid: string) => {
+  const fetchRecepientList = async (jwt: string, vendoruuid: string, page = 1) => {
     const res = await fetch(
-      `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}`,
+      `${apiUrl}/api/recepientlists?filters[vendoruuid][$eq]=${vendoruuid}&pagination[page]=${page}&pagination[pageSize]=25`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -82,6 +85,8 @@ function Recepient() {
       },
     }));
     setRecepientList(recepients || []);
+    setPageCount(data.meta?.pagination?.pageCount || 1);
+    setCurrentPage(data.meta?.pagination?.page || 1);
   };
 
   useEffect(() => {
@@ -97,7 +102,7 @@ function Recepient() {
         setToken(jwt);
         setVendorId(vendoruuid);
         try {
-          await fetchRecepientList(jwt, vendoruuid);
+          await fetchRecepientList(jwt, vendoruuid, currentPage);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -107,7 +112,7 @@ function Recepient() {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (showModal) {
@@ -166,7 +171,7 @@ function Recepient() {
       await res.json();
       setShowModal(false);
       resetForm();
-      await fetchRecepientList(token, vendorId);
+      await fetchRecepientList(token, vendorId, currentPage);
     } catch (err) {
       console.error("Error saving data:", err);
     }
@@ -182,6 +187,17 @@ function Recepient() {
     setIsEditable(false);
     setShowModal(true);
   };
+
+  const filteredRecepientList = recepientList.filter((item) => {
+    const searchText = searchQuery.toLowerCase();
+
+    return (
+      item.user.name?.toLowerCase().includes(searchText) ||
+      item.user.kekyword?.toLowerCase().includes(searchText) ||
+      item.user.author?.toLowerCase().includes(searchText) ||
+      item.user.collection?.toLowerCase().includes(searchText)
+    );
+  });
 
   return (
     <div className="">
@@ -203,6 +219,22 @@ function Recepient() {
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        {/* Search Input Bar */}
+        <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+          <div className="relative w-full max-w-sm">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search recipients..."
+              className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+            />
+            <span className="absolute left-3 top-2.5 text-gray-400">
+              🔍
+            </span>
+          </div>
+        </div>
+
         <div className="max-w-full overflow-x-auto">
           <div className="min-w-[1102px]">
             <Table>
@@ -216,7 +248,7 @@ function Recepient() {
               </TableHeader>
 
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                {recepientList.map((order) => (
+                {filteredRecepientList.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="px-5 py-6 sm:px-6 text-start">
                       <div className="flex items-center gap-3">
@@ -246,6 +278,54 @@ function Recepient() {
                 ))}
               </TableBody>
             </Table>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center mt-8 mb-4">
+            <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+
+              {/* Previous */}
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                  ${currentPage === 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                ←
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: pageCount }, (_, index) => {
+                const page = index + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                      ${currentPage === page
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              {/* Next */}
+              <button
+                disabled={currentPage === pageCount}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                  ${currentPage === pageCount
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+              >
+                →
+              </button>
+
+            </div>
           </div>
         </div>
       </div>

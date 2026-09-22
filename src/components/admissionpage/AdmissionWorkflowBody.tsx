@@ -145,8 +145,8 @@ function AdmissionWorkflowBody() {
             ))
         ) : (
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <div className="max-w-full overflow-x-hidden">
-              <div className="w-full">
+            <div className="max-w-full overflow-x-auto">
+              <div className="min-w-[1200px]">
                 <Table>
 
                   {/* Table Header */}

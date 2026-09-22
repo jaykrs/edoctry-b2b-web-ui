@@ -61,6 +61,7 @@ export default function SignInForm() {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user));
 
+        // Get vendor data using vendorid from the logged-in user
         const vendorId = data.user.vendorid;
 
         const staffRes = await fetch(

@@ -594,9 +594,12 @@ const initialForm: Omit<Invoice, "id"> = {
 
 function Invoice() {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [editInvoiceId, setEditInvoiceId] = useState<number | null>(null);
     const [formData, setFormData] = useState(initialForm);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
 
 
 
@@ -607,13 +610,13 @@ function Invoice() {
         return { vendorId, jwt };
     };
 
-    const fetchInvoices = async () => {
+    const fetchInvoices = async (page = 1) => {
         try {
             const { vendorId, jwt } = getVendorData();
             if (!vendorId || !jwt) return;
 
             const res = await fetch(
-                `${apiUrl}/api/invoices?filters[vendorId][$eq]=${vendorId}`,
+                `${apiUrl}/api/invoices?filters[vendorId][$eq]=${vendorId}&pagination[page]=${page}&pagination[pageSize]=25`,
                 {
                     method: "GET",
                     headers: {
@@ -625,12 +628,19 @@ function Invoice() {
 
             const data = await res.json();
 
+            if (!res.ok) {
+                console.error("Invoice fetch failed:", data);
+                return;
+            }
+
             const formatted = data.data.map((item: any) => ({
                 id: item.id,
                 ...item.attributes,
             }));
 
             setInvoices(formatted);
+            setPageCount(data.meta?.pagination?.pageCount || 1);
+            setCurrentPage(data.meta?.pagination?.page || 1);
         } catch (err) {
             console.error("Error fetching invoices:", err);
         }
@@ -641,7 +651,52 @@ function Invoice() {
 
     const handleSubmit = async () => {
         const { vendorId, jwt } = getVendorData();
-        if (!vendorId || !jwt) return;
+
+        if (!jwt) {
+            alert("JWT token not found. Please login again.");
+            return;
+        }
+
+        if (!vendorId) {
+            alert("Vendor ID not found. Please login again.");
+            return;
+        }
+
+        if (!formData.customername.trim()) {
+            alert("Customer name is required.");
+            return;
+        }
+
+        if (!formData.customeremail.trim()) {
+            alert("Customer email is required.");
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(formData.customeremail.trim())) {
+            alert("Please enter a valid customer email.");
+            return;
+        }
+
+        if (!formData.course.trim()) {
+            alert("Course is required.");
+            return;
+        }
+
+        if (!formData.invoicedate) {
+            alert("Invoice date is required.");
+            return;
+        }
+
+        if (Number(formData.invoiceamount) <= 0) {
+            alert("Invoice amount must be greater than 0.");
+            return;
+        }
+
+        if (formData.paidstatus && !formData.paiddate) {
+            alert("Paid date is required when invoice is paid.");
+            return;
+        }
 
         const url = editInvoiceId
             ? `${apiUrl}/api/invoices/${editInvoiceId}`
@@ -651,6 +706,14 @@ function Invoice() {
 
         const payload = {
             ...formData,
+            customername: formData.customername.trim(),
+            customeremail: formData.customeremail.trim(),
+            course: formData.course.trim(),
+            invoiceamount: Number(formData.invoiceamount) || 0,
+            invoicetax: Number(formData.invoicetax) || 0,
+            invoicetotal: Number(formData.invoicetotal) || 0,
+            inovicediscount: Number(formData.inovicediscount) || 0,
+            paiddate: formData.paiddate || null,
             vendorId: vendorId.toString(),
         };
 
@@ -664,20 +727,31 @@ function Invoice() {
                 body: JSON.stringify({ data: payload }),
             });
 
-            const result = await res.json();
+            const result = await res.json().catch(() => null);
+
+            console.log("Invoice save status:", res.status);
+            console.log("Invoice save response:", result);
 
             if (!res.ok) {
-                console.error("❌ Error:", result);
+                const validationMessage = result?.error?.details?.errors?.[0]?.message;
+                const errorMessage =
+                    validationMessage ||
+                    result?.error?.message ||
+                    result?.message ||
+                    `Invoice save failed. Status: ${res.status}`;
+
+                alert(errorMessage);
                 return;
             }
 
-            fetchInvoices();
+            await fetchInvoices(currentPage);
             setShowModal(false);
             setFormData(initialForm);
             setEditInvoiceId(null);
 
         } catch (err) {
             console.error("Error:", err);
+            alert("Something went wrong while saving the invoice.");
         }
     };
 
@@ -688,8 +762,8 @@ function Invoice() {
     };
 
     useEffect(() => {
-        fetchInvoices();
-    }, []);
+        fetchInvoices(currentPage);
+    }, [currentPage]);
 
     useEffect(() => {
         if (showModal) {
@@ -833,6 +907,22 @@ function Invoice() {
         doc.save(`Invoice_${invoice.id}.pdf`);
     };
 
+    const filteredInvoices = invoices.filter((invoice) => {
+        const searchText = searchQuery.toLowerCase();
+
+        return (
+            invoice.customername?.toLowerCase().includes(searchText) ||
+            invoice.customeremail?.toLowerCase().includes(searchText) ||
+            invoice.course?.toLowerCase().includes(searchText) ||
+            invoice.invoicedate?.toLowerCase().includes(searchText) ||
+            invoice.paiddate?.toLowerCase().includes(searchText) ||
+            invoice.transactionid?.toLowerCase().includes(searchText) ||
+            invoice.invoicedescription?.toLowerCase().includes(searchText) ||
+            String(invoice.invoiceamount).includes(searchText) ||
+            String(invoice.invoicetotal).includes(searchText)
+        );
+    });
+
 
 
     return (
@@ -869,6 +959,22 @@ function Invoice() {
 
 
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+                {/* Search Input Bar */}
+                <div className="p-5 flex justify-end bg-white dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/[0.05]">
+                    <div className="relative w-full max-w-sm">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search invoices..."
+                            className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 dark:bg-dark-900 border-gray-200 dark:border-white/[0.1] text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                        />
+                        <span className="absolute left-3 top-2.5 text-gray-400">
+                            🔍
+                        </span>
+                    </div>
+                </div>
+
                 <div className="max-w-full overflow-x-auto">
                     <div className="min-w-[1102px]">
                         <Table >
@@ -937,8 +1043,8 @@ function Invoice() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                                {invoices.map((invoice) => (
-                                    <TableRow key={invoice.id}>
+                                {filteredInvoices.map((invoice, index) => (
+                                    <TableRow key={`${invoice.id ?? "invoice"}-${index}`}>
                                         <TableCell className="px-5 py-4 whitespace-nowrap">
                                             <div className="flex items-center space-x-4">
                                                 <div className="w-14 h-14">
@@ -1002,6 +1108,50 @@ function Invoice() {
                             </TableBody>
                         </Table>
                     </div>
+
+                    {/* Pagination */}
+                    <div className="flex justify-center items-center mt-8 mb-4">
+                        <div className="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-2xl border">
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage((prev) => prev - 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === 1
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                ←
+                            </button>
+
+                            {Array.from({ length: pageCount }, (_, index) => {
+                                const page = index + 1;
+
+                                return (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all
+                                            ${currentPage === page
+                                                ? "bg-indigo-600 text-white shadow-md"
+                                                : "bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700"}`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            })}
+
+                            <button
+                                disabled={currentPage === pageCount}
+                                onClick={() => setCurrentPage((prev) => prev + 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all
+                                    ${currentPage === pageCount
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"}`}
+                            >
+                                →
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1046,7 +1196,7 @@ function Invoice() {
 
 
                                 return (
-                                    <div>
+                                    <div key={key}>
                                         <label className="text-gray-700 text-base font-bold pb-2 mb-1 capitalize">
                                             {key === "invoicedate"
                                                 ? "Invoice Date"
@@ -1056,7 +1206,6 @@ function Invoice() {
                                         </label>
 
                                         <input
-                                            key={key}
                                             type={isDateField ? "date" : isNumberField ? "number" : "text"}
                                             placeholder={placeholderMap[key] || key}
                                             disabled={!!editInvoiceId}
