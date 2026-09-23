@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
+import TextHeading from "@/components/ui/textheader/TextHeader";
+import { useRouter } from "next/navigation";
 import { apiUrl } from "@/utils/config";
 
 interface FeeStructure {
@@ -103,6 +106,7 @@ export default function FeeInvoicePage() {
   const [invoices, setInvoices] = useState<FeeInvoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     fetchInvoices();
@@ -236,10 +240,6 @@ export default function FeeInvoicePage() {
       const feeHeadName =
         feeHead.name || "-";
 
-      /*
-       * Invoice number:
-       * INV - Course Name - Student Name - 001
-       */
       const invoiceNumber =
         `INV - ${courseName} - ${studentName} - ${getSequenceNumber(
           invoice
@@ -262,10 +262,6 @@ export default function FeeInvoicePage() {
       const discountTotal =
         Number(attributes.discountTotal ?? 0);
 
-      /*
-       * IMPORTANT:
-       * Late Fee intentionally removed.
-       */
       const netAmount =
         Number(attributes.netAmount ?? 0);
 
@@ -691,7 +687,6 @@ body {
 
   </div>
 
-
   <div class="invoice-meta">
 
     <div class="meta-box">
@@ -713,7 +708,6 @@ body {
       </div>
 
     </div>
-
 
     <div class="meta-box">
 
@@ -740,7 +734,6 @@ body {
 
   </div>
 
-
   <div class="section-title">
     Student Information
   </div>
@@ -748,79 +741,62 @@ body {
   <div class="student-grid">
 
     <div class="student-cell">
-      <div class="student-label">
-        Student Name
-      </div>
+      <div class="student-label">Student Name</div>
       <div class="student-value">
         ${escapeHtml(studentName)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Student ID
-      </div>
+      <div class="student-label">Student ID</div>
       <div class="student-value">
         ${escapeHtml(studentId)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Course
-      </div>
+      <div class="student-label">Course</div>
       <div class="student-value">
         ${escapeHtml(courseName)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Academic Year
-      </div>
+      <div class="student-label">Academic Year</div>
       <div class="student-value">
         ${escapeHtml(academicYear)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Fee Cycle
-      </div>
+      <div class="student-label">Fee Cycle</div>
       <div class="student-value">
         ${escapeHtml(cycleType)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Qualification
-      </div>
+      <div class="student-label">Qualification</div>
       <div class="student-value">
         ${escapeHtml(qualification)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Phone
-      </div>
+      <div class="student-label">Phone</div>
       <div class="student-value">
         ${escapeHtml(studentPhone)}
       </div>
     </div>
 
     <div class="student-cell">
-      <div class="student-label">
-        Address
-      </div>
+      <div class="student-label">Address</div>
       <div class="student-value">
         ${escapeHtml(studentAddress)}
       </div>
     </div>
 
   </div>
-
 
   <div class="section-title">
     Fee Details
@@ -854,7 +830,6 @@ body {
 
   </table>
 
-
   <div class="summary-wrapper">
 
     <div class="summary">
@@ -871,7 +846,6 @@ body {
 
       </div>
 
-
       <div class="summary-row discount">
 
         <span>
@@ -883,7 +857,6 @@ body {
         </span>
 
       </div>
-
 
       <div class="summary-row total">
 
@@ -901,7 +874,6 @@ body {
 
   </div>
 
-
   <div class="payment-status">
 
     <div class="payment-status-title">
@@ -914,11 +886,9 @@ body {
 
   </div>
 
-
   <div class="section-title" style="margin-top: 22px;">
     Payment Details
   </div>
-
 
   <div class="payment-grid">
 
@@ -934,7 +904,6 @@ body {
 
     </div>
 
-
     <div class="payment-cell">
 
       <div class="payment-label">
@@ -946,7 +915,6 @@ body {
       </div>
 
     </div>
-
 
     <div class="payment-cell">
 
@@ -960,7 +928,6 @@ body {
 
     </div>
 
-
     <div class="payment-cell">
 
       <div class="payment-label">
@@ -973,7 +940,6 @@ body {
 
     </div>
 
-
     <div class="payment-cell">
 
       <div class="payment-label">
@@ -985,7 +951,6 @@ body {
       </div>
 
     </div>
-
 
     <div class="payment-cell">
 
@@ -1001,13 +966,11 @@ body {
 
   </div>
 
-
   <div class="note">
     This is a computer generated fee invoice.
     No physical signature is required.
     Please retain this invoice for your records.
   </div>
-
 
   <div class="footer">
 
@@ -1033,10 +996,6 @@ body {
 </html>
 `;
 
-      /*
-       * Open invoice in a new browser window.
-       * This avoids jsPDF html() blank-page problems.
-       */
       const printWindow = window.open(
         "",
         "_blank",
@@ -1051,9 +1010,7 @@ body {
       }
 
       printWindow.document.open();
-
       printWindow.document.write(invoiceHTML);
-
       printWindow.document.close();
 
       printWindow.onload = () => {
@@ -1075,346 +1032,274 @@ body {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <PageBreadcrumb pageTitle="Fee Invoice" />
 
-      {/* TOP DARK HEADER */}
-
-      <div className="w-full bg-gray-900 px-6 py-4">
-
-        <h1 className="text-xl font-semibold text-white">
-          Fee Invoice
-        </h1>
-
-        <div className="mt-1 text-sm text-gray-300">
-          Home <span className="mx-2">›</span> Fee Invoice
-        </div>
-
+      <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+        <TextHeading
+          title="Fee Invoice"
+          icon="🎓"
+          buttonprops={{
+            buttonText: "+",
+            title: "Create Fee Invoice",
+            content: "Create and manage student fee invoices.",
+            onClick: () => router.push("/admin/fee-invoice/create"),
+          }}
+        />
       </div>
 
-
-      {/* MAIN CONTENT */}
-
-      <div className="px-4 py-6 sm:px-6 lg:px-8">
-
-        {/* HERO HEADER */}
-
-        <div className="mb-6 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-md">
-
-          <div className="flex flex-col gap-5 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-
-            <div>
-
-              <div className="mb-2 text-3xl">
-                🎓
-              </div>
-
-              <h2 className="text-2xl font-bold text-white">
-                Fee Invoice
-              </h2>
-
-              <p className="mt-1 text-sm text-blue-100">
-                Manage student fee invoices
-              </p>
-
-            </div>
-
-
-            <Link
-              href="/admin/fee-invoice/create"
-              className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
-            >
-              + Create Invoice
-            </Link>
-
-          </div>
-
-        </div>
-
-
-        {/* RELATED LINKS */}
-
-        <div className="mb-5 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm shadow-sm">
-
-          <span className="font-semibold text-gray-700">
+      <div className="space-y-3 w-full mx-auto">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-gray-100 px-5 py-3 text-sm dark:border-white/[0.05]">
+          <span className="font-semibold text-gray-700 dark:text-gray-300">
             Related:
           </span>
-
-          <Link
-            href="/admin/fee-structure-item"
-            className="text-blue-600 hover:underline"
-          >
+          <Link href="/admin/fee-structure-item" className="text-blue-600 hover:underline">
             Fee Structure Item
           </Link>
-
-          <Link
-            href="/admin/fee-structure"
-            className="text-blue-600 hover:underline"
-          >
+          <Link href="/admin/fee-structure" className="text-blue-600 hover:underline">
             Fee Structure
           </Link>
-
-          <Link
-            href="/admin/fee-head"
-            className="text-blue-600 hover:underline"
-          >
+          <Link href="/admin/fee-head" className="text-blue-600 hover:underline">
             Fee Head
           </Link>
-
         </div>
 
-
-        {/* ERROR */}
-
         {error && (
-          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          <div className="mx-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
             {error}
           </div>
         )}
 
-
-        {/* TABLE */}
-
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-
-          {loading ? (
-
-            <div className="flex min-h-[250px] items-center justify-center">
-
-              <div className="text-sm text-gray-500">
-                Loading fee invoices...
+        {loading ? (
+          Array(4)
+            .fill(undefined)
+            .map((_, index) => (
+              <div key={index} className="mx-auto w-full rounded-xl border p-4">
+                <div className="flex animate-pulse space-x-4">
+                  <div className="size-10 rounded-full bg-gray-200"></div>
+                  <div className="flex-1 space-y-6 py-1">
+                    <div className="h-2 rounded bg-gray-200"></div>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="col-span-2 h-2 rounded bg-gray-200"></div>
+                        <div className="col-span-1 h-2 rounded bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            ))
+        ) : (
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+            <div className="w-full overflow-hidden">
+              <div className="w-full">
+                {invoices.length === 0 ? (
+                  <div className="flex min-h-[250px] flex-col items-center justify-center px-5 text-center">
+                    <div className="mb-3 text-4xl">📄</div>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                      No Fee Invoices Found
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Create your first fee invoice to see it here.
+                    </p>
+                    <Link
+                      href="/admin/fee-invoice/create"
+                      className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                    >
+                      + Create Invoice
+                    </Link>
+                  </div>
+                ) : (
+                  <table className="w-full table-fixed">
+  <thead className="border-b border-gray-100 dark:border-white/[0.05]">
+    <tr>
+      <th className="w-[13%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Invoice Number
+      </th>
 
+      <th className="w-[17%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Student
+      </th>
+
+      <th className="w-[15%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Course
+      </th>
+
+      <th className="w-[11%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Billing Period
+      </th>
+
+      <th className="w-[9%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Due Date
+      </th>
+
+      <th className="w-[10%] px-4 py-3 text-right text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Net Amount
+      </th>
+
+      <th className="w-[8%] px-4 py-3 text-right text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Paid
+      </th>
+
+      <th className="w-[8%] px-4 py-3 text-center text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Status
+      </th>
+
+      <th className="w-[7%] px-4 py-3 text-center text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+        Action
+      </th>
+    </tr>
+  </thead>
+
+  <tbody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+    {invoices.map((invoice) => {
+      const item = invoice.attributes || {};
+      const student = item.student?.data?.attributes || {};
+      const feeStructure =
+        item.fee_structure?.data?.attributes || {};
+
+      const studentName = student.name || "-";
+
+      const courseName =
+        feeStructure.name ||
+        student.courses ||
+        feeStructure.programId ||
+        "-";
+
+      return (
+        <tr
+          key={invoice.id}
+          className="hover:bg-gray-50 dark:hover:bg-white/[0.02]"
+        >
+          {/* Invoice Number */}
+          <td className="w-[15%] px-4 py-4 align-middle">
+            <div
+              className="truncate text-sm font-semibold text-gray-800 dark:text-white/90"
+              title={
+                item.invoiceNumber ||
+                `INV-${String(invoice.id).padStart(3, "0")}`
+              }
+            >
+              {item.invoiceNumber ||
+                `INV-${String(invoice.id).padStart(3, "0")}`}
             </div>
+          </td>
 
-          ) : invoices.length === 0 ? (
-
-            <div className="flex min-h-[250px] flex-col items-center justify-center px-5 text-center">
-
-              <div className="mb-3 text-4xl">
-                📄
+          {/* Student */}
+          <td className="w-[19%] px-4 py-4 align-middle">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="h-9 w-9 shrink-0">
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    studentName
+                  )}&background=random&color=fff`}
+                  alt={studentName}
+                  className="h-full w-full rounded-xl object-cover"
+                />
               </div>
 
-              <h3 className="text-lg font-semibold text-gray-800">
-                No Fee Invoices Found
-              </h3>
+              <div className="min-w-0 flex-1">
+                <div
+                  className="truncate text-sm font-semibold text-gray-800 dark:text-white/90"
+                  title={studentName}
+                >
+                  {studentName}
+                </div>
 
-              <p className="mt-1 text-sm text-gray-500">
-                Create your first fee invoice to see it here.
-              </p>
+                <div
+                  className="truncate text-xs text-gray-500"
+                  title={student.studentid || "-"}
+                >
+                  {student.studentid || "-"}
+                </div>
+              </div>
+            </div>
+          </td>
 
+          {/* Course */}
+          <td className="w-[15%] px-4 py-4 align-middle">
+            <div
+              className="truncate text-sm text-gray-500 dark:text-gray-400"
+              title={courseName}
+            >
+              {courseName}
+            </div>
+          </td>
+
+          {/* Billing Period */}
+          <td className="w-[12%] px-4 py-4 align-middle">
+            <div
+              className="truncate text-sm text-gray-500 dark:text-gray-400"
+              title={item.billingPeriod || "-"}
+            >
+              {item.billingPeriod || "-"}
+            </div>
+          </td>
+
+          {/* Due Date */}
+          <td className="w-[10%] px-4 py-4 align-middle">
+            <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              {item.dueDate ? formatDate(item.dueDate) : "-"}
+            </div>
+          </td>
+
+          {/* Net Amount */}
+          <td className="w-[10%] px-4 py-4 text-right align-middle">
+            <div className="whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+              {formatAmount(item.netAmount)}
+            </div>
+          </td>
+
+          {/* Paid */}
+          <td className="w-[8%] px-4 py-4 text-right align-middle">
+            <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              {formatAmount(item.amountPaid)}
+            </div>
+          </td>
+
+          {/* Status */}
+          <td className="w-[6%] px-4 py-4 text-center align-middle">
+            <span
+              className={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-xs font-semibold ${getStatusClass(
+                item.status
+              )}`}
+            >
+              {item.status || "DRAFT"}
+            </span>
+          </td>
+
+          {/* Action */}
+          <td className="w-[5%] px-4 py-4 text-center align-middle">
+            <div className="flex items-center justify-center gap-1">
               <Link
-                href="/admin/fee-invoice/create"
-                className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                href={`/admin/fee-invoice/edit/${invoice.id}`}
+                title="Edit Invoice"
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
               >
-                + Create Invoice
+                ✏️
               </Link>
 
+              <button
+                type="button"
+                onClick={() => downloadInvoicePDF(invoice)}
+                title="Download PDF"
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+              >
+                📄
+              </button>
             </div>
-
-          ) : (
-
-            <div className="w-full overflow-x-auto">
-
-              <table className="w-full min-w-[950px] table-fixed">
-
-                <thead>
-
-                  <tr className="border-b border-gray-200 bg-gray-50">
-
-                    <th
-                      className="px-3 py-3 text-left text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "15%" }}
-                    >
-                      Invoice Number
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-left text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "12%" }}
-                    >
-                      Billing Period
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-left text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "11%" }}
-                    >
-                      Due Date
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-right text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "12%" }}
-                    >
-                      Sub Total
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-right text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "12%" }}
-                    >
-                      Discount
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-right text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "13%" }}
-                    >
-                      Net Amount
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-right text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "10%" }}
-                    >
-                      Paid
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-center text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "8%" }}
-                    >
-                      Status
-                    </th>
-
-                    <th
-                      className="px-3 py-3 text-center text-xs font-semibold uppercase text-gray-600"
-                      style={{ width: "7%" }}
-                    >
-                      Action
-                    </th>
-
-                  </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                  {invoices.map((invoice) => {
-
-                    const item =
-                      invoice.attributes || {};
-
-                    return (
-
-                      <tr
-                        key={invoice.id}
-                        className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
-                      >
-
-                        <td className="px-3 py-4 text-sm font-medium text-gray-800">
-                          {item.invoiceNumber || "-"}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-sm text-gray-600">
-                          {item.billingPeriod || "-"}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-sm text-gray-600">
-
-                          {item.dueDate
-                            ? new Date(
-                                item.dueDate
-                              ).toLocaleDateString(
-                                "en-IN"
-                              )
-                            : "-"}
-
-                        </td>
-
-
-                        <td className="px-3 py-4 text-right text-sm text-gray-700">
-                          {formatAmount(
-                            item.subTotal
-                          )}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-right text-sm text-gray-700">
-                          {formatAmount(
-                            item.discountTotal
-                          )}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-right text-sm font-semibold text-gray-800">
-                          {formatAmount(
-                            item.netAmount
-                          )}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-right text-sm text-gray-700">
-                          {formatAmount(
-                            item.amountPaid
-                          )}
-                        </td>
-
-
-                        <td className="px-3 py-4 text-center">
-
-                          <span
-                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${getStatusClass(
-                              item.status
-                            )}`}
-                          >
-                            {item.status ||
-                              "DRAFT"}
-                          </span>
-
-                        </td>
-
-
-                        <td className="px-3 py-4">
-
-                          <div className="flex items-center justify-center gap-2">
-
-                            <Link
-                              href={`/admin/fee-invoice/edit/${invoice.id}`}
-                              title="Edit Invoice"
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-sm transition hover:bg-gray-100"
-                            >
-                              ✏️
-                            </Link>
-
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                downloadInvoicePDF(
-                                  invoice
-                                )
-                              }
-                              title="Download PDF"
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-sm transition hover:bg-gray-100"
-                            >
-                              📄
-                            </button>
-
-                          </div>
-
-                        </td>
-
-                      </tr>
-
-                    );
-                  })}
-
-                </tbody>
-
-              </table>
-
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+                )}
+              </div>
             </div>
-
-          )}
-
-        </div>
-
+          </div>
+        )}
       </div>
-
     </div>
   );
 }

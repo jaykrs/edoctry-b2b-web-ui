@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
+import TextHeading from "@/components/ui/textheader/TextHeader";
 import { apiUrl } from "@/utils/config";
 
 interface Course {
@@ -229,141 +231,165 @@ export default function CoursePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
-      <div className="mx-auto max-w-7xl">
-        {/* Title Strip */}
-        <div className="overflow-hidden rounded-xl bg-white shadow-sm">
-          <div className="bg-gray-900 px-6 py-4">
-            <h1 className="text-xl font-semibold text-white">Course</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <PageBreadcrumb pageTitle="Course" />
+
+      {/* Header */}
+      <div className="border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-6 py-5 shadow-sm">
+        <TextHeading
+          title="Course"
+          icon="🎓"
+          buttonprops={{
+            buttonText: "+",
+            title: "Create Course",
+            content: "Create and manage courses.",
+            onClick: () => {
+              resetForm();
+              setShowModal(true);
+            },
+          }}
+        />
+      </div>
+
+      {/* Course Content */}
+      <div className="w-full space-y-3">
+        {/* Error */}
+        {error && !showModal && (
+          <div className="mx-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
           </div>
+        )}
 
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8">
-            <p className="text-sm font-medium uppercase tracking-wide text-blue-100">
-              🎓
-            </p>
-
-            <h2 className="mt-2 text-2xl font-bold text-white">
-              Course
-            </h2>
-
-            <p className="mt-1 text-sm text-blue-100">
-              Manage courses
-            </p>
+        {/* Success */}
+        {success && !showModal && (
+          <div className="mx-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600">
+            {success}
           </div>
-        </div>
+        )}
 
-        {/* Course List */}
-        <div className="mt-6 overflow-hidden rounded-xl bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                Course List
-              </h3>
+        {/* Table */}
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+          <div className="w-full overflow-hidden">
+            {loading ? (
+              Array(4)
+                .fill(undefined)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="mx-auto w-full rounded-xl border-b border-gray-100 p-4"
+                  >
+                    <div className="flex animate-pulse space-x-4">
+                      <div className="size-10 rounded-full bg-gray-200"></div>
 
-              <p className="mt-1 text-sm text-gray-500">
-                Manage available courses
-              </p>
-            </div>
+                      <div className="flex-1 space-y-6 py-1">
+                        <div className="h-2 rounded bg-gray-200"></div>
 
-            <button
-              type="button"
-              onClick={() => {
-                resetForm();
-                setShowModal(true);
-              }}
-              className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-            >
-              + Add Course
-            </button>
-          </div>
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="col-span-2 h-2 rounded bg-gray-200"></div>
+                            <div className="col-span-1 h-2 rounded bg-gray-200"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+            ) : courses.length === 0 ? (
+              <div className="flex min-h-[250px] flex-col items-center justify-center px-5 text-center">
+                <div className="mb-3 text-4xl">🎓</div>
 
-          {error && !showModal && (
-            <div className="mx-6 mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  No Courses Found
+                </h3>
 
-          {success && !showModal && (
-            <div className="mx-6 mt-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-              {success}
-            </div>
-          )}
+                <p className="mt-1 text-sm text-gray-500">
+                  Create your first course to see it here.
+                </p>
 
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1050px]">
-              <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    #
-                  </th>
-
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Course Name
-                  </th>
-
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Affiliated
-                  </th>
-
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Description
-                  </th>
-
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Status
-                  </th>
-
-                  <th className="px-6 py-4 text-right text-sm font-semibold text-gray-600">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {loading ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setShowModal(true);
+                  }}
+                  className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                >
+                  + Create Course
+                </button>
+              </div>
+            ) : (
+              <table className="w-full table-fixed">
+                <thead className="border-b border-gray-100 dark:border-white/[0.05]">
                   <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-12 text-center text-sm text-gray-500"
-                    >
-                      Loading courses...
-                    </td>
+                    <th className="w-[7%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      #
+                    </th>
+
+                    <th className="w-[20%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      Course Name
+                    </th>
+
+                    <th className="w-[15%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      Affiliated
+                    </th>
+
+                    <th className="w-[30%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      Description
+                    </th>
+
+                    <th className="w-[13%] px-4 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      Status
+                    </th>
+
+                    <th className="w-[15%] px-4 py-3 text-center text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                      Action
+                    </th>
                   </tr>
-                ) : courses.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-12 text-center text-sm text-gray-500"
-                    >
-                      No courses found
-                    </td>
-                  </tr>
-                ) : (
-                  courses.map((course, index) => (
+                </thead>
+
+                <tbody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                  {courses.map((course, index) => (
                     <tr
                       key={course.id || index}
-                      className="border-b border-gray-100 last:border-b-0"
+                      className="hover:bg-gray-50 dark:hover:bg-white/[0.02]"
                     >
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
                         {index + 1}
                       </td>
 
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800">
-                        {course.name || "-"}
+                      <td className="px-4 py-4 text-sm font-semibold text-gray-800 dark:text-white/90">
+                        <div className="truncate" title={course.name}>
+                          {course.name || "-"}
+                        </div>
+
+                        {course.code && (
+                          <div className="mt-1 truncate text-xs text-gray-500">
+                            {course.code}
+                          </div>
+                        )}
                       </td>
 
-                      <td className="px-6 py-4 text-sm text-gray-600">
-                        {course.affiliated || "-"}
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <div
+                          className="truncate"
+                          title={course.affiliated || "-"}
+                        >
+                          {course.affiliated || "-"}
+                        </div>
                       </td>
 
-                      <td className="px-6 py-4 text-sm text-gray-600">
-                        {course.description || "-"}
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <div
+                          className="truncate"
+                          title={course.description || "-"}
+                        >
+                          {course.description || "-"}
+                        </div>
                       </td>
 
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-4">
                         <span
-                          className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                          className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
                             course.status === "ACTIVE"
                               ? "bg-green-100 text-green-700"
                               : "bg-red-100 text-red-700"
@@ -373,12 +399,12 @@ export default function CoursePage() {
                         </span>
                       </td>
 
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-4 py-4">
+                        <div className="flex items-center justify-center gap-2">
                           <button
                             type="button"
                             onClick={() => handleEditCourse(course)}
-                            className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 transition hover:bg-blue-100"
+                            className="inline-flex h-8 items-center justify-center rounded-md border border-blue-200 bg-blue-50 px-3 text-xs font-semibold text-blue-600 transition hover:bg-blue-100"
                           >
                             Edit
                           </button>
@@ -386,17 +412,17 @@ export default function CoursePage() {
                           <button
                             type="button"
                             onClick={() => handleDeleteCourse(course)}
-                            className="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100"
+                            className="inline-flex h-8 items-center justify-center rounded-md border border-red-200 bg-red-50 px-3 text-xs font-semibold text-red-600 transition hover:bg-red-100"
                           >
                             Delete
                           </button>
                         </div>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>
@@ -449,8 +475,7 @@ export default function CoursePage() {
                 {/* Course Name */}
                 <div className="md:col-span-2">
                   <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Course Name{" "}
-                    <span className="text-red-500">*</span>
+                    Course Name <span className="text-red-500">*</span>
                   </label>
 
                   <input
